@@ -59,7 +59,7 @@ export default function DashboardPage() {
   if (error) return <p className="card p-6 text-sm text-red-600">Statistikani yuklab bo'lmadi</p>;
   if (!stats) {
     return (
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
         {Array.from({ length: 6 }, (_, i) => (
           <Skeleton key={i} className="h-24" />
         ))}
@@ -81,15 +81,15 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-extrabold">Boshqaruv paneli</h1>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
         {cards.map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="card flex items-center gap-4 p-5">
-            <span className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${color}`}>
-              <Icon className="h-6 w-6" aria-hidden="true" />
+          <div key={label} className="card flex flex-col items-start gap-3 p-4 sm:flex-row sm:items-center sm:gap-4 sm:p-5">
+            <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl sm:h-12 sm:w-12 sm:rounded-2xl ${color}`}>
+              <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
             </span>
-            <div className="min-w-0">
+            <div className="w-full min-w-0">
               <div className="muted text-xs">{label}</div>
-              <div className="truncate text-xl font-extrabold">{value}</div>
+              <div className="truncate text-lg font-extrabold sm:text-xl">{value}</div>
             </div>
           </div>
         ))}

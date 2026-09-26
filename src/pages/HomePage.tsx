@@ -9,7 +9,9 @@ import { Stories } from '@/components/home/Stories';
 import { ProductRail } from '@/components/product/ProductRail';
 import { useSeo } from '@/hooks/useSeo';
 import { useT } from '@/hooks/useT';
-import { useCatalogStore, useProductMap } from '@/store/catalogStore';
+import { useCatalogStatus, useCatalogStore, useProductMap } from '@/store/catalogStore';
+import { CatalogError } from '@/components/CatalogError';
+import { GridSkeleton, Skeleton } from '@/components/ui/Skeleton';
 import { useListsStore } from '@/store/listsStore';
 import type { Product } from '@/types';
 
@@ -24,6 +26,7 @@ export default function HomePage() {
   const t = useT();
   useSeo('', t('seo.home'));
   const products = useCatalogStore((s) => s.products);
+  const catalogStatus = useCatalogStatus();
   const recentIds = useListsStore((s) => s.recent);
   const map = useProductMap();
 
@@ -54,30 +57,41 @@ export default function HomePage() {
       </ul>
       <DealOfDay />
       <CategoryGrid />
-      <ProductRail
-        title={t('home.popular')}
-        icon={<TrendingUp className="h-6 w-6 text-brand-600" aria-hidden="true" />}
-        products={popular}
-        moreHref="/catalog?sort=popular"
-      />
-      <ProductRail
-        title={t('home.sale')}
-        icon={<Percent className="h-6 w-6 text-accent-500" aria-hidden="true" />}
-        products={sale}
-        moreHref="/catalog?sale=1"
-      />
-      <ComboSection />
-      <ProductRail
-        title={t('home.new')}
-        icon={<Sparkles className="h-6 w-6 text-amber-500" aria-hidden="true" />}
-        products={fresh}
-        moreHref="/catalog?sort=new"
-      />
-      <ProductRail
-        title={t('home.recent')}
-        icon={<Clock className="h-6 w-6 text-slate-500" aria-hidden="true" />}
-        products={recent}
-      />
+      {catalogStatus === 'loading' ? (
+        <section className="py-6" aria-busy="true">
+          <Skeleton className="mb-4 h-7 w-56" />
+          <GridSkeleton count={4} />
+        </section>
+      ) : catalogStatus === 'error' ? (
+        <CatalogError embedded />
+      ) : (
+        <>
+          <ProductRail
+            title={t('home.popular')}
+            icon={<TrendingUp className="h-6 w-6 text-brand-600" aria-hidden="true" />}
+            products={popular}
+            moreHref="/catalog?sort=popular"
+          />
+          <ProductRail
+            title={t('home.sale')}
+            icon={<Percent className="h-6 w-6 text-accent-500" aria-hidden="true" />}
+            products={sale}
+            moreHref="/catalog?sale=1"
+          />
+          <ComboSection />
+          <ProductRail
+            title={t('home.new')}
+            icon={<Sparkles className="h-6 w-6 text-amber-500" aria-hidden="true" />}
+            products={fresh}
+            moreHref="/catalog?sort=new"
+          />
+          <ProductRail
+            title={t('home.recent')}
+            icon={<Clock className="h-6 w-6 text-slate-500" aria-hidden="true" />}
+            products={recent}
+          />
+        </>
+      )}
       <Advantages />
     </div>
   );

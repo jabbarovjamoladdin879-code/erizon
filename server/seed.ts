@@ -52,6 +52,18 @@ export function seedCatalog(): string[] {
     setSetting('dealInitialised', true);
     log.push('deal: ff-03');
   }
+  // Migratsiya: Unicode 13+ emojilar (Windows 10'da bo'sh quti) — mavjud bazada ham almashtiriladi.
+  // Faqat admin o'zgartirmagan (hali eski emoji turgan) mahsulotlar yangilanadi.
+  if (!getSetting<boolean>('emojiFix13')) {
+    const legacy = new Set(['🫗', '🫧', '🧋', '🫙', '🫓', '🪥', '🪟', '🫖']);
+    tx(() => {
+      for (const seed of SEED_PRODUCTS) {
+        const cur = products.byId(seed.id);
+        if (cur && legacy.has(cur.emoji) && cur.emoji !== seed.emoji) products.save({ ...cur, emoji: seed.emoji });
+      }
+      setSetting('emojiFix13', true);
+    });
+  }
   return log;
 }
 

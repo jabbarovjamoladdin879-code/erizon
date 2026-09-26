@@ -9,7 +9,9 @@ import { COMPARE_MAX } from '@/data/options';
 import { needsSelection, useProductActions } from '@/hooks/useProductActions';
 import { useSeo } from '@/hooks/useSeo';
 import { usePrice, useT } from '@/hooks/useT';
-import { useCatalogStore, useProductMap } from '@/store/catalogStore';
+import { useCatalogStatus, useCatalogStore, useProductMap } from '@/store/catalogStore';
+import { CatalogError } from '@/components/CatalogError';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { useListsStore } from '@/store/listsStore';
 import type { Product } from '@/types';
 import { discountPercent } from '@/utils/format';
@@ -24,6 +26,7 @@ export default function ComparePage() {
   const clear = useListsStore((s) => s.clearCompare);
   const map = useProductMap();
   const deal = useCatalogStore((s) => s.deal);
+  const catalogStatus = useCatalogStatus();
   const { addToCart } = useProductActions();
 
   const products = useMemo(() => ids.map((id) => map.get(id)).filter((p): p is Product => !!p), [ids, map]);
@@ -59,6 +62,9 @@ export default function ComparePage() {
     ];
     return base;
   }, [products, deal, fmt, t]);
+
+  if (ids.length > 0 && catalogStatus === 'loading') return <PageSkeleton />;
+  if (ids.length > 0 && catalogStatus === 'error') return <CatalogError />;
 
   if (products.length === 0) {
     return (

@@ -17,7 +17,9 @@ import { usePrice, useT } from '@/hooks/useT';
 import { api } from '@/services/api';
 import { useCurrentUser } from '@/store/authStore';
 import { useCartStore } from '@/store/cartStore';
-import { useCatalogStore } from '@/store/catalogStore';
+import { useCatalogStatus, useCatalogStore } from '@/store/catalogStore';
+import { CatalogError } from '@/components/CatalogError';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { useOrderStore } from '@/store/orderStore';
 import { toast } from '@/store/toastStore';
 import { PAYMENT_METHODS, type PaymentMethod } from '@/types';
@@ -49,6 +51,7 @@ export default function CheckoutPage() {
   const useBonus = useCartStore((s) => s.useBonus);
   const clearCart = useCartStore((s) => s.clear);
   const payments = useCatalogStore((s) => s.config.payments);
+  const catalogStatus = useCatalogStatus();
   const rememberOrder = useOrderStore((s) => s.remember);
   const { lines, subtotal } = useCartLines();
   const fieldError = useFieldError();
@@ -96,6 +99,8 @@ export default function CheckoutPage() {
   const promoOk = !!quote?.promo?.ok;
 
   if (items.length === 0 && !submitting) return <Navigate to="/cart" replace />;
+  if (catalogStatus === 'loading') return <PageSkeleton />;
+  if (catalogStatus === 'error') return <CatalogError />;
 
   const onSubmit = handleSubmit(async (data) => {
     if (submitting || !guard()) return;

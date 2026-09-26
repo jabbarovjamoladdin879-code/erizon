@@ -15,6 +15,9 @@ import { useSeo } from '@/hooks/useSeo';
 import { usePrice, useT } from '@/hooks/useT';
 import { useCurrentUser } from '@/store/authStore';
 import { useCartStore } from '@/store/cartStore';
+import { useCatalogStatus } from '@/store/catalogStore';
+import { CatalogError } from '@/components/CatalogError';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { toast } from '@/store/toastStore';
 
 export default function CartPage() {
@@ -31,6 +34,7 @@ export default function CartPage() {
   const promoCode = useCartStore((s) => s.promoCode);
   const user = useCurrentUser();
   const describe = useDescribeOptions();
+  const catalogStatus = useCatalogStatus();
 
   const quoteParams = useMemo(
     () => ({ items, promoCode: promoCode ?? undefined, useBonus: useBonus && !!user, deliveryMethod: 'pickup' as const }),
@@ -38,6 +42,10 @@ export default function CartPage() {
   );
   const { quote, loading } = useQuote(quoteParams);
   const total = quote?.total ?? subtotal;
+
+  // Savatda mahsulot bor, lekin katalog hali kelmagan — "savat bo'sh" deb ko'rsatmaymiz
+  if (items.length > 0 && catalogStatus === 'loading') return <PageSkeleton />;
+  if (items.length > 0 && catalogStatus === 'error') return <CatalogError />;
 
   if (lines.length === 0) {
     return (

@@ -5,7 +5,9 @@ import { ProductGrid } from '@/components/product/ProductGrid';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { useSeo } from '@/hooks/useSeo';
 import { useT } from '@/hooks/useT';
-import { useProductMap } from '@/store/catalogStore';
+import { useCatalogStatus, useProductMap } from '@/store/catalogStore';
+import { CatalogError } from '@/components/CatalogError';
+import { GridSkeleton } from '@/components/ui/Skeleton';
 import { useListsStore } from '@/store/listsStore';
 import type { Product } from '@/types';
 
@@ -14,6 +16,7 @@ export default function FavoritesPage() {
   useSeo(t('nav.favorites'));
   const ids = useListsStore((s) => s.favorites);
   const map = useProductMap();
+  const catalogStatus = useCatalogStatus();
   const products = useMemo(() => ids.map((id) => map.get(id)).filter((p): p is Product => !!p), [ids, map]);
 
   return (
@@ -21,7 +24,11 @@ export default function FavoritesPage() {
       <h1 className="mb-5 text-2xl font-extrabold sm:text-3xl">
         {t('nav.favorites')} {products.length > 0 && <span className="muted text-base font-medium">({products.length})</span>}
       </h1>
-      {products.length === 0 ? (
+      {ids.length > 0 && catalogStatus === 'loading' ? (
+        <GridSkeleton count={Math.min(8, ids.length)} />
+      ) : ids.length > 0 && catalogStatus === 'error' ? (
+        <CatalogError embedded />
+      ) : products.length === 0 ? (
         <EmptyState
           icon={Heart}
           title={t('fav.empty')}

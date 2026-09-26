@@ -88,6 +88,15 @@ export function useProductMap(): Map<string, Product> {
   return getProductMap(products);
 }
 
+/**
+ * Katalog holati sahifalar uchun: 'loading' (hali kelmagan — skelet ko'rsatiladi),
+ * 'ready' (ma'lumot bor), 'error' (yuklab bo'lmadi va keshda ham yo'q).
+ * Keshdagi katalog bo'lsa darhol 'ready' — sahifa kutmasdan ochiladi.
+ */
+export function useCatalogStatus(): 'loading' | 'ready' | 'error' {
+  return useCatalogStore((s) => (s.products.length > 0 ? 'ready' : s.status === 'error' ? 'error' : 'loading'));
+}
+
 export function useProduct(id: string | undefined): Product | undefined {
   return useCatalogStore((s) => (id ? s.products.find((p) => p.id === id) : undefined));
 }

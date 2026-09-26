@@ -5,7 +5,7 @@ import { orderRequestSchema } from '../../shared/validation.js';
 import { get, isUniqueError, run, tx } from '../db.js';
 import { getEnv } from '../env.js';
 import { decrypt, encrypt, randomCode, randomToken, safeEqual, sha256 } from '../lib/crypto.js';
-import { ApiError, badRequest, conflict, notFound } from '../lib/errors.js';
+import { ApiError, badRequest, conflict } from '../lib/errors.js';
 import { body, param, RE } from '../lib/http.js';
 import { enforce } from '../lib/rateLimit.js';
 import { cleanText } from '../lib/sanitize.js';
@@ -159,17 +159,16 @@ orderRoutes.get('/mine', requireUser, (c) => {
 
 /**
  * Buyurtmani kuzatish: egasi (sessiya), admin yoki maxfiy track token egasi ko'ra oladi.
- * Ruxsat bo'lmasa ham "topilmadi" qaytariladi (buyurtma mavjudligini oshkor qilmaslik uchun).
+ * Topilmasa YOKI ruxsat bo'lmasa — bir xil javob `{ order: null }` (buyurtma mavjudligini
+ * oshkor qilmaslik uchun). Bu oddiy "qidiruv natijasi yo'q" holati, shuning uchun HTTP 200.
  */
 orderRoutes.get('/:id', (c) => {
   enforce('track', c.get('ipHash'), 60, 600);
   const id = param(c, 'id', RE.orderId);
   const token = c.req.query('t') ?? '';
   const order = orders.byId(id);
-  if (!order) throw notFound();
   const user = loadUser(c);
-  const owner = !!user && (order.userId === user.id || order.phone === user.phone || user.role === 'admin');
-  const tokenOk = token.length > 10 && token.length < 64 && safeEqual(order.trackTokenHash, sha256(token));
-  if (!owner && !tokenOk) throw notFound();
-  return c.json({ order: toOrder(order) });
+  const owner = !!order && !!user && (order.userId === user.id || order.phone === user.phone || user.role === 'admin');
+  const tokenOk = !!order && token.length > 10 && token.length < 64 && safeEqual(order.trackTokenHash, sha256(token));
+  return c.json({ order: order && (owner || tokenOk) ? toOrder(order) : null });
 });

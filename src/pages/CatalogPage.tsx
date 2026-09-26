@@ -9,9 +9,9 @@ import { GridSkeleton } from '@/components/ui/Skeleton';
 import { CATEGORIES } from '@/data/categories';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useSeo } from '@/hooks/useSeo';
-import { useSimulatedLoading } from '@/hooks/useSimulatedLoading';
 import { useT } from '@/hooks/useT';
-import { useCatalogStore } from '@/store/catalogStore';
+import { useCatalogStatus, useCatalogStore } from '@/store/catalogStore';
+import { CatalogError } from '@/components/CatalogError';
 import { CATEGORY_IDS, GENDERS, type CategoryId, type Gender } from '@/types';
 import { cn } from '@/utils/cn';
 import { getEffectivePrice } from '@/utils/pricing';
@@ -183,7 +183,9 @@ export default function CatalogPage() {
   useSeo(title, t('seo.catalog'));
 
   const filterKey = params.toString();
-  const loading = useSimulatedLoading(350, filterKey);
+  // Haqiqiy holat: katalog serverdan kelguncha skelet (sun'iy kechikish yo'q)
+  const catalogStatus = useCatalogStatus();
+  const loading = catalogStatus === 'loading';
   useEffect(() => setVisible(PAGE), [filterKey]);
 
   const index = useMemo(() => buildSearchIndex(products, (p) => t(`cat.${p.categoryId}`)), [products, t]);
@@ -254,7 +256,7 @@ export default function CatalogPage() {
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">{title}</h1>
-          <p className="muted mt-1 text-sm">{t('catalog.found', { n: results.length })}</p>
+          <p className="muted mt-1 text-sm">{loading ? t('common.loading') : t('catalog.found', { n: results.length })}</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" className="lg:hidden" onClick={() => setFiltersOpen(true)}>
@@ -290,6 +292,8 @@ export default function CatalogPage() {
         <div>
           {loading ? (
             <GridSkeleton count={8} />
+          ) : catalogStatus === 'error' ? (
+            <CatalogError embedded />
           ) : results.length === 0 ? (
             <EmptyState
               icon={SearchX}

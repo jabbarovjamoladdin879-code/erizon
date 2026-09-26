@@ -35,6 +35,31 @@ export function GridSkeleton({ count = 8 }: { count?: number }) {
   );
 }
 
+/** Mahsulot sahifasi yuklanayotganda */
+export function ProductPageSkeleton() {
+  const t = useT();
+  return (
+    <div className="container-page py-6" role="status" aria-live="polite">
+      <span className="sr-only">{t('common.loading')}</span>
+      <Skeleton className="mb-4 h-4 w-64" />
+      <div className="grid gap-8 lg:grid-cols-2">
+        <Skeleton className="aspect-square w-full rounded-2xl" />
+        <div className="space-y-4">
+          <Skeleton className="h-6 w-40" />
+          <Skeleton className="h-9 w-3/4" />
+          <Skeleton className="h-5 w-48" />
+          <Skeleton className="h-10 w-44" />
+          <Skeleton className="h-28 w-full" />
+          <div className="grid gap-2 sm:grid-cols-2">
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function PageSkeleton() {
   const t = useT();
   return (

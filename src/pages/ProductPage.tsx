@@ -18,7 +18,9 @@ import { useNow } from '@/hooks/useNow';
 import { DEFAULT_FASTFOOD, useProductActions } from '@/hooks/useProductActions';
 import { useSeo } from '@/hooks/useSeo';
 import { usePrice, useT } from '@/hooks/useT';
-import { useCatalogStore, useProduct } from '@/store/catalogStore';
+import { useCatalogStatus, useCatalogStore, useProduct } from '@/store/catalogStore';
+import { CatalogError } from '@/components/CatalogError';
+import { ProductPageSkeleton } from '@/components/ui/Skeleton';
 import { useListsStore } from '@/store/listsStore';
 import { api } from '@/services/api';
 import { StockAlertButton } from '@/components/product/StockAlertButton';
@@ -320,6 +322,12 @@ function ProductDetails({ product }: { product: Product }) {
 export default function ProductPage() {
   const { id } = useParams();
   const product = useProduct(id);
-  if (!product) return <NotFoundPage />;
+  const status = useCatalogStatus();
+  // "Topilmadi" faqat katalog yuklangandan keyin — aks holda birinchi kirishda noto'g'ri ko'rinadi
+  if (!product) {
+    if (status === 'loading') return <ProductPageSkeleton />;
+    if (status === 'error') return <CatalogError />;
+    return <NotFoundPage />;
+  }
   return <ProductDetails key={product.id} product={product} />;
 }

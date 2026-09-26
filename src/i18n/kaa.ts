@@ -472,6 +472,7 @@ export const kaa: Dictionary = {
 
   'err.server': 'Serverde qátelik. Birazdan soń qayta urınıp kóriń.',
   'err.network': 'Internet baylanısı joq yamasa server juwap bermeydi.',
+  'err.retryHint': 'Internet baylanısın tekserip, qayta urınıp kóriń.',
   'err.validation': 'Maǵlıwmatlar qáte toltırılǵan',
   'err.unauthorized': 'Iltimas, sistemaǵa qayta kiriń',
   'err.forbidden': 'Bul háreket ushın ruxsat joq',

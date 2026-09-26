@@ -81,8 +81,8 @@ describe('buyurtma berish', () => {
     expect(r2.body.order.id).toBe(r1.body.order.id);
 
     const stranger = new Client(app);
-    expect((await stranger.req('GET', `/api/orders/${r1.body.order.id}`)).status).toBe(404);
-    expect((await stranger.req('GET', `/api/orders/${r1.body.order.id}?t=wrong-token-xxxxxxx`)).status).toBe(404);
+    expect((await stranger.req<{ order: unknown }>('GET', `/api/orders/${r1.body.order.id}`)).body.order).toBeNull();
+    expect((await stranger.req<{ order: unknown }>('GET', `/api/orders/${r1.body.order.id}?t=wrong-token-xxxxxxx`)).body.order).toBeNull();
     const tracked = await stranger.req<{ order: { id: string } }>('GET', `/api/orders/${r1.body.order.id}?t=${r1.body.trackToken}`);
     expect(tracked.status).toBe(200);
     expect(JSON.stringify(tracked.body)).not.toMatch(/trackTokenHash/);

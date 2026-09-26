@@ -102,8 +102,8 @@ const grocery = build('grocery', 38, { unit: 'pcs' }, [
   { id: 'gr-01', name: 'Bug\'doy uni oliy nav, 2 kg', price: 16_000, r: 4.8, n: 312, unit: 'pack', e: '🌾', d: 'Oliy navli bug\'doy unidan non, somsa va xamir ovqatlar tayyorlash mumkin.', exp: '2027-03-01', mf: 'Xorazm Don Mahsulotlari', specs: { "Og'irligi": '2 kg' } },
   { id: 'gr-02', name: 'Guruch "Lazer"', price: 24_000, old: 27_000, r: 4.9, n: 405, unit: 'kg', e: '🍚', d: 'Palov uchun eng mashhur guruch navi — donador va xushbo\'y.', exp: '2027-06-01', mf: 'Xorazm Guruch', specs: { Nav: 'Lazer' }, rel: ['me-03', 'gr-04', 'pr-07', 'pr-06', 'gr-09'] },
   { id: 'gr-03', name: 'Guruch "Devzira"', price: 38_000, r: 4.9, n: 188, unit: 'kg', e: '🍚', d: 'Farg\'ona devzirasi — to\'yimli, bayramona palov uchun.', exp: '2027-06-01', mf: "Farg'ona Agro", specs: { Nav: 'Devzira' } },
-  { id: 'gr-04', name: "Kungaboqar yog'i, 1 L", price: 21_000, old: 24_000, r: 4.7, n: 276, unit: 'l', e: '🫗', d: "Tozalangan, hidsizlantirilgan kungaboqar yog'i.", exp: '2027-01-15', mf: 'Oltin Yog\'', specs: { Hajmi: '1 L' } },
-  { id: 'gr-05', name: "Paxta yog'i, 1 L", price: 23_000, r: 4.8, n: 198, unit: 'l', e: '🫗', d: "An'anaviy o'zbek palovi uchun paxta yog'i.", exp: '2027-01-15', mf: 'Oltin Yog\'', specs: { Hajmi: '1 L' } },
+  { id: 'gr-04', name: "Kungaboqar yog'i, 1 L", price: 21_000, old: 24_000, r: 4.7, n: 276, unit: 'l', e: '🌻', d: "Tozalangan, hidsizlantirilgan kungaboqar yog'i.", exp: '2027-01-15', mf: 'Oltin Yog\'', specs: { Hajmi: '1 L' } },
+  { id: 'gr-05', name: "Paxta yog'i, 1 L", price: 23_000, r: 4.8, n: 198, unit: 'l', e: '🍶', d: "An'anaviy o'zbek palovi uchun paxta yog'i.", exp: '2027-01-15', mf: 'Oltin Yog\'', specs: { Hajmi: '1 L' } },
   { id: 'gr-06', name: 'Shakar, 1 kg', price: 13_500, r: 4.7, n: 221, unit: 'pack', e: '🍬', d: 'Oq kristall shakar.', exp: '2028-01-01', mf: 'Xorazm Shakar', specs: { "Og'irligi": '1 kg' } },
   { id: 'gr-07', name: 'Makaron "Shoxcha", 400 g', price: 7_500, r: 4.5, n: 164, unit: 'pack', e: '🍝', d: "Qattiq bug'doy navidan tayyorlangan makaron.", exp: '2027-09-01', mf: 'Pasta Uz' },
   { id: 'gr-08', name: 'Grechka, 900 g', price: 17_000, old: 19_500, r: 4.6, n: 97, unit: 'pack', e: '🥣', d: "Tozalangan grechka yormasi — foydali nonushta uchun.", exp: '2027-04-01', mf: 'Don Plus' },
@@ -116,13 +116,13 @@ const grocery = build('grocery', 38, { unit: 'pcs' }, [
 const drinks = build('drinks', 199, { unit: 'pcs' }, [
   { id: 'dr-01', name: 'Toza buloq suvi, 1.5 L', price: 4_000, r: 4.8, n: 540, e: '💧', d: "Gazsiz, tabiiy buloq suvi.", exp: '2027-08-01', mf: 'Toza Buloq' },
   { id: 'dr-02', name: 'Buloq suvi, 5 L', price: 11_000, old: 12_500, r: 4.8, n: 210, e: '🚰', d: 'Oila uchun qulay 5 litrlik idishdagi ichimlik suvi.', exp: '2027-08-01', mf: 'Toza Buloq' },
-  { id: 'dr-03', name: 'Gazli mineral suv, 0.5 L', price: 4_500, r: 4.6, n: 180, e: '🫧', d: 'Tabiiy minerallarga boy gazli suv.', exp: '2027-05-01', mf: 'Chortoq Mineral' },
+  { id: 'dr-03', name: 'Gazli mineral suv, 0.5 L', price: 4_500, r: 4.6, n: 180, e: '🥤', d: 'Tabiiy minerallarga boy gazli suv.', exp: '2027-05-01', mf: 'Chortoq Mineral' },
   { id: 'dr-04', name: 'Olma sharbati, 1 L', price: 15_000, r: 4.7, n: 133, e: '🧃', d: "100% tabiiy olma sharbati, shakar qo'shilmagan.", exp: '2027-02-01', mf: 'Bog\'bon' },
   { id: 'dr-05', name: 'Apelsin sharbati, 1 L', price: 17_000, old: 19_000, r: 4.6, n: 121, e: '🍊', d: 'Pulpali apelsin sharbati.', exp: '2027-02-01', mf: 'Bog\'bon' },
   { id: 'dr-06', name: 'Kola, 1.5 L', price: 13_000, r: 4.7, n: 450, e: '🥤', d: 'Klassik gazli ichimlik — fast-food uchun eng yaxshi hamroh.', exp: '2027-03-01', mf: 'Asia Drinks' },
   { id: 'dr-07', name: 'Limonad "Tarxun", 1 L', price: 9_000, r: 4.5, n: 98, e: '🍋', d: "Tarxun ta'mli klassik limonad.", exp: '2027-03-01', mf: 'Asia Drinks' },
-  { id: 'dr-08', name: 'Muzli choy limonli, 1 L', price: 11_000, r: 4.4, n: 76, e: '🧋', d: 'Limon ta\'mli sovuq qora choy.', exp: '2027-01-01', mf: 'Asia Drinks' },
-  { id: 'dr-09', name: 'Uy kompoti (o\'rik), 1 L', price: 14_000, r: 4.9, n: 64, e: '🫙', d: "Uy usulida tayyorlangan o'rik kompoti.", exp: '2027-06-01', mf: 'Beruniy Konserva' },
+  { id: 'dr-08', name: 'Muzli choy limonli, 1 L', price: 11_000, r: 4.4, n: 76, e: '🧃', d: 'Limon ta\'mli sovuq qora choy.', exp: '2027-01-01', mf: 'Asia Drinks' },
+  { id: 'dr-09', name: 'Uy kompoti (o\'rik), 1 L', price: 14_000, r: 4.9, n: 64, e: '🍑', d: "Uy usulida tayyorlangan o'rik kompoti.", exp: '2027-06-01', mf: 'Beruniy Konserva' },
   { id: 'dr-10', name: 'Energetik ichimlik, 0.45 L', price: 12_000, r: 4.3, n: 59, e: '⚡', d: 'Tetiklashtiruvchi energetik ichimlik. 18 yoshdan kichiklarga tavsiya etilmaydi.', exp: '2027-04-01', mf: 'Asia Drinks' },
 ]);
 
@@ -182,7 +182,7 @@ const produce = build('produce', 130, { unit: 'kg' }, [
 ]);
 
 const sweets = build('sweets', 325, { unit: 'pcs' }, [
-  { id: 'sw-01', name: 'Tandir non', price: 4_000, r: 4.9, n: 620, e: '🫓', d: 'Har kuni ertalab yopiladigan issiq tandir non.', exp: 'Tayyorlangan kundan 2 kun', mf: 'Erizon Novvoyxonasi' },
+  { id: 'sw-01', name: 'Tandir non', price: 4_000, r: 4.9, n: 620, e: '🥯', d: 'Har kuni ertalab yopiladigan issiq tandir non.', exp: 'Tayyorlangan kundan 2 kun', mf: 'Erizon Novvoyxonasi' },
   { id: 'sw-02', name: 'Buxanka non', price: 3_500, r: 4.6, n: 240, e: '🍞', d: 'Yumshoq buxanka non.', exp: '3 kun', mf: 'Beruniy Non' },
   { id: 'sw-03', name: 'Tort "Napoleon", 1 kg', price: 95_000, old: 110_000, r: 4.8, n: 130, e: '🍰', d: 'Qavatma-qavat xamir va qaymoqli krem.', exp: '5 kun (sovutgichda)', mf: 'Erizon Qandolatxonasi' },
   { id: 'sw-04', name: 'Pechenye "Sutli", 400 g', price: 14_000, r: 4.5, n: 150, unit: 'pack', e: '🍪', d: 'Choy uchun sutli pechenye.', exp: '2027-02-01', mf: 'Shirin Dunyo' },
@@ -201,10 +201,10 @@ const chemicals = build('chemicals', 180, { unit: 'pcs' }, [
   { id: 'ch-04', name: 'Pol yuvish vositasi, 1 L', price: 21_000, r: 4.5, n: 70, e: '🧽', d: 'Barcha turdagi pollar uchun, yoqimli hidli.', mf: 'CleanPro' },
   { id: 'ch-05', name: "Hojatxona qog'ozi, 8 rulon", price: 26_000, r: 4.7, n: 330, unit: 'pack', e: '🧻', d: 'Ikki qatlamli yumshoq qog\'oz.', mf: 'SoftLine' },
   { id: 'ch-06', name: 'Suyuq sovun, 500 ml', price: 15_000, r: 4.6, n: 180, e: '🧼', d: 'Antibakterial suyuq sovun.', mf: 'SoftLine' },
-  { id: 'ch-07', name: 'Tish pastasi, 100 ml', price: 16_000, r: 4.7, n: 220, e: '🪥', d: 'Ftorli tish pastasi, tishni kariesdan himoya qiladi.', mf: 'Smile' },
+  { id: 'ch-07', name: 'Tish pastasi, 100 ml', price: 16_000, r: 4.7, n: 220, e: '🦷', d: 'Ftorli tish pastasi, tishni kariesdan himoya qiladi.', mf: 'Smile' },
   { id: 'ch-08', name: 'Nam salfetkalar, 100 dona', price: 14_000, r: 4.5, n: 160, unit: 'pack', e: '🧻', d: 'Spirtsiz nam salfetkalar.', mf: 'SoftLine' },
   { id: 'ch-09', name: 'Axlat paketlari, 60 L', price: 9_000, r: 4.4, n: 110, unit: 'pack', e: '🗑️', d: 'Mustahkam axlat paketlari (20 dona).', mf: 'PlastUz' },
-  { id: 'ch-10', name: 'Shisha tozalagich, 500 ml', price: 13_000, r: 4.3, n: 60, e: '🪟', d: 'Oyna va shishalarni iz qoldirmay tozalaydi.', mf: 'CleanPro', out: true },
+  { id: 'ch-10', name: 'Shisha tozalagich, 500 ml', price: 13_000, r: 4.3, n: 60, e: '✨', d: 'Oyna va shishalarni iz qoldirmay tozalaydi.', mf: 'CleanPro', out: true },
 ]);
 
 const cosmetics = build('cosmetics', 300, { unit: 'pcs' }, [
@@ -234,7 +234,7 @@ const kids = build('kids', 48, { unit: 'pcs' }, [
 ]);
 
 const home = build('home', 160, { unit: 'pcs' }, [
-  { id: 'home-01', name: 'Elektr choynak, 1.7 L', price: 199_000, old: 249_000, r: 4.7, n: 150, e: '🫖', d: "Zanglamaydigan po'latdan, avtomatik o'chish funksiyasi bilan.", mf: 'HomeTech', specs: { Quvvat: '2200 Vt', Hajm: '1.7 L' } },
+  { id: 'home-01', name: 'Elektr choynak, 1.7 L', price: 199_000, old: 249_000, r: 4.7, n: 150, e: '☕', d: "Zanglamaydigan po'latdan, avtomatik o'chish funksiyasi bilan.", mf: 'HomeTech', specs: { Quvvat: '2200 Vt', Hajm: '1.7 L' } },
   { id: 'home-02', name: 'Cho\'yan qozon, 10 L', price: 420_000, r: 4.9, n: 95, e: '🍲', d: 'Haqiqiy palov uchun qalin devorli cho\'yan qozon.', mf: 'Qozon Ustasi', specs: { Hajm: '10 L', Material: "Cho'yan" } },
   { id: 'home-03', name: 'Yopishmaydigan tova, 28 sm', price: 159_000, r: 4.6, n: 130, e: '🍳', d: 'Granit qoplamali tova.', mf: 'KitchenPro', specs: { Diametr: '28 sm' } },
   { id: 'home-04', name: 'Idish-tovoq to\'plami, 24 predmet', price: 489_000, old: 560_000, r: 4.8, n: 70, unit: 'set', e: '🍽️', d: '6 kishilik farfor idishlar to\'plami.', mf: 'Porcelain House' },

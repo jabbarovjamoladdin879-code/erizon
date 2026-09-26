@@ -4,6 +4,8 @@ import { ApiRequestError } from '@/services/http';
 import { useOrderStore } from '@/store/orderStore';
 import type { Order } from '@/types';
 
+const ORDER_ID_RE = /^EM-[A-Z0-9]{5,12}$/;
+
 /**
  * Buyurtmani serverdan olish (egasi sessiya orqali, mehmon esa maxfiy track token bilan).
  * Holat o'zgarishini ko'rsatish uchun har 20 soniyada yangilanadi.
@@ -18,10 +20,19 @@ export function useOrder(id: string | undefined, token?: string | null): { order
 
   useEffect(() => {
     if (!id) return undefined;
+    // Noto'g'ri formatdagi raqam — serverga so'rov yubormasdan "topilmadi"
+    if (!ORDER_ID_RE.test(id)) {
+      setState({ order: null, status: 'notFound' });
+      return undefined;
+    }
     let alive = true;
     api
       .trackOrder(id, effectiveToken)
-      .then((r) => alive && setState({ order: r.order, status: 'ready' }))
+      .then((r) => {
+        if (!alive) return;
+        const found = r.order;
+        setState((s) => (found ? { order: found, status: 'ready' } : s.order ? s : { order: null, status: 'notFound' }));
+      })
       .catch((err: unknown) => {
         if (!alive) return;
         setState((s) => (s.order ? s : { order: null, status: err instanceof ApiRequestError && err.status === 404 ? 'notFound' : 'error' }));

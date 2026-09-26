@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import { Link, NavLink, Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { BarChart3, ExternalLink, Gift, History, LogOut, Package, ShieldAlert, ShieldCheck, ShoppingBag, Tag } from 'lucide-react';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -28,6 +28,12 @@ export default function AdminLayout() {
   const logout = useAuthStore((s) => s.logout);
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const navRef = useRef<HTMLElement>(null);
+
+  // Mobil'da gorizontal menyuda faol bo'limni ko'rinadigan joyga suramiz
+  useEffect(() => {
+    navRef.current?.querySelector<HTMLElement>('[aria-current=page]')?.scrollIntoView({ block: 'nearest', inline: 'center' });
+  }, [pathname, status]);
 
   if (status !== 'ready') return <PageSkeleton />;
   if (!user) return <Navigate to="/login?redirect=/admin" replace />;
@@ -56,7 +62,7 @@ export default function AdminLayout() {
             </button>
           </div>
         </div>
-        <nav aria-label="Admin menyu" className="scrollbar-none flex gap-1 overflow-x-auto px-4 pb-2">
+        <nav ref={navRef} aria-label="Admin menyu" className="scrollbar-none flex gap-1 overflow-x-auto px-4 pb-2">
           {NAV.map(({ to, label, icon: Icon, end }) => (
             <NavLink
               key={to}
@@ -83,7 +89,7 @@ export default function AdminLayout() {
           >
             <ShieldAlert className="h-5 w-5 shrink-0" aria-hidden="true" />
             <span>
-              <b>Ikki bosqichli himoya (2FA) yoqilmagan.</b> Production'da 2FA'siz admin API'ga kirish taqiqlangan — hoziroq yoqing.
+              <b>Ikki bosqichli himoya (2FA) yoqilmagan.</b> Parol o'g'irlansa ham hisobingiz himoyada qolishi uchun uni hoziroq yoqing.
             </span>
           </Link>
         </div>

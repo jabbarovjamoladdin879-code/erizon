@@ -100,7 +100,7 @@ export const api = {
 
   placeOrder: (p: PlaceOrderParams, idempotencyKey: string) => http.post<PlaceOrderResult>('/api/orders', p, { 'Idempotency-Key': idempotencyKey }),
   myOrders: () => http.get<{ orders: Order[] }>('/api/orders/mine'),
-  trackOrder: (id: string, token?: string) => http.get<{ order: Order }>(`/api/orders/${enc(id)}${token ? `?t=${enc(token)}` : ''}`),
+  trackOrder: (id: string, token?: string) => http.get<{ order: Order | null }>(`/api/orders/${enc(id)}${token ? `?t=${enc(token)}` : ''}`),
 
   auth: {
     me: () => http.get<{ user: PublicUser | null; mfa: boolean }>('/api/auth/me'),

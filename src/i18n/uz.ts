@@ -495,6 +495,7 @@ export const uz = {
   // Server xatolari
   'err.server': "Serverda xatolik. Birozdan so'ng qayta urinib ko'ring.",
   'err.network': "Internet aloqasi yo'q yoki server javob bermayapti.",
+  'err.retryHint': "Internet ulanishini tekshirib, qayta urinib ko'ring.",
   'err.validation': "Ma'lumotlar noto'g'ri to'ldirilgan",
   'err.unauthorized': 'Iltimos, tizimga qayta kiring',
   'err.forbidden': "Bu amal uchun ruxsat yo'q",
