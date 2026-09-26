@@ -1,0 +1,16 @@
+node_modules
+dist
+# SQLite ma'lumotlar bazasi (foydalanuvchilar, buyurtmalar — git'ga tushmasin)
+data/
+*.sqlite
+*.sqlite.*.tmp
+dev-dist
+*.local
+.env
+.env.*
+!.env.example
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.log
