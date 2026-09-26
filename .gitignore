@@ -1,7 +1,8 @@
 node_modules
 dist
-# SQLite ma'lumotlar bazasi (foydalanuvchilar, buyurtmalar — git'ga tushmasin)
-data/
+# SQLite ma'lumotlar bazasi (foydalanuvchilar, buyurtmalar — git'ga tushmasin).
+# Boshidagi "/" — faqat loyiha ildizidagi data/ (src/data/ kod papkasiga tegmaydi)
+/data/
 *.sqlite
 *.sqlite.*.tmp
 dev-dist
