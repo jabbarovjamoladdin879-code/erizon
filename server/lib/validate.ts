@@ -6,7 +6,7 @@ import { ApiError } from './errors.js';
  * so'rov tanasida bo'lsa — so'rov rad etiladi. Bundan tashqari Zod sxemalari faqat
  * primitiv qiymatlarni qabul qiladi, shuning uchun operator obyektlari bazaga yetib bormaydi.
  */
-export function assertNoOperators(value: unknown, depth = 0): void {
+function assertNoOperators(value: unknown, depth = 0): void {
   if (depth > 12) throw new ApiError(400, 'err.validation');
   if (Array.isArray(value)) {
     if (value.length > 500) throw new ApiError(400, 'err.validation');

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
@@ -39,7 +39,7 @@ export function QuickBuyModal({ open, onClose, product, qty, options, total }: P
   const errorMessage = useErrorMessage();
   const rememberOrder = useOrderStore((s) => s.remember);
   const [submitting, setSubmitting] = useState(false);
-  const idempotencyKey = useRef(crypto.randomUUID());
+  const [idempotencyKey] = useState(() => crypto.randomUUID());
 
   const { register, handleSubmit, control, formState } = useForm<QuickBuyForm>({
     resolver: zodResolver(quickBuySchema),
@@ -59,7 +59,7 @@ export function QuickBuyModal({ open, onClose, product, qty, options, total }: P
           deliveryTime: 'asap',
           paymentMethod: 'cash',
         },
-        idempotencyKey.current,
+        idempotencyKey,
       );
       rememberOrder({ id: res.order.id, token: res.trackToken, createdAt: res.order.createdAt });
       toast.success(t('toast.orderPlaced'));

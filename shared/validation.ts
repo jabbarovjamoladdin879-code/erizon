@@ -14,23 +14,23 @@ const ADDRESS_RE = /^[\p{L}\p{N}\s.,'ʻʼ‘’`\-/№#()]+$/u;
 const LABEL_RE = /^[\p{L}\p{N}\s'ʻʼ‘’`-]+$/u;
 const TEXT_RE = /^[^<>{}]*$/;
 
-export const nameSchema = z
+const nameSchema = z
   .string()
   .trim()
   .min(2, 'v.nameMin')
   .max(50, 'v.nameMax')
   .regex(NAME_RE, 'v.nameChars');
 
-export const phoneSchema = z.string().trim().max(20, 'v.phone').refine(isValidPhone, 'v.phone');
+const phoneSchema = z.string().trim().max(20, 'v.phone').refine(isValidPhone, 'v.phone');
 
-export const addressSchema = z
+const addressSchema = z
   .string()
   .trim()
   .min(5, 'v.addressMin')
   .max(200, 'v.addressMax')
   .regex(ADDRESS_RE, 'v.addressChars');
 
-export const passwordSchema = z
+const passwordSchema = z
   .string()
   .min(8, 'v.passMin')
   .max(64, 'v.passMax')
@@ -66,27 +66,6 @@ export const loginSchema = z.object({
   password: z.string().min(1, 'v.required').max(64, 'v.passMax'),
 });
 export type LoginForm = z.infer<typeof loginSchema>;
-
-export const registerSchema = z
-  .object({
-    name: nameSchema,
-    phone: phoneSchema,
-    password: passwordSchema,
-    confirm: z.string().max(64),
-  })
-  .refine((v) => v.password === v.confirm, { path: ['confirm'], message: 'v.passMatch' });
-export type RegisterForm = z.infer<typeof registerSchema>;
-
-export const reviewFormSchema = z.object({
-  author: nameSchema,
-  rating: z.number().int().min(1, 'v.rating').max(5, 'v.rating'),
-  text: z
-    .string()
-    .trim()
-    .min(10, 'v.reviewMin')
-    .max(REVIEW_MAX_LENGTH, 'v.reviewMax'),
-});
-export type ReviewForm = z.infer<typeof reviewFormSchema>;
 
 export const addressFormSchema = z.object({
   label: z.string().trim().min(2, 'v.labelMin').max(30, 'v.labelMax').regex(LABEL_RE, 'v.labelChars'),
@@ -141,11 +120,11 @@ export type GiftForm = z.infer<typeof giftFormSchema>;
  * ------------------------------------------------------------------ */
 
 /** Normallashtirilgan telefon: +998XXXXXXXXX */
-export const apiPhoneSchema = z.string().regex(/^\+998\d{9}$/, 'v.phone');
+const apiPhoneSchema = z.string().regex(/^\+998\d{9}$/, 'v.phone');
 const idSchema = z.string().regex(/^[a-z0-9-]{2,40}$/, 'err.validation');
 const plainText = (max: number) => z.string().trim().max(max).regex(TEXT_RE, 'v.textChars');
 
-export const fastFoodOptionsInput = z
+const fastFoodOptionsInput = z
   .object({
     sauce: z.string().regex(/^[a-z]{2,20}$/),
     extraCheese: z.boolean(),
@@ -154,7 +133,7 @@ export const fastFoodOptionsInput = z
   })
   .strict();
 
-export const cartItemOptionsInput = z
+const cartItemOptionsInput = z
   .object({
     size: z.string().max(10).regex(/^[A-Za-z0-9-]*$/).optional(),
     color: z.string().max(30).regex(/^[\p{L} '-]*$/u).optional(),
@@ -163,7 +142,7 @@ export const cartItemOptionsInput = z
   })
   .strict();
 
-export const cartItemInput = z
+const cartItemInput = z
   .object({
     key: z.string().max(300),
     kind: z.enum(['product', 'combo']),

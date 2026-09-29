@@ -33,7 +33,7 @@ import type {
  * (server/routes/orders.ts) ma'lumotlar bazasidagi narxlar asosida hisoblanadi.
  */
 
-export function isDealActive(deal: DealOfDay | null, now: number): deal is DealOfDay {
+function isDealActive(deal: DealOfDay | null, now: number): deal is DealOfDay {
   return !!deal && Date.parse(deal.endsAt) > now;
 }
 
@@ -51,7 +51,7 @@ export function getEffectivePrice(product: Product, deal: DealOfDay | null, now:
   return { price: product.price, oldPrice, isDeal: false };
 }
 
-export function isWeighted(unit: Unit): boolean {
+function isWeighted(unit: Unit): boolean {
   return unit === 'kg';
 }
 
@@ -82,7 +82,7 @@ export function getOptionsSurcharge(product: Product, options?: CartItemOptions)
   return extra;
 }
 
-export function getUnitPrice(product: Product, options: CartItemOptions | undefined, deal: DealOfDay | null, now: number): number {
+function getUnitPrice(product: Product, options: CartItemOptions | undefined, deal: DealOfDay | null, now: number): number {
   return getEffectivePrice(product, deal, now).price + getOptionsSurcharge(product, options);
 }
 
@@ -188,7 +188,7 @@ export function validatePromo(
   return { ok: true, promo };
 }
 
-export function getPromoDiscount(promo: PromoCode, subtotal: number): number {
+function getPromoDiscount(promo: PromoCode, subtotal: number): number {
   let d = promo.type === 'percent' ? Math.round((subtotal * Math.min(promo.value, 100)) / 100) : promo.value;
   if (promo.maxDiscount) d = Math.min(d, promo.maxDiscount);
   return Math.max(0, Math.min(d, subtotal));

@@ -9,7 +9,7 @@ interface FieldWrapProps {
   children: ReactNode;
 }
 
-export function FieldWrap({ label, error, hint, id, children }: FieldWrapProps) {
+function FieldWrap({ label, error, hint, id, children }: FieldWrapProps) {
   return (
     <div>
       <label htmlFor={id} className="label">

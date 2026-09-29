@@ -7,6 +7,7 @@ import { ProductImage } from '@/components/ui/ProductImage';
 import { Stars } from '@/components/ui/Stars';
 import { COMPARE_MAX } from '@/data/options';
 import { needsSelection, useProductActions } from '@/hooks/useProductActions';
+import { useNow } from '@/hooks/useNow';
 import { useSeo } from '@/hooks/useSeo';
 import { usePrice, useT } from '@/hooks/useT';
 import { useCatalogStatus, useCatalogStore, useProductMap } from '@/store/catalogStore';
@@ -31,8 +32,8 @@ export default function ComparePage() {
 
   const products = useMemo(() => ids.map((id) => map.get(id)).filter((p): p is Product => !!p), [ids, map]);
 
+  const now = useNow(60_000);
   const rows = useMemo(() => {
-    const now = Date.now();
     const specKeys = Array.from(new Set(products.flatMap((p) => Object.keys(p.specs ?? {}))));
     const priceOf = (p: Product) => getEffectivePrice(p, deal, now);
     const minPrice = Math.min(...products.map((p) => priceOf(p).price));
@@ -61,7 +62,7 @@ export default function ComparePage() {
       ...specKeys.map((k) => ({ label: k, render: (p: Product) => p.specs?.[k] ?? '—' })),
     ];
     return base;
-  }, [products, deal, fmt, t]);
+  }, [products, deal, now, fmt, t]);
 
   if (ids.length > 0 && catalogStatus === 'loading') return <PageSkeleton />;
   if (ids.length > 0 && catalogStatus === 'error') return <CatalogError />;

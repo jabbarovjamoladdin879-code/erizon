@@ -59,7 +59,7 @@ interface RequestOptions {
   signal?: AbortSignal;
 }
 
-export async function request<T>(path: string, opts: RequestOptions = {}): Promise<T> {
+async function request<T>(path: string, opts: RequestOptions = {}): Promise<T> {
   const method = opts.method ?? 'GET';
   const unsafe = method !== 'GET';
   if (unsafe) await ensureCsrf();
@@ -83,7 +83,7 @@ export async function request<T>(path: string, opts: RequestOptions = {}): Promi
     throw new ApiRequestError(0, 'err.network');
   }
 
-  let data: unknown = null;
+  let data: unknown;
   try {
     data = await res.json();
   } catch {

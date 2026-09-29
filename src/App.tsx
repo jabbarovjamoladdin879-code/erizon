@@ -69,7 +69,7 @@ function Bootstrap() {
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
-      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <BrowserRouter>
         <ThemeSync />
         <Bootstrap />
         <ErrorBoundary>

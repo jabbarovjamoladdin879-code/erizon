@@ -4,7 +4,7 @@ Beruniy shahridagi **Erizon Mall** savdo markazi uchun internet-magazin.
 
 | Qism | Texnologiyalar |
 | --- | --- |
-| Frontend | Vite 5 · React 18 · TypeScript (strict) · Tailwind · React Router · Zustand · Framer Motion · React Hook Form + Zod · DOMPurify · PWA |
+| Frontend | Vite 8 · React 18 · TypeScript (strict) · Tailwind · React Router 7 · Zustand · Framer Motion · React Hook Form + Zod · DOMPurify · PWA |
 | Backend | Hono · **o'rnatilgan SQLite** (sql.js / WebAssembly) · Zod · Argon2id · JWT (jose) · TOTP 2FA |
 | Testlar | Vitest (38 ta integratsion test, jumladan doimiy saqlash va env'siz ishlash) |
 
@@ -14,7 +14,7 @@ Beruniy shahridagi **Erizon Mall** savdo markazi uchun internet-magazin.
 
 ## 1. Lokal ishga tushirish
 
-Talab: **Node.js 20.12+**.
+Talab: **Node.js 24.x** (Vercel ham shu versiyada ishlaydi).
 
 ```bash
 npm install

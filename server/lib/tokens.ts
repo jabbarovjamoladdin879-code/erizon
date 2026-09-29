@@ -10,8 +10,8 @@ import type { AccessClaims, AppEnv } from '../types.js';
 import { randomToken, safeEqual, sha256 } from './crypto.js';
 import { ID_RE } from './ids.js';
 
-export const ACCESS_TTL_SEC = 15 * 60;
-export const REFRESH_TTL_SEC = 30 * 86_400;
+const ACCESS_TTL_SEC = 15 * 60;
+const REFRESH_TTL_SEC = 30 * 86_400;
 const FAMILY_MAX_AGE_MS = 90 * 86_400_000;
 const REUSE_GRACE_MS = 20_000;
 
@@ -38,7 +38,7 @@ function baseCookie(maxAge: number, httpOnly = true) {
 
 type TokenUser = Pick<UserRecord, 'id' | 'role' | 'tokenVersion'>;
 
-export async function signAccess(claims: AccessClaims): Promise<string> {
+async function signAccess(claims: AccessClaims): Promise<string> {
   return new SignJWT({ role: claims.role, mfa: claims.mfa, ver: claims.ver, sid: claims.sid })
     .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
     .setSubject(claims.sub)

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useCallback, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Search, X } from 'lucide-react';
@@ -29,8 +29,13 @@ export function SearchBox({ className }: { className?: string }) {
   const index = useMemo(() => buildSearchIndex(products, (p) => t(`cat.${p.categoryId}`)), [products, t]);
   const suggestions = useMemo(() => (debounced.trim().length >= 2 ? searchIndex(index, sanitizeQuery(debounced), 6) : []), [index, debounced]);
 
-  useEffect(() => setActive(-1), [debounced]);
-  useEffect(() => setOpen(false), [location.pathname]);
+  // Qidiruv so'zi yoki sahifa o'zgarsa — tanlov va ro'yxat qayta boshlanadi
+  const [prev, setPrev] = useState({ debounced, path: location.pathname });
+  if (prev.debounced !== debounced || prev.path !== location.pathname) {
+    if (prev.debounced !== debounced) setActive(-1);
+    if (prev.path !== location.pathname) setOpen(false);
+    setPrev({ debounced, path: location.pathname });
+  }
 
   const close = useCallback(() => setOpen(false), []);
   useClickOutside(wrapRef, close, open);

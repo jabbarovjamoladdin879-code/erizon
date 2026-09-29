@@ -13,7 +13,7 @@ import { endOfTashkentDay, type DealSetting } from './services/checkout.js';
  * Bo'sh bazani boshlang'ich ma'lumotlar bilan to'ldirish (idempotent — qayta ishga
  * tushirilsa mavjud ma'lumotlar o'zgarmaydi).
  */
-export function seedCatalog(): string[] {
+function seedCatalog(): string[] {
   const log: string[] = [];
   if (products.count() === 0) {
     tx(() => {
@@ -77,7 +77,7 @@ const DEV_ADMIN_PASSWORD = 'Admin12345';
  * - production'da env'siz — tasodifiy parol yaratiladi va FAQAT server logiga yoziladi
  *   (Vercel: Project → Logs). Kodda yoki repozitoriyda hech qanday parol yo'q.
  */
-export async function ensureAdmin(): Promise<string | null> {
+async function ensureAdmin(): Promise<string | null> {
   const env = getEnv();
   const phone = env.ADMIN_PHONE ?? DEFAULT_ADMIN_PHONE;
   const existing = users.byPhone(phone);

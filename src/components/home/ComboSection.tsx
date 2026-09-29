@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Package, ShoppingCart } from 'lucide-react';
 import { ProductImage } from '@/components/ui/ProductImage';
 import { COMBOS } from '@/data/combos';
+import { useNow } from '@/hooks/useNow';
 import { usePrice, useT } from '@/hooks/useT';
 import { useCartStore } from '@/store/cartStore';
 import { useCatalogStore, useProductMap } from '@/store/catalogStore';
@@ -17,7 +18,8 @@ const ComboCard = memo(function ComboCard({ combo }: { combo: Combo }) {
   const map = useProductMap();
   const deal = useCatalogStore((s) => s.deal);
   const add = useCartStore((s) => s.add);
-  const regular = getComboRegularPrice(combo, map, deal, Date.now());
+  const now = useNow(60_000);
+  const regular = getComboRegularPrice(combo, map, deal, now);
   const available = isComboAvailable(combo, map);
   const saving = Math.max(0, regular - combo.price);
 

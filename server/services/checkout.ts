@@ -47,7 +47,7 @@ export function getActiveDeal(): DealOfDay | null {
   return { productId: deal.productId, dealPrice: deal.dealPrice, endsAt: new Date(deal.endsAt).toISOString() };
 }
 
-export function isFirstOrder(phone: string | undefined, userId: string | undefined): boolean {
+function isFirstOrder(phone: string | undefined, userId: string | undefined): boolean {
   if (!phone && !userId) return true;
   const row = get<{ n: number }>(
     "SELECT COUNT(*) AS n FROM orders WHERE status != 'cancelled' AND (phone = ? OR (? IS NOT NULL AND user_id = ?))",

@@ -110,12 +110,15 @@ export default defineConfig({
   build: {
     target: 'es2022',
     sourcemap: false,
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks: {
-          react: ['react', 'react-dom', 'react-router-dom'],
-          motion: ['framer-motion'],
-          forms: ['react-hook-form', '@hookform/resolvers', 'zod'],
+        // Kam o'zgaradigan kutubxonalar alohida chunk'larda — brauzer keshi uzoq saqlanadi
+        codeSplitting: {
+          groups: [
+            { name: 'react', test: /node_modules[\\/](react|react-dom|react-router|react-router-dom|scheduler|cookie|set-cookie-parser)[\\/]/ },
+            { name: 'motion', test: /node_modules[\\/](framer-motion|motion-dom|motion-utils)[\\/]/ },
+            { name: 'forms', test: /node_modules[\\/](react-hook-form|@hookform[\\/]resolvers|zod)[\\/]/ },
+          ],
         },
       },
     },

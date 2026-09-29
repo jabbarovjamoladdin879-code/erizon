@@ -169,7 +169,7 @@ async function open(path: string): Promise<Database> {
 }
 
 /** Bazani ochadi (bir marta; serverless "warm" instansiyalarda qayta ishlatiladi) */
-export function initDb(): Promise<Database> {
+function initDb(): Promise<Database> {
   const path = getEnv().databasePath;
   if (!g.__erizonDb || g.__erizonDbPath !== path) {
     g.__erizonDbPath = path;

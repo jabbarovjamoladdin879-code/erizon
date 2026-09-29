@@ -1,4 +1,17 @@
 {
+  // Solution-style: `tsc -b` loyihalarni references orqali tekshiradi.
+  // compilerOptions esa Vercel (@vercel/node) uchun — u api/index.ts ni shu ildiz
+  // tsconfig bilan kompilyatsiya qiladi, shuning uchun server sozlamalari bilan bir xil.
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node"],
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "strict": true
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

@@ -8,6 +8,7 @@ import { Modal } from '@/components/ui/Modal';
 import { GridSkeleton } from '@/components/ui/Skeleton';
 import { CATEGORIES } from '@/data/categories';
 import { useDebounce } from '@/hooks/useDebounce';
+import { useNow } from '@/hooks/useNow';
 import { useSeo } from '@/hooks/useSeo';
 import { useT } from '@/hooks/useT';
 import { useCatalogStatus, useCatalogStore } from '@/store/catalogStore';
@@ -51,10 +52,12 @@ function Filters({ cat, min, max, sale, stock, halal, gender, brands, brandOptio
 
   // URL tashqaridan o'zgarsa (masalan, "Filtrlarni tozalash") — maydonlarni sinxronlash.
   // Komponent qayta yaratilmaydi, shuning uchun yozish paytida fokus yo'qolmaydi.
-  useEffect(() => {
-    setMinInput((cur) => (parseMoney(cur) === min ? cur : min ? String(min) : ''));
-    setMaxInput((cur) => (parseMoney(cur) === max ? cur : max ? String(max) : ''));
-  }, [min, max]);
+  const [prevRange, setPrevRange] = useState({ min, max });
+  if (prevRange.min !== min || prevRange.max !== max) {
+    setPrevRange({ min, max });
+    if (parseMoney(minInput) !== min) setMinInput(min ? String(min) : '');
+    if (parseMoney(maxInput) !== max) setMaxInput(max ? String(max) : '');
+  }
 
   useEffect(() => {
     const nMin = parseMoney(dMin);
@@ -186,12 +189,17 @@ export default function CatalogPage() {
   // Haqiqiy holat: katalog serverdan kelguncha skelet (sun'iy kechikish yo'q)
   const catalogStatus = useCatalogStatus();
   const loading = catalogStatus === 'loading';
-  useEffect(() => setVisible(PAGE), [filterKey]);
+  // Filtr o'zgarsa — ro'yxat boshidan ko'rsatiladi
+  const [prevFilterKey, setPrevFilterKey] = useState(filterKey);
+  if (prevFilterKey !== filterKey) {
+    setPrevFilterKey(filterKey);
+    setVisible(PAGE);
+  }
+  const now = useNow(60_000);
 
   const index = useMemo(() => buildSearchIndex(products, (p) => t(`cat.${p.categoryId}`)), [products, t]);
 
   const results = useMemo(() => {
-    const now = Date.now();
     let list = q ? searchIndex(index, q) : [...products];
     list = list.filter((p) => {
       const price = getEffectivePrice(p, deal, now);
@@ -223,7 +231,7 @@ export default function CatalogPage() {
       });
     }
     return list;
-  }, [q, index, products, deal, cat, min, max, sale, stock, halal, gender, brands, sort, sortParam]);
+  }, [q, index, products, deal, now, cat, min, max, sale, stock, halal, gender, brands, sort, sortParam]);
 
   // Brendlar ro'yxati — joriy kategoriya bo'yicha
   const brandOptions = useMemo(() => {

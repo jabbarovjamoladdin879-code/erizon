@@ -55,7 +55,3 @@ export function createRateLimiter(max: number, windowMs: number, storageKey?: st
   };
 }
 
-/** Noto'g'ri promokod urinishlari: 1 daqiqada 5 tadan ko'p bo'lsa bloklanadi */
-export const promoAttemptLimiter = createRateLimiter(5, 60_000, 'erizon-promo-attempts');
-/** Kirish urinishlari: 1 daqiqada 5 ta */
-export const loginAttemptLimiter = createRateLimiter(5, 60_000, 'erizon-login-attempts');

@@ -1,7 +1,7 @@
 /** O'zbekiston mobil va shahar operator kodlari */
 const OPERATOR_CODES = ['20', '33', '50', '55', '61', '62', '71', '77', '87', '88', '90', '91', '93', '94', '95', '97', '98', '99'];
 
-export const PHONE_MASK_REGEX = /^\+998 \(\d{2}\) \d{3}-\d{2}-\d{2}$/;
+const PHONE_MASK_REGEX = /^\+998 \(\d{2}\) \d{3}-\d{2}-\d{2}$/;
 
 /** Kiritilgan matndan faqat 9 ta mahalliy raqamni ajratadi */
 function localDigits(input: string): string {

@@ -14,7 +14,7 @@ export function Skeleton({ className }: { className?: string }) {
   );
 }
 
-export function ProductCardSkeleton() {
+function ProductCardSkeleton() {
   return (
     <div className="card p-3">
       <Skeleton className="aspect-square w-full rounded-xl" />

@@ -1,4 +1,4 @@
-import type { DealOfDay, PromoCode } from './types.js';
+import type { PromoCode } from './types.js';
 
 /**
  * Mock promokodlar. MUHIM: haqiqiy loyihada promokodlar ro'yxati brauzerga
@@ -13,9 +13,3 @@ export const SEED_PROMOS: PromoCode[] = [
   { code: 'TEST50', type: 'percent', value: 50, minOrder: 0, expiresAt: '2027-12-31T23:59:59.000Z', active: false, firstOrderOnly: false },
 ];
 
-/** Kun aksiyasi — bugun kun oxirigacha amal qiladi */
-export function createDefaultDeal(now = new Date()): DealOfDay {
-  const end = new Date(now);
-  end.setHours(23, 59, 59, 0);
-  return { productId: 'ff-03', dealPrice: 38_000, endsAt: end.toISOString() };
-}

@@ -17,14 +17,11 @@ export function useOrder(id: string | undefined, token?: string | null): { order
   const [tick, setTick] = useState(0);
 
   const reload = useCallback(() => setTick((n) => n + 1), []);
+  // Noto'g'ri formatdagi raqam — serverga so'rov yubormasdan "topilmadi"
+  const validId = !!id && ORDER_ID_RE.test(id);
 
   useEffect(() => {
-    if (!id) return undefined;
-    // Noto'g'ri formatdagi raqam — serverga so'rov yubormasdan "topilmadi"
-    if (!ORDER_ID_RE.test(id)) {
-      setState({ order: null, status: 'notFound' });
-      return undefined;
-    }
+    if (!id || !validId) return undefined;
     let alive = true;
     api
       .trackOrder(id, effectiveToken)
@@ -40,13 +37,14 @@ export function useOrder(id: string | undefined, token?: string | null): { order
     return () => {
       alive = false;
     };
-  }, [id, effectiveToken, tick]);
+  }, [id, validId, effectiveToken, tick]);
 
   useEffect(() => {
-    if (!id || state.order?.status === 'delivered' || state.order?.status === 'cancelled') return undefined;
+    if (!validId || state.order?.status === 'delivered' || state.order?.status === 'cancelled') return undefined;
     const timer = window.setInterval(reload, 20_000);
     return () => window.clearInterval(timer);
-  }, [id, state.order?.status, reload]);
+  }, [validId, state.order?.status, reload]);
 
+  if (id && !validId) return { order: null, status: 'notFound', reload };
   return { ...state, reload };
 }

@@ -39,7 +39,7 @@ export const productSchema = z.object({
   relatedIds: z.array(shortStr(40)).max(12).optional(),
 });
 
-export const fastFoodOptionsSchema = z.object({
+const fastFoodOptionsSchema = z.object({
   sauce: shortStr(20),
   extraCheese: z.boolean(),
   spicy: z.boolean(),

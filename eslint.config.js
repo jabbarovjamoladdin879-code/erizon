@@ -27,6 +27,8 @@ export default tseslint.config(
       'no-new-func': 'error',
       'no-script-url': 'error',
       'react-hooks/exhaustive-deps': 'error',
+      // Loyiha React Compiler'siz ishlaydi: react-hook-form `watch()` bilan muammo yo'q
+      'react-hooks/incompatible-library': 'off',
     },
   },
   {

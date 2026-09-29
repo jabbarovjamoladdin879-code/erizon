@@ -1,4 +1,4 @@
-export const ORIGIN = 'http://localhost:5173';
+const ORIGIN = 'http://localhost:5173';
 
 /**
  * Har test fayli alohida jarayonda — o'zining xotiradagi SQLite bazasi bilan.
