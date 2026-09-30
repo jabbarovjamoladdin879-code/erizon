@@ -23,7 +23,7 @@ npm run dev
 
 - Sayt: http://localhost:5173 · API: http://127.0.0.1:3001/api/health
 - Baza: `data/erizon.sqlite` (127 mahsulot, sharhlar, promokodlar bilan). Ma'lumotlar server qayta ishga tushganda **saqlanadi**. Tozalash uchun `data/` papkasini o'chiring.
-- Lokal admin: `+998 90 000-00-01` / `Admin12345`.
+- Admin: `server/admin.config.ts` dagi raqam va parol — lokal va Vercel'da bir xil. Repoda faqat parolning Argon2id xeshi turadi. Parolni almashtirish: `npm run admin:hash -- "YangiParol123"` → chiqqan xeshni shu faylga qo'ying.
 - SMS provayder ulanmagan bo'lsa, SMS kod sahifada "Namoyish rejimi: kod …" ko'rinishida chiqadi va maydonga avtomatik qo'yiladi.
 
 | Buyruq | Vazifasi |
@@ -55,11 +55,11 @@ NODE_ENV=production npx tsx server/dev.ts   # API: 3001-port, baza: data/erizon.
 ### 2.2. Vercel — env'siz ishlaydi, LEKIN ma'lumotlar vaqtinchalik
 1. Loyihani GitHub'ga yuklang → https://vercel.com/new → repozitoriyani tanlang. `vercel.json` hammasini sozlaydi. **Environment Variables kiritish shart emas.**
 2. Deploy. Tekshirish: `https://<sayt>/api/health` → `{"ok":true,"db":"sqlite","products":127,"persistent":false}`.
-3. Admin paroli: **Vercel → Project → Logs** da `[setup] Admin yaratildi: ...` qatori.
+3. Admin: `server/admin.config.ts` dagi raqam va parol — Vercel'ning har bir nusxasida bir xil (env shart emas).
 
-> ⚠️ **Vercel cheklovi:** serverless funksiyalarda faqat `/tmp` papkasiga yozish mumkin va u vaqtinchalik. Funksiya bir necha daqiqa ishlatilmasa yoki yangi nusxa ishga tushsa — **yangi foydalanuvchilar, buyurtmalar, bonuslar o'chadi** (katalog har safar qayta to'ldiriladi), parallel nusxalar esa bir-birining ma'lumotini ko'rmaydi. Admin paroli ham har yangi nusxada yangilanadi. Shuning uchun Vercel — **namoyish** uchun; haqiqiy do'kon uchun 2.1-bo'limdagi usulni ishlating.
+> ⚠️ **Vercel cheklovi:** serverless funksiyalarda faqat `/tmp` papkasiga yozish mumkin va u vaqtinchalik. Funksiya bir necha daqiqa ishlatilmasa yoki yangi nusxa ishga tushsa — **yangi foydalanuvchilar, buyurtmalar, bonuslar o'chadi** (katalog har safar qayta to'ldiriladi), parallel nusxalar esa bir-birining ma'lumotini ko'rmaydi. Shuning uchun Vercel — **namoyish** uchun; haqiqiy do'kon uchun 2.1-bo'limdagi usulni ishlating.
 >
-> Doimiy saqlash uchun bir necha env berish foydali: `JWT_SECRET`, `DATA_SECRET` (sessiyalar nusxalar orasida ishlashi uchun), `ADMIN_PHONE`, `ADMIN_PASSWORD` (doimiy admin paroli).
+> Doimiy saqlash uchun bir necha env berish foydali: `JWT_SECRET`, `DATA_SECRET` (sessiyalar nusxalar orasida ishlashi uchun).
 
 **SMS:** Eskiz.uz ulanmaguncha kod sahifada ko'rsatiladi (namoyish rejimi) — bu telefon raqamini haqiqatan tasdiqlamaydi. Haqiqiy do'konda `SMS_PROVIDER=eskiz` + `ESKIZ_EMAIL` / `ESKIZ_PASSWORD` bering.
 

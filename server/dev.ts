@@ -18,8 +18,8 @@ const { closeDb } = await import('./db.js');
 const { getEnv } = await import('./env.js');
 
 await bootstrap();
-if (!getEnv().isProd && !process.env.ADMIN_PASSWORD) {
-  console.info('[dev] Admin (lokal): +998900000001 / Admin12345');
+if (!process.env.ADMIN_PASSWORD) {
+  console.info('[dev] Admin: server/admin.config.ts dagi raqam va parol (parolni almashtirish: npm run admin:hash)');
 }
 
 const server = serve({ fetch: app.fetch, port: PORT, hostname: '127.0.0.1' }, (info) => {

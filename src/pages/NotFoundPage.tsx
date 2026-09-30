@@ -20,7 +20,7 @@ export default function NotFoundPage() {
         <h1 className="mt-4 text-2xl font-bold">{t('notFound.title')}</h1>
         <p className="muted mx-auto mt-2 max-w-md">{t('notFound.text')}</p>
         <div className="mt-6 flex justify-center gap-3">
-          <Link to="/" className="inline-flex h-11 items-center rounded-xl bg-brand-600 px-5 text-sm font-semibold text-white hover:bg-brand-700">
+          <Link to="/" className="inline-flex h-11 items-center rounded-2xl bg-brand-gradient shadow-glow transition hover:brightness-110 active:scale-[0.97] px-5 text-sm font-semibold text-white">
             {t('error.home')}
           </Link>
           <Link to="/catalog" className="inline-flex h-11 items-center rounded-xl border border-slate-300 px-5 text-sm font-semibold hover:border-brand-500 dark:border-slate-700">

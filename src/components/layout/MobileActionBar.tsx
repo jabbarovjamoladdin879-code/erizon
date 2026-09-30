@@ -14,7 +14,7 @@ export function MobileActionBar({ children, label }: { children: ReactNode; labe
       transition={{ type: 'spring', damping: 26, stiffness: 300 }}
       role="region"
       aria-label={label}
-      className="fixed inset-x-0 bottom-[calc(var(--bottom-nav-h,3.75rem)+env(safe-area-inset-bottom))] z-30 border-t border-slate-200/80 bg-white/95 px-4 py-2.5 shadow-[0_-8px_24px_-12px_rgba(15,23,42,0.18)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/95 md:hidden"
+      className="fixed inset-x-3 bottom-[calc(var(--bottom-nav-h,4.75rem)+env(safe-area-inset-bottom))] z-30 rounded-3xl border border-white/70 bg-white/85 px-3 py-2.5 shadow-float backdrop-blur-xl backdrop-saturate-150 dark:border-white/[0.08] dark:bg-slate-900/85 md:hidden"
     >
       <div className="mx-auto flex max-w-lg items-center gap-3">{children}</div>
     </motion.div>

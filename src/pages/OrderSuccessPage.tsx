@@ -62,7 +62,7 @@ export default function OrderSuccessPage() {
       </section>
 
       <div className="mt-6 flex flex-wrap justify-center gap-3">
-        <Link to={`/track/${order.id}`} className="inline-flex h-11 items-center rounded-xl bg-brand-600 px-5 text-sm font-semibold text-white hover:bg-brand-700">
+        <Link to={`/track/${order.id}`} className="inline-flex h-11 items-center rounded-2xl bg-brand-gradient shadow-glow transition hover:brightness-110 active:scale-[0.97] px-5 text-sm font-semibold text-white">
           {t('nav.track')}
         </Link>
         <Button variant="outline" onClick={() => reorder(order)}>

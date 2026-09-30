@@ -64,7 +64,7 @@ const ComboCard = memo(function ComboCard({ combo }: { combo: Combo }) {
             add('combo', combo.id, 1);
             toast.success(t('toast.addedToCart'));
           }}
-          className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand-600 px-4 text-sm font-semibold text-white hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300 dark:disabled:bg-slate-700"
+          className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand-gradient shadow-glow transition hover:brightness-110 active:scale-[0.97] px-4 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-none disabled:bg-slate-300 disabled:shadow-none dark:disabled:bg-slate-700"
         >
           <ShoppingCart className="h-4 w-4" aria-hidden="true" />
           {available ? t('product.toCart') : t('product.outOfStock')}

@@ -60,9 +60,11 @@ authRoutes.get('/me', (c) => {
 
 authRoutes.post('/otp', async (c) => {
   const { phone, purpose } = await body(c, otpRequestSchema);
-  const exists = !!users.byPhone(phone);
+  const existing = users.byPhone(phone);
   // Enumeratsiyaga qarshi: javob har doim bir xil. Keraksiz holatda SMS yuborilmaydi.
-  const shouldSend = purpose === 'register' ? !exists : exists;
+  // Admin parolini SMS orqali tiklab bo'lmaydi (demo rejimda kod javobda ko'rinadi) —
+  // u faqat server/admin.config.ts yoki ADMIN_PASSWORD orqali o'rnatiladi.
+  const shouldSend = purpose === 'register' ? !existing : !!existing && existing.role !== 'admin';
   const devCode = await issueOtp(phone, purpose, c.get('ip'), shouldSend);
   return c.json({ ok: true, devCode });
 });
@@ -156,7 +158,8 @@ authRoutes.post('/login/otp', async (c) => {
   enforce('login-ip', c.get('ip'), 20, 900, 'auth.tooMany');
   verifyOtp(phone, 'login', otp);
   const user = users.byPhone(phone);
-  if (!user) throw unauthorized('auth.invalid');
+  // Admin faqat parol bilan kiradi (SMS kod demo rejimda sahifada ko'rinadi)
+  if (!user || user.role === 'admin') throw unauthorized('auth.invalid');
   return finishLogin(c, user);
 });
 
@@ -201,7 +204,7 @@ authRoutes.post('/reset', async (c) => {
   const { phone, otp, password } = await body(c, resetRequestSchema);
   verifyOtp(phone, 'reset', otp);
   const user = users.byPhone(phone);
-  if (!user) throw unauthorized('auth.invalid');
+  if (!user || user.role === 'admin') throw unauthorized('auth.invalid');
   const passwordHash = await hashPassword(password);
   run('UPDATE users SET password_hash = ?, failed_logins = 0, lock_until = NULL, updated_at = ? WHERE id = ?', [passwordHash, Date.now(), user.id]);
   revokeAllSessions(user.id);

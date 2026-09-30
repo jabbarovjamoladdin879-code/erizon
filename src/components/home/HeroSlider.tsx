@@ -40,7 +40,7 @@ export function HeroSlider() {
 
   return (
     <section
-      className="relative overflow-hidden rounded-3xl"
+      className="relative overflow-hidden rounded-4xl shadow-lift ring-1 ring-black/5 dark:ring-white/10"
       aria-roledescription="carousel"
       aria-label={t('hero.label')}
       onMouseEnter={() => setPaused(true)}
@@ -60,14 +60,14 @@ export function HeroSlider() {
           aria-label={`${index + 1} / ${SLIDES.length}`}
         >
           <div className="relative z-10 max-w-[68%] sm:max-w-lg">
-            <span className="inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-bold uppercase tracking-wider backdrop-blur">
+            <span className="inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-bold uppercase tracking-wider ring-1 ring-inset ring-white/25 backdrop-blur">
               Erizon Mall
             </span>
-            <h1 className="mt-3 text-2xl font-extrabold leading-tight sm:text-4xl">{t(slide.title)}</h1>
+            <h1 className="mt-3 text-[1.7rem] font-extrabold leading-[1.1] tracking-tight sm:text-5xl">{t(slide.title)}</h1>
             <p className="mt-2 text-sm text-white/85 sm:text-base">{t(slide.text)}</p>
             <Link
               to={slide.href}
-              className="mt-5 inline-flex h-11 items-center rounded-xl bg-white px-5 text-sm font-bold text-slate-900 shadow-lg transition hover:scale-[1.03]"
+              className="mt-5 inline-flex h-12 items-center rounded-2xl bg-white px-6 text-sm font-bold text-slate-900 shadow-xl shadow-black/20 transition hover:scale-[1.03] active:scale-[0.97]"
             >
               {t(slide.cta)}
             </Link>
@@ -81,7 +81,8 @@ export function HeroSlider() {
           >
             {slide.emoji}
           </motion.span>
-          <div aria-hidden="true" className="absolute -left-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
+          <div aria-hidden="true" className="absolute -left-10 -top-10 h-48 w-48 rounded-full bg-white/15 blur-2xl" />
+          <div aria-hidden="true" className="absolute -bottom-20 right-1/4 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
         </motion.div>
       </AnimatePresence>
 

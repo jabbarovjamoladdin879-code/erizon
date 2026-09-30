@@ -16,7 +16,7 @@ function CountBadge({ count, label }: { count: number; label: string }) {
   if (count <= 0) return null;
   return (
     <span
-      className="absolute -right-1 -top-1 grid h-5 min-w-[1.25rem] place-items-center rounded-full bg-accent-500 px-1 text-[11px] font-bold text-white ring-2 ring-white dark:ring-slate-950"
+      className="absolute -right-0.5 -top-0.5 grid h-5 min-w-[1.25rem] place-items-center rounded-full bg-accent-gradient px-1 shadow-sm text-[11px] font-bold text-white ring-2 ring-white dark:ring-slate-950"
       aria-label={label}
     >
       {count > 99 ? '99+' : count}
@@ -26,7 +26,7 @@ function CountBadge({ count, label }: { count: number; label: string }) {
 
 const iconLink = ({ isActive }: { isActive: boolean }) =>
   cn(
-    'relative grid h-10 w-10 place-items-center rounded-xl transition hover:bg-slate-100 dark:hover:bg-slate-800',
+    'relative grid h-10 w-10 place-items-center rounded-full transition hover:bg-brand-50 hover:text-brand-700 active:scale-95 dark:hover:bg-slate-800 dark:hover:text-brand-300',
     isActive ? 'text-brand-700 dark:text-brand-300' : 'text-slate-700 dark:text-slate-200',
   );
 
@@ -49,11 +49,11 @@ export function Header() {
   return (
     <header
       className={cn(
-        'sticky top-0 z-40 border-b bg-white/85 backdrop-blur-xl transition-shadow duration-300 dark:bg-slate-950/85',
-        scrolled ? 'border-slate-200 shadow-soft dark:border-slate-800' : 'border-slate-200/60 dark:border-slate-900',
+        'sticky top-0 z-40 border-b bg-white/75 backdrop-blur-xl backdrop-saturate-150 transition-[box-shadow,background-color] duration-300 dark:bg-slate-950/75',
+        scrolled ? 'border-slate-200/80 bg-white/85 shadow-soft dark:border-slate-800 dark:bg-slate-950/85' : 'border-transparent',
       )}
     >
-      <div className="hidden border-b border-slate-100 bg-slate-50/80 text-xs dark:border-slate-900 dark:bg-slate-900/50 md:block">
+      <div className="hidden border-b border-slate-200/50 text-xs dark:border-slate-800/60 md:block">
         <div className="container-page flex h-8 items-center justify-between text-slate-600 dark:text-slate-400">
           <span className="flex items-center gap-1.5">
             <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
@@ -83,8 +83,10 @@ export function Header() {
             to="/catalog"
             className={({ isActive }) =>
               cn(
-                'rounded-xl px-4 py-2.5 text-sm font-semibold transition',
-                isActive ? 'bg-brand-600 text-white' : 'bg-brand-50 text-brand-700 hover:bg-brand-100 dark:bg-brand-950 dark:text-brand-200',
+                'inline-flex rounded-2xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.97]',
+                isActive
+                  ? 'bg-brand-gradient text-white shadow-glow'
+                  : 'bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-100 hover:bg-brand-100 dark:bg-brand-950 dark:text-brand-200 dark:ring-brand-900',
               )
             }
           >

@@ -10,7 +10,7 @@ export function Logo() {
       </span>
       <span className="block leading-tight">
         <span className="block text-lg font-extrabold tracking-tight">
-          Erizon<span className="text-brand-600 dark:text-brand-400"> Mall</span>
+          Erizon<span className="text-gradient"> Mall</span>
         </span>
         <span className="muted block text-[10px] font-semibold uppercase tracking-[0.18em]">Beruniy</span>
       </span>

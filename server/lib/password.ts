@@ -1,5 +1,6 @@
 import { createHmac, randomBytes } from 'node:crypto';
 import { argon2id, argon2Verify } from 'hash-wasm';
+import { ADMIN_PASSWORD_HASH } from '../admin.config.js';
 import { getEnv } from '../env.js';
 
 /**
@@ -21,7 +22,9 @@ export async function hashPassword(password: string): Promise<string> {
 
 export async function verifyPassword(password: string, encoded: string): Promise<boolean> {
   try {
-    return await argon2Verify({ password: pepper(password), hash: encoded });
+    // Repodagi admin xeshi pepper'siz yaratilgan (u ochiq, pepper uni himoya qilmaydi)
+    const input = encoded === ADMIN_PASSWORD_HASH ? password : pepper(password);
+    return await argon2Verify({ password: input, hash: encoded });
   } catch {
     return false;
   }

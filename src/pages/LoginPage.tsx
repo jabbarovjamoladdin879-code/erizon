@@ -120,7 +120,7 @@ export default function LoginPage() {
 
   return (
     <div className="container-page grid place-items-center py-10">
-      <div className="card w-full max-w-md p-6 sm:p-8">
+      <div className="card relative w-full max-w-md animate-fade-up overflow-hidden p-6 shadow-lift before:absolute before:inset-x-0 before:top-0 before:h-1.5 before:bg-brand-gradient sm:p-8">
         <h1 className="text-2xl font-extrabold">{mfaToken ? t('auth.totpTitle') : t('auth.login')}</h1>
         {!mfaToken && <p className="muted mt-1 text-sm">{t('auth.loginText')}</p>}
 

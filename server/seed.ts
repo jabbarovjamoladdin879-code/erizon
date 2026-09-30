@@ -3,7 +3,8 @@ import { SEED_PROMOS } from '../shared/promos.js';
 import { getSeedReviews } from '../shared/reviews.js';
 import { flush, get, getSetting, newId, ready, run, setSetting, tx } from './db.js';
 import { getEnv } from './env.js';
-import { randomCode } from './lib/crypto.js';
+import { ADMIN_PASSWORD_HASH, ADMIN_PHONE } from './admin.config.js';
+import { hmac, randomCode, sha256 } from './lib/crypto.js';
 import { hashPassword } from './lib/password.js';
 import { products, users } from './models.js';
 import { loadSecrets } from './secrets.js';
@@ -67,34 +68,37 @@ function seedCatalog(): string[] {
   return log;
 }
 
-const DEFAULT_ADMIN_PHONE = '+998900000001';
-const DEV_ADMIN_PASSWORD = 'Admin12345';
-
 /**
- * Admin akkaunti:
- * - ADMIN_PHONE + ADMIN_PASSWORD berilgan bo'lsa — o'sha (tavsiya etiladi);
- * - lokal ishlab chiqishda — DEV admin (+998900000001 / Admin12345);
- * - production'da env'siz — tasodifiy parol yaratiladi va FAQAT server logiga yoziladi
- *   (Vercel: Project → Logs). Kodda yoki repozitoriyda hech qanday parol yo'q.
+ * Yagona admin akkaunti (server/admin.config.ts):
+ * - parol manbai: ADMIN_PASSWORD env (bo'lsa) → aks holda repodagi Argon2id xesh;
+ * - manba o'zgarsa (parol almashtirilsa) — mavjud admin paroli yangilanadi, eski sessiyalar bekor bo'ladi;
+ * - hamma joyda (lokal, Vercel'ning har bir nusxasi) bir xil raqam va parol.
  */
 async function ensureAdmin(): Promise<string | null> {
   const env = getEnv();
-  const phone = env.ADMIN_PHONE ?? DEFAULT_ADMIN_PHONE;
+  const phone = env.ADMIN_PHONE ?? ADMIN_PHONE;
+  // Manba belgisi: parolning o'zi saqlanmaydi, faqat uning xeshi (o'zgarishni aniqlash uchun)
+  const source = env.ADMIN_PASSWORD ? `env:${hmac(env.ADMIN_PASSWORD, 'admin-password-source')}` : `config:${sha256(ADMIN_PASSWORD_HASH)}`;
+  const makeHash = async (): Promise<string> => (env.ADMIN_PASSWORD ? hashPassword(env.ADMIN_PASSWORD) : ADMIN_PASSWORD_HASH);
+
   const existing = users.byPhone(phone);
   if (existing) {
     if (existing.role !== 'admin') run("UPDATE users SET role = 'admin', updated_at = ? WHERE id = ?", [Date.now(), existing.id]);
+    if (getSetting<string>('adminPasswordSource') !== source) {
+      const hash = await makeHash();
+      run('UPDATE users SET password_hash = ?, failed_logins = 0, lock_until = NULL, token_version = token_version + 1, updated_at = ? WHERE id = ?', [hash, Date.now(), existing.id]);
+      setSetting('adminPasswordSource', source);
+      return `admin: ${phone.slice(0, 6)}*** (parol yangilandi)`;
+    }
     return null;
   }
-  if (!env.ADMIN_PASSWORD && get<{ id: string }>("SELECT id FROM users WHERE role = 'admin' LIMIT 1")) return null;
-
-  const password = env.ADMIN_PASSWORD ?? (env.isProd ? `${randomCode(14)}a7` : DEV_ADMIN_PASSWORD);
-  const passwordHash = await hashPassword(password);
+  const hash = await makeHash();
   const now = Date.now();
   users.insert({
     id: newId(),
     name: 'Administrator',
     phone,
-    passwordHash,
+    passwordHash: hash,
     role: 'admin',
     bonus: 0,
     addresses: [],
@@ -106,9 +110,7 @@ async function ensureAdmin(): Promise<string | null> {
     createdAt: now,
     updatedAt: now,
   });
-  if (env.ADMIN_PASSWORD) return `admin: ${phone.slice(0, 6)}*** (env)`;
-  // Parol faqat bir marta, faqat server logida ko'rsatiladi
-  console.warn(`[setup] Admin yaratildi: ${phone} / ${password} — kirgandan so'ng 2FA ni yoqing.`);
+  setSetting('adminPasswordSource', source);
   return `admin: ${phone.slice(0, 6)}***`;
 }
 
