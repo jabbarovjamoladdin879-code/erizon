@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { InputField } from '@/components/ui/Field';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { adminErrorText, useAdminQuery } from '@/hooks/useAdminQuery';
-import { useCountdown } from '@/hooks/useNow';
+import { useCountdown, useNow } from '@/hooks/useNow';
 import { useSeo } from '@/hooks/useSeo';
 import { api } from '@/services/api';
 import { useCatalogStore, useProduct } from '@/store/catalogStore';
@@ -146,7 +146,7 @@ export default function AdminPromosPage() {
     }
   };
 
-  const now = Date.now();
+  const now = useNow(60_000);
 
   return (
     <div className="space-y-6">

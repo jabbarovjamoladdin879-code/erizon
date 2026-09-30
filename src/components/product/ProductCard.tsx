@@ -7,6 +7,7 @@ import { ProductImage } from '@/components/ui/ProductImage';
 import { Stars } from '@/components/ui/Stars';
 import { QTY_MAX, WEIGHT_MAX, WEIGHT_MIN, WEIGHT_STEP } from '@/data/options';
 import { defaultOptionsFor, needsSelection, useProductActions } from '@/hooks/useProductActions';
+import { useNow } from '@/hooks/useNow';
 import { useT } from '@/hooks/useT';
 import { useCartStore } from '@/store/cartStore';
 import { useCatalogStore } from '@/store/catalogStore';
@@ -27,7 +28,8 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
   const isFav = useListsStore((s) => s.favorites.includes(product.id));
   const inCompare = useListsStore((s) => s.compare.includes(product.id));
   const { addToCart, onToggleFavorite, onToggleCompare } = useProductActions();
-  const { price, oldPrice, isDeal } = getEffectivePrice(product, deal, Date.now());
+  const now = useNow(60_000);
+  const { price, oldPrice, isDeal } = getEffectivePrice(product, deal, now);
   const off = discountPercent(price, oldPrice);
   const href = `/product/${product.id}`;
   const select = needsSelection(product);

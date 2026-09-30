@@ -34,6 +34,9 @@ const CSP_DEV = [
   "connect-src 'self' ws: wss:",
 ].join('; ');
 
+/** Lokal API manzili (server/dev.ts); e2e testlar boshqa portda ishga tushiradi */
+const API_TARGET = `http://127.0.0.1:${process.env.API_PORT ?? 3001}`;
+
 function cspPlugin(): Plugin {
   let isDev = false;
   return {
@@ -90,16 +93,16 @@ export default defineConfig({
   server: {
     // Dev: /api so'rovlari lokal backend'ga (server/dev.ts) yo'naltiriladi
     proxy: {
-      '/api': { target: 'http://127.0.0.1:3001', changeOrigin: false },
-      '/sitemap.xml': { target: 'http://127.0.0.1:3001' },
-      '/robots.txt': { target: 'http://127.0.0.1:3001' },
+      '/api': { target: API_TARGET, changeOrigin: false },
+      '/sitemap.xml': { target: API_TARGET },
+      '/robots.txt': { target: API_TARGET },
     },
   },
   preview: {
     proxy: {
-      '/api': { target: 'http://127.0.0.1:3001', changeOrigin: false },
-      '/sitemap.xml': { target: 'http://127.0.0.1:3001' },
-      '/robots.txt': { target: 'http://127.0.0.1:3001' },
+      '/api': { target: API_TARGET, changeOrigin: false },
+      '/sitemap.xml': { target: API_TARGET },
+      '/robots.txt': { target: API_TARGET },
     },
   },
   resolve: {

@@ -31,11 +31,14 @@ npm run dev
 | `npm run dev` | Vite + API birga |
 | `npm run build` | TypeScript tekshiruvi (frontend, backend, testlar) + production build |
 | `npm run preview` | Production build + API lokal |
-| `npm test` | Backend integratsion testlari |
+| `npm test` | Backend integratsion testlari (Vitest) |
+| `npm run e2e` | Brauzer testlari (Playwright): ro'yxatdan o'tish, buyurtma, admin, mobil 390px. Toza xotiradagi baza bilan o'zi ishga tushadi |
 | `npm run lint` | ESLint |
 | `npm run secrets` | Ixtiyoriy: doimiy JWT_SECRET / DATA_SECRET / PASSWORD_PEPPER yaratish |
 
 Zaxira nusxa: `data/erizon.sqlite` faylini nusxalash kifoya (server to'xtatilgan holatda).
+
+**CI:** GitHub Actions (`.github/workflows/ci.yml`) har push va PR'da typecheck, lint, testlar, build va Playwright brauzer testlarini ishga tushiradi. Natija: GitHub → **Actions** bo'limi.
 
 ---
 

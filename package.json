@@ -18,7 +18,8 @@
     "test": "vitest run",
     "secrets": "node -e \"const c=require('crypto');console.log('JWT_SECRET='+c.randomBytes(48).toString('base64url'));console.log('DATA_SECRET='+c.randomBytes(48).toString('base64url'));console.log('PASSWORD_PEPPER='+c.randomBytes(24).toString('base64url'))\"",
     "icons": "node scripts/generate-icons.mjs",
-    "admin:hash": "node scripts/admin-hash.mjs"
+    "admin:hash": "node scripts/admin-hash.mjs",
+    "e2e": "playwright test"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
     "@types/node": "^22.20.4",
     "@types/nodemailer": "^8.0.2",
     "@types/qrcode": "^1.5.6",
