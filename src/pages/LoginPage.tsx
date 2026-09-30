@@ -81,13 +81,13 @@ export default function LoginPage() {
   const applyLogin = useAuthStore((s) => s.applyLogin);
   const fieldError = useFieldError();
   const errorMessage = useErrorMessage();
-  const [mode, setMode] = useState<'password' | 'sms'>('password');
+  const [mode, setMode] = useState<'password' | 'email'>('password');
   const [mfaToken, setMfaToken] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const redirect = safeRedirect(params.get('redirect'));
 
   const pwForm = useForm<LoginForm>({ resolver: zodResolver(loginSchema), defaultValues: { phone: '', password: '' } });
-  const smsForm = useForm<OtpLoginForm>({ resolver: zodResolver(otpLoginFormSchema), defaultValues: { phone: '', otp: '' } });
+  const emailForm = useForm<OtpLoginForm>({ resolver: zodResolver(otpLoginFormSchema), defaultValues: { email: '', otp: '' } });
 
   if (user && !mfaToken) return <Navigate to={user.role === 'admin' && redirect === '/profile' ? '/admin' : redirect} replace />;
 
@@ -109,10 +109,10 @@ export default function LoginPage() {
     }
   });
 
-  const onSms = smsForm.handleSubmit(async (data) => {
+  const onEmail = emailForm.handleSubmit(async (data) => {
     setError(null);
     try {
-      handleResult(await api.auth.loginOtp(normalizePhone(data.phone), data.otp));
+      handleResult(await api.auth.loginOtp(data.email, data.otp));
     } catch (err) {
       setError(errorMessage(err));
     }
@@ -136,7 +136,7 @@ export default function LoginPage() {
         ) : (
           <>
             <div className="mt-5 grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-800" role="tablist" aria-label={t('auth.method')}>
-              {(['password', 'sms'] as const).map((m) => (
+              {(['password', 'email'] as const).map((m) => (
                 <button
                   key={m}
                   type="button"
@@ -148,7 +148,7 @@ export default function LoginPage() {
                   }}
                   className={cn('rounded-lg py-2 text-sm font-semibold transition', mode === m ? 'bg-white shadow-sm dark:bg-slate-900' : 'text-slate-500')}
                 >
-                  {m === 'password' ? t('auth.byPassword') : t('auth.bySms')}
+                  {m === 'password' ? t('auth.byPassword') : t('auth.byEmail')}
                 </button>
               ))}
             </div>
@@ -182,26 +182,29 @@ export default function LoginPage() {
                 </Button>
               </form>
             ) : (
-              <form onSubmit={onSms} noValidate className="mt-5 space-y-4">
-                <Controller
-                  control={smsForm.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <PhoneInput label={t('form.phone')} value={field.value} onChange={field.onChange} onBlur={field.onBlur} ref={field.ref} error={fieldError(smsForm.formState.errors.phone?.message)} />
-                  )}
-                />
-                <OtpSender phone={smsForm.watch('phone')} purpose="login" onDevCode={(code) => smsForm.setValue('otp', code)} />
+              <form onSubmit={onEmail} noValidate className="mt-5 space-y-4">
+                <InputField
+            type="email"
+            label={t('form.email')}
+            autoComplete="email"
+            inputMode="email"
+            maxLength={254}
+            placeholder="namuna@gmail.com"
+            error={fieldError(emailForm.formState.errors.email?.message)}
+            {...emailForm.register('email')}
+          />
+                <OtpSender email={emailForm.watch('email')} purpose="login" onDevCode={(code) => emailForm.setValue('otp', code)} />
                 <InputField
                   label={t('otp.code')}
                   inputMode="numeric"
                   autoComplete="one-time-code"
                   maxLength={6}
                   className="text-center font-mono tracking-[0.4em]"
-                  error={fieldError(smsForm.formState.errors.otp?.message)}
-                  {...smsForm.register('otp')}
+                  error={fieldError(emailForm.formState.errors.otp?.message)}
+                  {...emailForm.register('otp')}
                 />
                 {error && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700 dark:bg-red-950/50 dark:text-red-300">{error}</p>}
-                <Button type="submit" block size="lg" loading={smsForm.formState.isSubmitting}>
+                <Button type="submit" block size="lg" loading={emailForm.formState.isSubmitting}>
                   <KeyRound className="h-4 w-4" aria-hidden="true" />
                   {t('auth.login')}
                 </Button>

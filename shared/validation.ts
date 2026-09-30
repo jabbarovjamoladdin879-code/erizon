@@ -23,6 +23,9 @@ const nameSchema = z
 
 const phoneSchema = z.string().trim().max(20, 'v.phone').refine(isValidPhone, 'v.phone');
 
+/** Email (tasdiqlash kodi shu manzilga yuboriladi) — kichik harflarga keltiriladi */
+export const emailSchema = z.string().trim().toLowerCase().max(254, 'v.email').email('v.email');
+
 const addressSchema = z
   .string()
   .trim()
@@ -85,13 +88,14 @@ export type TrackForm = z.infer<typeof trackSchema>;
 
 export const otpCodeSchema = z.string().trim().regex(/^\d{6}$/, 'otp.format');
 
-export const otpLoginFormSchema = z.object({ phone: phoneSchema, otp: otpCodeSchema });
+export const otpLoginFormSchema = z.object({ email: emailSchema, otp: otpCodeSchema });
 export type OtpLoginForm = z.infer<typeof otpLoginFormSchema>;
 
 export const registerStepSchema = z
   .object({
     name: nameSchema,
     phone: phoneSchema,
+    email: emailSchema,
     password: passwordSchema,
     confirm: z.string().max(64),
     otp: otpCodeSchema,
@@ -105,7 +109,7 @@ export const registerStepSchema = z
 export type RegisterStepForm = z.infer<typeof registerStepSchema>;
 
 export const resetFormSchema = z
-  .object({ phone: phoneSchema, otp: otpCodeSchema, password: passwordSchema, confirm: z.string().max(64) })
+  .object({ email: emailSchema, otp: otpCodeSchema, password: passwordSchema, confirm: z.string().max(64) })
   .refine((v) => v.password === v.confirm, { path: ['confirm'], message: 'v.passMatch' });
 export type ResetForm = z.infer<typeof resetFormSchema>;
 
@@ -188,13 +192,14 @@ export const orderRequestSchema = z
 export type OrderRequest = z.infer<typeof orderRequestSchema>;
 
 export const otpRequestSchema = z
-  .object({ phone: apiPhoneSchema, purpose: z.enum(['register', 'login', 'reset']) })
+  .object({ email: emailSchema, purpose: z.enum(['register', 'login', 'reset']) })
   .strict();
 
 export const registerRequestSchema = z
   .object({
     name: nameSchema,
     phone: apiPhoneSchema,
+    email: emailSchema,
     password: passwordSchema,
     otp: otpCodeSchema,
     referralCode: z.string().trim().toUpperCase().regex(/^([A-Z0-9]{6,10})?$/).optional(),
@@ -205,14 +210,14 @@ export const loginRequestSchema = z
   .object({ phone: apiPhoneSchema, password: z.string().min(1).max(64) })
   .strict();
 
-export const otpLoginRequestSchema = z.object({ phone: apiPhoneSchema, otp: otpCodeSchema }).strict();
+export const otpLoginRequestSchema = z.object({ email: emailSchema, otp: otpCodeSchema }).strict();
 
 export const totpLoginRequestSchema = z
   .object({ mfaToken: z.string().min(20).max(2000), code: otpCodeSchema })
   .strict();
 
 export const resetRequestSchema = z
-  .object({ phone: apiPhoneSchema, otp: otpCodeSchema, password: passwordSchema })
+  .object({ email: emailSchema, otp: otpCodeSchema, password: passwordSchema })
   .strict();
 
 export const profileUpdateSchema = z.object({ name: nameSchema }).strict();

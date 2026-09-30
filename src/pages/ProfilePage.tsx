@@ -421,6 +421,7 @@ export default function ProfilePage() {
           <div>
             <h1 className="text-xl font-extrabold">{user.name}</h1>
             <p className="muted text-sm">{displayPhone(user.phone)}</p>
+            {user.email && <p className="muted break-all text-sm">{user.email}</p>}
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-3">

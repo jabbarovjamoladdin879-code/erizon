@@ -217,6 +217,7 @@ export interface PublicUser {
   id: string;
   name: string;
   phone: string;
+  email?: string;
   role: Role;
   bonus: number;
   addresses: SavedAddress[];

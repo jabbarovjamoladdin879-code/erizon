@@ -24,7 +24,7 @@ npm run dev
 - Sayt: http://localhost:5173 · API: http://127.0.0.1:3001/api/health
 - Baza: `data/erizon.sqlite` (127 mahsulot, sharhlar, promokodlar bilan). Ma'lumotlar server qayta ishga tushganda **saqlanadi**. Tozalash uchun `data/` papkasini o'chiring.
 - Admin: `server/admin.config.ts` dagi raqam va parol — lokal va Vercel'da bir xil. Repoda faqat parolning Argon2id xeshi turadi. Parolni almashtirish: `npm run admin:hash -- "YangiParol123"` → chiqqan xeshni shu faylga qo'ying.
-- SMS provayder ulanmagan bo'lsa, SMS kod sahifada "Namoyish rejimi: kod …" ko'rinishida chiqadi va maydonga avtomatik qo'yiladi.
+- Gmail ulanmagan bo'lsa, tasdiqlash kodi sahifada "Namoyish rejimi: kod …" ko'rinishida chiqadi va maydonga avtomatik qo'yiladi.
 
 | Buyruq | Vazifasi |
 | --- | --- |
@@ -61,17 +61,22 @@ NODE_ENV=production npx tsx server/dev.ts   # API: 3001-port, baza: data/erizon.
 >
 > Doimiy saqlash uchun bir necha env berish foydali: `JWT_SECRET`, `DATA_SECRET` (sessiyalar nusxalar orasida ishlashi uchun).
 
-**SMS:** Eskiz.uz ulanmaguncha kod sahifada ko'rsatiladi (namoyish rejimi) — bu telefon raqamini haqiqatan tasdiqlamaydi. Haqiqiy do'konda `SMS_PROVIDER=eskiz` + `ESKIZ_EMAIL` / `ESKIZ_PASSWORD` bering.
+**Email kod (Gmail):** ro'yxatdan o'tish, email kod bilan kirish va parolni tiklash kodlari Gmail orqali yuboriladi. Ulash (5 daqiqa):
+1. Gmail hisobida **2 bosqichli tekshiruvni** yoqing: https://myaccount.google.com/security
+2. **App password** yarating: https://myaccount.google.com/apppasswords (nomi, masalan, "Erizon") → 16 belgili parol chiqadi.
+3. Vercel → Project → Settings → **Environment Variables**: `GMAIL_USER` = Gmail manzilingiz, `GMAIL_APP_PASSWORD` = o'sha 16 belgi → **Redeploy**.
+
+Ulanmaguncha kod sahifada ko'rsatiladi (namoyish rejimi) — bu emailni haqiqatan tasdiqlamaydi. Oddiy Gmail paroli ishlamaydi, faqat App password. Gmail kuniga ~500 ta xat yuborishga ruxsat beradi.
 
 ---
 
 ## 3. Imkoniyatlar
 
-**Xaridor:** katalog (filtr: kategoriya, bo'lim, brend, narx, chegirma, halol), imlo xatolariga chidamli qidiruv, stories, kun aksiyasi, kombo-to'plamlar, fast-food sozlash, go'sht kesimi/og'irligi, sharhlar (faqat ro'yxatdan o'tganlar), "kelganda xabar berish", solishtirish, sevimlilar, 1 klikda xarid, promokod, bonus/keshbek, sovg'a sertifikati, do'stni taklif qilish (10 000 + 10 000 bonus), buyurtma kuzatuvi (real holat + ETA taymer), qayta buyurtma, bildirishnomalar, SMS kod bilan kirish, parolni tiklash, 3 til, qorong'i rejim, PWA.
+**Xaridor:** katalog (filtr: kategoriya, bo'lim, brend, narx, chegirma, halol), imlo xatolariga chidamli qidiruv, stories, kun aksiyasi, kombo-to'plamlar, fast-food sozlash, go'sht kesimi/og'irligi, sharhlar (faqat ro'yxatdan o'tganlar), "kelganda xabar berish", solishtirish, sevimlilar, 1 klikda xarid, promokod, bonus/keshbek, sovg'a sertifikati, do'stni taklif qilish (10 000 + 10 000 bonus), buyurtma kuzatuvi (real holat + ETA taymer), qayta buyurtma, bildirishnomalar, email kod bilan kirish, parolni email orqali tiklash, 3 til, qorong'i rejim, PWA.
 
 **Admin:** statistika (tushum, 7 kun, ko'p sotilgan/ko'rilgan), mahsulotlar CRUD + **rasm yuklash**, buyurtma holatlari (yetkazilganda keshbek, bekor qilinganda bonus qaytishi, mijozga bildirishnoma), promokodlar (limit, "faqat 1-xarid"), kun aksiyasi, sovg'a sertifikatlari, audit jurnali, 2FA.
 
-**Integratsiyalar (kalitlar berilganda ishlaydi):** Telegram (yangi buyurtma xabari), Eskiz SMS, Payme Merchant API, Click SHOP API.
+**Integratsiyalar (kalitlar berilganda ishlaydi):** Telegram (yangi buyurtma xabari), Gmail (tasdiqlash kodlari), Payme Merchant API, Click SHOP API.
 
 ### Promokodlar (seed)
 `ERIZON10` (10%), `BERUNIY20` (20 000, ≥150 000), `YANGI15` (15%, faqat 1-xarid), `FASTFOOD5`; test uchun: `YOZ2025` (muddati o'tgan), `TEST50` (faol emas).
@@ -93,7 +98,7 @@ NODE_ENV=production npx tsx server/dev.ts   # API: 3001-port, baza: data/erizon.
 | Narx/bonus soxtalashtirish | Summa, chegirma, bonus, yetkazish **faqat serverda** bazadagi narxlardan hisoblanadi; bonus atomik (parallel so'rovda ikki marta sarflanmaydi) |
 | Takroriy buyurtma | `Idempotency-Key` |
 | Admin | Rol serverda tekshiriladi, **TOTP 2FA** (sir AES-256-GCM bilan shifrlangan, replay himoyasi), audit jurnali |
-| SMS kod | 6 xona, HMAC xesh, 5 daq, 5 urinish, qayta so'rash 60 s |
+| Email kod | 6 xona, HMAC xesh, 10 daq, 5 urinish, qayta so'rash 60 s; admin'ga kod berilmaydi (faqat parol) |
 | Buyurtma kuzatuvi | Egasi yoki maxfiy track-token; aks holda "topilmadi" |
 | Fayl yuklash | Faqat PNG/JPEG/WEBP (mazmunidan aniqlanadi), 1.5 MB, `CSP: sandbox`, `nosniff` |
 | To'lovlar | Payme Basic-auth, Click MD5 imzo, summa tekshiruvi, idempotent tranzaksiyalar; holat faqat webhook orqali |

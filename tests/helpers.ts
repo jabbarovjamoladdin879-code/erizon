@@ -98,12 +98,17 @@ export class Client {
   }
 }
 
+/** Test foydalanuvchisining emaili telefon raqamidan hosil qilinadi */
+export const emailFor = (phone: string) => `u${phone.slice(-9)}@example.com`;
+
 export async function registerUser(client: Client, phone: string, name = 'Test User', password = 'parol1234', referralCode?: string) {
-  const otp = await client.req<{ devCode?: string }>('POST', '/api/auth/otp', { phone, purpose: 'register' });
+  const email = emailFor(phone);
+  const otp = await client.req<{ devCode?: string }>('POST', '/api/auth/otp', { email, purpose: 'register' });
   if (!otp.body.devCode) throw new Error(`OTP devCode yo'q: ${JSON.stringify(otp.body)}`);
   return client.req<{ user: { id: string; bonus: number; referralCode: string } }>('POST', '/api/auth/register', {
     name,
     phone,
+    email,
     password,
     otp: otp.body.devCode,
     ...(referralCode ? { referralCode } : {}),

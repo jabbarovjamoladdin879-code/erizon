@@ -10,6 +10,7 @@ export function toPublicUser(u: UserRecord): PublicUser {
     id: u.id,
     name: u.name,
     phone: u.phone,
+    email: u.email,
     role: u.role,
     bonus: u.bonus,
     addresses: u.addresses,

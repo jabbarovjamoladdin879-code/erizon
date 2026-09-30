@@ -6,7 +6,7 @@ import { z } from 'zod';
  * - maxfiy kalitlar (JWT, shifrlash): berilmasa, birinchi ishga tushishda tasodifiy
  *   yaratiladi va bazada saqlanadi (server/secrets.ts);
  * - ruxsat etilgan domen: so'rovning o'z manzili (same-origin) avtomatik qabul qilinadi.
- * Env orqali faqat qo'shimcha sozlash (SMS, to'lov, Telegram, doimiy kalitlar) beriladi.
+ * Env orqali faqat qo'shimcha sozlash (Gmail, to'lov, Telegram, doimiy kalitlar) beriladi.
  */
 const bool = z
   .enum(['true', 'false', '1', '0'])
@@ -30,12 +30,20 @@ const schema = z.object({
   ADMIN_PHONE: optionalStr,
   ADMIN_PASSWORD: optionalStr,
   ADMIN_REQUIRE_2FA: bool,
-  SMS_PROVIDER: z.enum(['console', 'eskiz']).default('console'),
-  /** SMS provayder ulanmagan bo'lsa kod sahifada ko'rsatiladi (standart: true) */
+  /**
+   * Tasdiqlash kodlari Gmail orqali yuboriladi: GMAIL_USER — Gmail manzili,
+   * GMAIL_APP_PASSWORD — Google "App password" (16 belgi; oddiy Gmail paroli ishlamaydi).
+   */
+  GMAIL_USER: optionalStr.pipe(z.string().email("GMAIL_USER — email manzil bo'lishi kerak").optional()),
+  GMAIL_APP_PASSWORD: optionalStr,
+  /** Ixtiyoriy: boshqa SMTP server (standart — smtp.gmail.com:465) */
+  SMTP_HOST: optionalStr,
+  SMTP_PORT: optionalStr.pipe(z.coerce.number().int().min(1).max(65535).optional()),
+  SMTP_SECURE: bool,
+  /** Xat jo'natuvchi nomi (standart: Erizon Mall) */
+  MAIL_FROM_NAME: optionalStr,
+  /** Gmail ulanmagan bo'lsa kod sahifada ko'rsatiladi (standart: true) */
   ALLOW_DEMO_OTP: bool,
-  ESKIZ_EMAIL: optionalStr,
-  ESKIZ_PASSWORD: optionalStr,
-  ESKIZ_FROM: z.string().max(20).default('4546'),
   TELEGRAM_BOT_TOKEN: optionalStr.pipe(z.string().regex(/^\d+:[A-Za-z0-9_-]{20,}$/).optional()),
   TELEGRAM_CHAT_ID: optionalStr.pipe(z.string().regex(/^-?\d+$/).optional()),
   PAYME_MERCHANT_ID: optionalStr,
@@ -58,6 +66,8 @@ export type Env = z.infer<typeof schema> & {
   origins: string[];
   require2fa: boolean;
   demoOtp: boolean;
+  /** Email yuborish sozlamalari (user/pass bo'lmasa — email o'chiq, demo rejim) */
+  mail: { live: boolean; host: string; port: number; secure: boolean; user?: string; pass?: string; fromName: string };
   payme: boolean;
   click: boolean;
 };
@@ -84,7 +94,10 @@ export function getEnv(): Env {
   for (const host of [e.VERCEL_URL, e.VERCEL_BRANCH_URL, e.VERCEL_PROJECT_PRODUCTION_URL]) {
     if (host) origins.add(`https://${host}`);
   }
-  const smsLive = e.SMS_PROVIDER === 'eskiz' && !!e.ESKIZ_EMAIL && !!e.ESKIZ_PASSWORD;
+  // Google App password odatda "abcd efgh ijkl mnop" ko'rinishida beriladi — bo'shliqlar olib tashlanadi
+  const mailPass = e.GMAIL_APP_PASSWORD?.replace(/\s+/g, '') || undefined;
+  const mailLive = !!e.GMAIL_USER && !!mailPass;
+  const mailPort = e.SMTP_PORT ?? 465;
   cached = {
     ...e,
     isProd,
@@ -92,8 +105,17 @@ export function getEnv(): Env {
     databasePath: e.DATABASE_PATH ?? (onVercel ? '/tmp/erizon.sqlite' : 'data/erizon.sqlite'),
     origins: [...origins],
     require2fa: e.ADMIN_REQUIRE_2FA ?? false,
-    // SMS ulanmagan bo'lsa ro'yxatdan o'tish ishlashi uchun kod sahifada ko'rsatiladi
-    demoOtp: e.ALLOW_DEMO_OTP ?? !smsLive,
+    // Gmail ulanmagan bo'lsa ro'yxatdan o'tish ishlashi uchun kod sahifada ko'rsatiladi
+    demoOtp: e.ALLOW_DEMO_OTP ?? !mailLive,
+    mail: {
+      live: mailLive,
+      host: e.SMTP_HOST ?? 'smtp.gmail.com',
+      port: mailPort,
+      secure: e.SMTP_SECURE ?? mailPort === 465,
+      user: e.GMAIL_USER,
+      pass: mailPass,
+      fromName: e.MAIL_FROM_NAME ?? 'Erizon Mall',
+    },
     payme: !!(e.PAYME_MERCHANT_ID && e.PAYME_KEY),
     click: !!(e.CLICK_SERVICE_ID && e.CLICK_MERCHANT_ID && e.CLICK_SECRET_KEY),
   };

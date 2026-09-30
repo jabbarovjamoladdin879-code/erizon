@@ -75,7 +75,7 @@ describe('xavfsizlik sarlavhalari va umumiy himoya', () => {
 describe('autentifikatsiya', () => {
   it('ro\'yxatdan o\'tish: OTP talab qilinadi, parol xeshi qaytmaydi', async () => {
     const c = await new Client(app).init();
-    const bad = await c.req('POST', '/api/auth/register', { name: 'Ali', phone: '+998901110000', password: 'parol1234', otp: '000000' });
+    const bad = await c.req('POST', '/api/auth/register', { name: 'Ali', phone: '+998901110000', email: 'ali@example.com', password: 'parol1234', otp: '000000' });
     expect(bad.status).toBe(400);
     const r = await registerUser(c, '+998901110001', 'Aziza');
     expect(r.status).toBe(201);
@@ -87,8 +87,8 @@ describe('autentifikatsiya', () => {
 
   it('XSS: nomdagi HTML qabul qilinmaydi', async () => {
     const c = await new Client(app).init();
-    const otp = await c.req<{ devCode: string }>('POST', '/api/auth/otp', { phone: '+998901110009', purpose: 'register' });
-    const r = await c.req('POST', '/api/auth/register', { name: '<img src=x onerror=alert(1)>', phone: '+998901110009', password: 'parol1234', otp: otp.body.devCode });
+    const otp = await c.req<{ devCode: string }>('POST', '/api/auth/otp', { email: 'xss@example.com', purpose: 'register' });
+    const r = await c.req('POST', '/api/auth/register', { name: '<img src=x onerror=alert(1)>', phone: '+998901110009', email: 'xss@example.com', password: 'parol1234', otp: otp.body.devCode });
     expect(r.status).toBe(400);
   });
 
@@ -117,19 +117,19 @@ describe('autentifikatsiya', () => {
 
   it('OTP 5 martadan ko\'p noto\'g\'ri kiritilsa bekor bo\'ladi', async () => {
     const c = await new Client(app).init();
-    await c.req('POST', '/api/auth/otp', { phone: '+998901110004', purpose: 'register' });
+    await c.req('POST', '/api/auth/otp', { email: 'bek@example.com', purpose: 'register' });
     for (let i = 0; i < 5; i++) {
-      const r = await c.req('POST', '/api/auth/register', { name: 'Bek', phone: '+998901110004', password: 'parol1234', otp: '111111' });
+      const r = await c.req('POST', '/api/auth/register', { name: 'Bek', phone: '+998901110004', email: 'bek@example.com', password: 'parol1234', otp: '111111' });
       expect(r.body).toMatchObject({ error: { code: 'otp.invalid' } });
     }
-    const r = await c.req('POST', '/api/auth/register', { name: 'Bek', phone: '+998901110004', password: 'parol1234', otp: '111111' });
+    const r = await c.req('POST', '/api/auth/register', { name: 'Bek', phone: '+998901110004', email: 'bek@example.com', password: 'parol1234', otp: '111111' });
     expect(r.body).toMatchObject({ error: { code: 'otp.tooManyAttempts' } });
   });
 
   it('OTP qayta so\'rash 60 soniya cheklangan', async () => {
     const c = await new Client(app).init();
-    expect((await c.req('POST', '/api/auth/otp', { phone: '+998901110005', purpose: 'register' })).status).toBe(200);
-    const again = await c.req('POST', '/api/auth/otp', { phone: '+998901110005', purpose: 'register' });
+    expect((await c.req('POST', '/api/auth/otp', { email: 'cool@example.com', purpose: 'register' })).status).toBe(200);
+    const again = await c.req('POST', '/api/auth/otp', { email: 'cool@example.com', purpose: 'register' });
     expect(again.status).toBe(429);
     expect(again.body).toMatchObject({ error: { code: 'otp.cooldown' } });
   });

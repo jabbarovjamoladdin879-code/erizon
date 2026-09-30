@@ -17,6 +17,8 @@ export interface UserRecord {
   id: string;
   name: string;
   phone: string;
+  /** Tasdiqlangan email (kichik harflarda); eski hisoblarda bo'lmasligi mumkin */
+  email?: string;
   passwordHash: string;
   role: Role;
   bonus: number;
@@ -41,6 +43,7 @@ interface UserRow {
   id: string;
   name: string;
   phone: string;
+  email: string | null;
   password_hash: string;
   role: string;
   bonus: number;
@@ -72,6 +75,7 @@ function toUser(r: UserRow): UserRecord {
     id: r.id,
     name: r.name,
     phone: r.phone,
+    email: r.email ?? undefined,
     passwordHash: r.password_hash,
     role: r.role === 'admin' ? 'admin' : 'customer',
     bonus: r.bonus,
@@ -100,16 +104,20 @@ export const users = {
     const r = get<UserRow>('SELECT * FROM users WHERE phone = ?', [phone]);
     return r && toUser(r);
   },
+  byEmail(email: string): UserRecord | undefined {
+    const r = get<UserRow>('SELECT * FROM users WHERE email = ?', [email.toLowerCase()]);
+    return r && toUser(r);
+  },
   byReferral(code: string): UserRecord | undefined {
     const r = get<UserRow>('SELECT * FROM users WHERE referral_code = ?', [code]);
     return r && toUser(r);
   },
   insert(u: UserRecord): void {
     run(
-      `INSERT INTO users (id, name, phone, password_hash, role, bonus, addresses, referral_code, referred_by, referral_rewarded,
+      `INSERT INTO users (id, name, phone, email, password_hash, role, bonus, addresses, referral_code, referred_by, referral_rewarded,
         failed_logins, totp_enabled, token_version, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?, ?)`,
-      [u.id, u.name, u.phone, u.passwordHash, u.role, u.bonus, JSON.stringify(u.addresses), u.referralCode, u.referredBy ?? null, u.referralRewarded, u.createdAt, u.updatedAt],
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, ?, ?)`,
+      [u.id, u.name, u.phone, u.email?.toLowerCase() ?? null, u.passwordHash, u.role, u.bonus, JSON.stringify(u.addresses), u.referralCode, u.referredBy ?? null, u.referralRewarded, u.createdAt, u.updatedAt],
     );
   },
   count(): number {

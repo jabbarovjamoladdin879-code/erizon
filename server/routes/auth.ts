@@ -59,21 +59,22 @@ authRoutes.get('/me', (c) => {
 });
 
 authRoutes.post('/otp', async (c) => {
-  const { phone, purpose } = await body(c, otpRequestSchema);
-  const existing = users.byPhone(phone);
-  // Enumeratsiyaga qarshi: javob har doim bir xil. Keraksiz holatda SMS yuborilmaydi.
-  // Admin parolini SMS orqali tiklab bo'lmaydi (demo rejimda kod javobda ko'rinadi) —
+  const { email, purpose } = await body(c, otpRequestSchema);
+  const existing = users.byEmail(email);
+  // Enumeratsiyaga qarshi: javob har doim bir xil. Keraksiz holatda xat yuborilmaydi.
+  // Admin email kod bilan kira olmaydi va parolini tiklay olmaydi —
   // u faqat server/admin.config.ts yoki ADMIN_PASSWORD orqali o'rnatiladi.
   const shouldSend = purpose === 'register' ? !existing : !!existing && existing.role !== 'admin';
-  const devCode = await issueOtp(phone, purpose, c.get('ip'), shouldSend);
+  const devCode = await issueOtp(email, purpose, c.get('ip'), shouldSend);
   return c.json({ ok: true, devCode });
 });
 
 authRoutes.post('/register', async (c) => {
   enforce('register-ip', c.get('ip'), 10, 3600);
   const input = await body(c, registerRequestSchema);
-  verifyOtp(input.phone, 'register', input.otp);
+  verifyOtp(input.email, 'register', input.otp);
   if (users.byPhone(input.phone)) throw conflict('auth.exists');
+  if (users.byEmail(input.email)) throw conflict('auth.emailExists');
 
   let referrer: UserRecord | undefined;
   if (input.referralCode) {
@@ -87,6 +88,7 @@ authRoutes.post('/register', async (c) => {
     id: newId(),
     name: cleanText(input.name, 50),
     phone: input.phone,
+    email: input.email,
     passwordHash,
     role: 'customer',
     bonus: 0,
@@ -110,6 +112,7 @@ authRoutes.post('/register', async (c) => {
         } catch (err) {
           if (!isUniqueError(err)) throw err;
           if (String((err as Error).message).includes('phone')) throw conflict('auth.exists');
+          if (String((err as Error).message).includes('email')) throw conflict('auth.emailExists');
           if (attempt >= 3) throw err;
           user.referralCode = randomCode(8);
         }
@@ -154,11 +157,11 @@ authRoutes.post('/login', async (c) => {
 });
 
 authRoutes.post('/login/otp', async (c) => {
-  const { phone, otp } = await body(c, otpLoginRequestSchema);
+  const { email, otp } = await body(c, otpLoginRequestSchema);
   enforce('login-ip', c.get('ip'), 20, 900, 'auth.tooMany');
-  verifyOtp(phone, 'login', otp);
-  const user = users.byPhone(phone);
-  // Admin faqat parol bilan kiradi (SMS kod demo rejimda sahifada ko'rinadi)
+  verifyOtp(email, 'login', otp);
+  const user = users.byEmail(email);
+  // Admin faqat parol bilan kiradi (demo rejimda kod sahifada ko'rinadi)
   if (!user || user.role === 'admin') throw unauthorized('auth.invalid');
   return finishLogin(c, user);
 });
@@ -201,9 +204,9 @@ authRoutes.post('/logout-all', requireUser, (c) => {
 
 authRoutes.post('/reset', async (c) => {
   enforce('reset-ip', c.get('ip'), 10, 3600);
-  const { phone, otp, password } = await body(c, resetRequestSchema);
-  verifyOtp(phone, 'reset', otp);
-  const user = users.byPhone(phone);
+  const { email, otp, password } = await body(c, resetRequestSchema);
+  verifyOtp(email, 'reset', otp);
+  const user = users.byEmail(email);
   if (!user || user.role === 'admin') throw unauthorized('auth.invalid');
   const passwordHash = await hashPassword(password);
   run('UPDATE users SET password_hash = ?, failed_logins = 0, lock_until = NULL, updated_at = ? WHERE id = ?', [passwordHash, Date.now(), user.id]);

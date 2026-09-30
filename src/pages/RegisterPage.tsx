@@ -33,7 +33,7 @@ export default function RegisterPage() {
 
   const { register, handleSubmit, control, formState, watch, setValue } = useForm<RegisterStepForm>({
     resolver: zodResolver(registerStepSchema),
-    defaultValues: { name: '', phone: '', password: '', confirm: '', otp: '', referralCode: refFromLink },
+    defaultValues: { name: '', phone: '', email: '', password: '', confirm: '', otp: '', referralCode: refFromLink },
   });
 
   if (user) return <Navigate to={redirect} replace />;
@@ -45,6 +45,7 @@ export default function RegisterPage() {
       const res = await api.auth.register({
         name: sanitizeText(data.name, 50),
         phone: normalizePhone(data.phone),
+        email: data.email,
         password: data.password,
         otp: data.otp,
         referralCode: data.referralCode || undefined,
@@ -70,7 +71,17 @@ export default function RegisterPage() {
               <PhoneInput label={t('form.phone')} value={field.value} onChange={field.onChange} onBlur={field.onBlur} ref={field.ref} error={fieldError(formState.errors.phone?.message)} />
             )}
           />
-          <OtpSender phone={watch('phone')} purpose="register" onDevCode={(code) => setValue('otp', code)} />
+          <InputField
+            type="email"
+            label={t('form.email')}
+            autoComplete="email"
+            inputMode="email"
+            maxLength={254}
+            placeholder="namuna@gmail.com"
+            error={fieldError(formState.errors.email?.message)}
+            {...register('email')}
+          />
+          <OtpSender email={watch('email')} purpose="register" onDevCode={(code) => setValue('otp', code)} />
           <InputField
             label={t('otp.code')}
             inputMode="numeric"

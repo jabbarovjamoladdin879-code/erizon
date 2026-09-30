@@ -104,12 +104,12 @@ export const api = {
 
   auth: {
     me: () => http.get<{ user: PublicUser | null; mfa: boolean }>('/api/auth/me'),
-    requestOtp: (phone: string, purpose: 'register' | 'login' | 'reset') => http.post<{ ok: true; devCode?: string }>('/api/auth/otp', { phone, purpose }),
-    register: (p: { name: string; phone: string; password: string; otp: string; referralCode?: string }) => http.post<{ user: PublicUser }>('/api/auth/register', p),
+    requestOtp: (email: string, purpose: 'register' | 'login' | 'reset') => http.post<{ ok: true; devCode?: string }>('/api/auth/otp', { email, purpose }),
+    register: (p: { name: string; phone: string; email: string; password: string; otp: string; referralCode?: string }) => http.post<{ user: PublicUser }>('/api/auth/register', p),
     login: (phone: string, password: string) => http.post<LoginResult>('/api/auth/login', { phone, password }),
-    loginOtp: (phone: string, otp: string) => http.post<LoginResult>('/api/auth/login/otp', { phone, otp }),
+    loginOtp: (email: string, otp: string) => http.post<LoginResult>('/api/auth/login/otp', { email, otp }),
     loginTotp: (mfaToken: string, code: string) => http.post<{ user: PublicUser }>('/api/auth/login/totp', { mfaToken, code }),
-    reset: (phone: string, otp: string, password: string) => http.post<{ ok: true }>('/api/auth/reset', { phone, otp, password }),
+    reset: (email: string, otp: string, password: string) => http.post<{ ok: true }>('/api/auth/reset', { email, otp, password }),
     logout: () => http.post<{ ok: true }>('/api/auth/logout'),
     logoutAll: () => http.post<{ ok: true }>('/api/auth/logout-all'),
   },

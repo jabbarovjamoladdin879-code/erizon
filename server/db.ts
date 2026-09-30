@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   phone TEXT NOT NULL UNIQUE,
+  email TEXT,
   password_hash TEXT NOT NULL,
   role TEXT NOT NULL DEFAULT 'customer' CHECK (role IN ('customer','admin')),
   bonus INTEGER NOT NULL DEFAULT 0 CHECK (bonus >= 0),
@@ -165,7 +166,16 @@ async function open(path: string): Promise<Database> {
   }
   database.exec('PRAGMA foreign_keys = OFF;');
   database.exec(SCHEMA);
+  migrate(database);
   return database;
+}
+
+/** Eski bazalarni yangi sxemaga moslash (idempotent) */
+function migrate(database: Database): void {
+  const userCols = database.exec('PRAGMA table_info(users)')[0]?.values.map((row) => String(row[1])) ?? [];
+  if (!userCols.includes('email')) database.exec('ALTER TABLE users ADD COLUMN email TEXT');
+  // NULL qiymatlar takrorlanishi mumkin (emailsiz eski hisoblar), to'ldirilganlari — noyob
+  database.exec('CREATE UNIQUE INDEX IF NOT EXISTS users_email ON users(email)');
 }
 
 /** Bazani ochadi (bir marta; serverless "warm" instansiyalarda qayta ishlatiladi) */
