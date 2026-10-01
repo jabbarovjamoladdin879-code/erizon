@@ -57,7 +57,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
         </Link>
         <div className="pointer-events-none absolute left-2 top-2 flex flex-col items-start gap-1">
           {isDeal && (
-            <span className="rounded bg-accent-500 px-1.5 py-0.5 text-[11px] font-semibold text-white">{t('badge.deal')}</span>
+            <span className="rounded bg-accent-700 px-1.5 py-0.5 text-[11px] font-semibold text-white">{t('badge.deal')}</span>
           )}
           {off > 0 && !isDeal && (
             <span className="rounded bg-red-600 px-1.5 py-0.5 text-[11px] font-semibold text-white">−{off}%</span>

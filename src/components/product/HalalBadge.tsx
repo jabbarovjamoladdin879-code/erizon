@@ -7,7 +7,7 @@ export function HalalBadge({ compact = false }: { compact?: boolean }) {
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 rounded-md bg-emerald-600 font-bold text-white',
+        'inline-flex items-center gap-1 rounded-md bg-emerald-700 font-bold text-white',
         compact ? 'px-1.5 py-0.5 text-[11px]' : 'px-2.5 py-1 text-xs',
       )}
       title={t('badge.halalHint')}

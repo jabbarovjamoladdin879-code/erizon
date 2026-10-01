@@ -373,7 +373,7 @@ export default function AdminProductsPage() {
                     <td className="p-3">{CAT_LABEL[p.categoryId]}</td>
                     <td className="p-3 text-right font-semibold tabular-nums">
                       {formatNumber(p.price)}
-                      {p.oldPrice && <div className="text-xs font-normal text-slate-400 line-through">{formatNumber(p.oldPrice)}</div>}
+                      {p.oldPrice && <div className="text-xs font-normal text-slate-500 line-through dark:text-slate-400">{formatNumber(p.oldPrice)}</div>}
                     </td>
                     <td className="p-3 text-right tabular-nums">{p.views ?? 0}</td>
                     <td className="p-3 text-center">

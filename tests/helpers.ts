@@ -99,7 +99,7 @@ export class Client {
 }
 
 /** Test foydalanuvchisining emaili telefon raqamidan hosil qilinadi */
-export const emailFor = (phone: string) => `u${phone.slice(-9)}@example.com`;
+const emailFor = (phone: string) => `u${phone.slice(-9)}@example.com`;
 
 export async function registerUser(client: Client, phone: string, name = 'Test User', password = 'parol1234', referralCode?: string) {
   const email = emailFor(phone);

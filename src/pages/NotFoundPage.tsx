@@ -12,7 +12,7 @@ export default function NotFoundPage() {
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="text-8xl font-bold text-slate-300 dark:text-slate-700 sm:text-9xl"
+          className="text-8xl font-bold text-slate-500 dark:text-slate-400 sm:text-9xl"
           aria-hidden="true"
         >
           404

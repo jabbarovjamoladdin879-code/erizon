@@ -20,7 +20,7 @@ export const PriceTag = memo(function PriceTag({ price, oldPrice, unit, size = '
       <span
         className={cn(
           'font-bold tracking-tight',
-          oldPrice ? 'text-accent-600 dark:text-accent-400' : 'text-slate-900 dark:text-white',
+          oldPrice ? 'text-accent-700 dark:text-accent-400' : 'text-slate-900 dark:text-white',
           size === 'sm' && 'text-base',
           size === 'md' && 'text-lg',
           size === 'lg' && 'text-3xl',
@@ -30,7 +30,7 @@ export const PriceTag = memo(function PriceTag({ price, oldPrice, unit, size = '
         {perUnit && <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{perUnit}</span>}
       </span>
       {oldPrice && oldPrice > price && (
-        <span className={cn('text-slate-400 line-through', size === 'lg' ? 'text-base' : 'text-xs')}>
+        <span className={cn('text-slate-500 line-through dark:text-slate-400', size === 'lg' ? 'text-base' : 'text-xs')}>
           <span className="sr-only">{t('price.old')}: </span>
           {fmt(oldPrice)}
         </span>

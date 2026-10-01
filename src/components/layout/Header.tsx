@@ -16,7 +16,7 @@ function CountBadge({ count, label }: { count: number; label: string }) {
   if (count <= 0) return null;
   return (
     <span
-      className="absolute -right-0.5 -top-0.5 grid h-5 min-w-[1.25rem] place-items-center rounded-full bg-accent-500 px-1 text-[11px] font-bold text-white ring-2 ring-white dark:ring-slate-950"
+      className="absolute -right-0.5 -top-0.5 grid h-5 min-w-[1.25rem] place-items-center rounded-full bg-accent-700 px-1 text-[11px] font-bold text-white ring-2 ring-white dark:ring-slate-950"
       aria-label={label}
     >
       {count > 99 ? '99+' : count}

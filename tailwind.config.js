@@ -22,6 +22,9 @@ export default {
           400: '#fb923c',
           500: '#f97316',
           600: '#ea580c',
+          // Oq matn uchun (WCAG AA kontrast ≥ 4.5:1)
+          700: '#c2410c',
+          800: '#9a3412',
         },
       },
       fontFamily: {

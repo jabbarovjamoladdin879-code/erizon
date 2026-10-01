@@ -56,8 +56,8 @@ const ComboCard = memo(function ComboCard({ combo }: { combo: Combo }) {
       </ul>
       <div className="mt-4 flex items-end justify-between gap-3">
         <div>
-          <div className="text-xl font-bold text-accent-600 dark:text-accent-400">{fmt(combo.price)}</div>
-          {regular > combo.price && <div className="text-xs text-slate-400 line-through">{fmt(regular)}</div>}
+          <div className="text-xl font-bold text-accent-700 dark:text-accent-400">{fmt(combo.price)}</div>
+          {regular > combo.price && <div className="text-xs text-slate-500 line-through dark:text-slate-400">{fmt(regular)}</div>}
         </div>
         <button
           type="button"

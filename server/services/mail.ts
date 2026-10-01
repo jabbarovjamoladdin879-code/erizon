@@ -46,9 +46,3 @@ export async function sendMail(message: MailMessage): Promise<void> {
     html: message.html,
   });
 }
-
-/** Testlar va sozlama o'zgarganda: transportni qayta yaratish */
-export function resetMailTransport(): void {
-  transport?.value.close();
-  transport = null;
-}

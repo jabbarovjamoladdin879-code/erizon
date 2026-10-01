@@ -115,7 +115,7 @@ function ProductDetails({ product }: { product: Product }) {
         <div>
           <div className="flex flex-wrap items-center gap-2">
             {product.halal && <HalalBadge />}
-            {base.isDeal && <span className="rounded-md bg-accent-500 px-2.5 py-1 text-xs font-bold text-white">{t('badge.deal')}</span>}
+            {base.isDeal && <span className="rounded-md bg-accent-700 px-2.5 py-1 text-xs font-bold text-white">{t('badge.deal')}</span>}
             {product.prepTime && (
               <span className="inline-flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-800 dark:bg-amber-950 dark:text-amber-300">
                 <Timer className="h-3.5 w-3.5" aria-hidden="true" />

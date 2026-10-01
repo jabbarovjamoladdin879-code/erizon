@@ -461,7 +461,7 @@ export default function ProfilePage() {
           >
             <Icon className="h-4 w-4" aria-hidden="true" />
             {label}
-            {!!badge && <span className="rounded-full bg-accent-500 px-1.5 text-[10px] font-bold text-white">{badge}</span>}
+            {!!badge && <span className="rounded-full bg-accent-700 px-1.5 text-[10px] font-bold text-white">{badge}</span>}
           </button>
         ))}
       </div>

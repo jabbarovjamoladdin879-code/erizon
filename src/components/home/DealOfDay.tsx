@@ -42,7 +42,7 @@ export function DealOfDay() {
             <ProductImage icon={product.icon} hue={product.hue} alt="" className="h-28 w-28 rounded-lg border border-slate-200 dark:border-slate-700 sm:h-36 sm:w-36" />
           </Link>
           <div className="min-w-0">
-            <p id="deal-title" className="inline-flex items-center gap-1.5 rounded-md bg-accent-500 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+            <p id="deal-title" className="inline-flex items-center gap-1.5 rounded-md bg-accent-700 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
               <Flame className="h-3.5 w-3.5" aria-hidden="true" />
               {t('deal.title')} · −{off}%
             </p>
@@ -67,7 +67,7 @@ export function DealOfDay() {
             type="button"
             disabled={!product.inStock}
             onClick={() => addToCart(product)}
-            className="inline-flex h-11 items-center gap-2 rounded-lg bg-accent-500 px-5 text-sm font-semibold text-white transition-colors hover:bg-accent-600 disabled:opacity-50"
+            className="inline-flex h-11 items-center gap-2 rounded-lg bg-accent-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-accent-800 disabled:opacity-50"
           >
             <ShoppingCart className="h-4 w-4" aria-hidden="true" />
             {product.inStock ? t('product.addToCart') : t('product.outOfStock')}

@@ -146,7 +146,7 @@ export default function LoginPage() {
                     setMode(m);
                     setError(null);
                   }}
-                  className={cn('rounded-lg py-2 text-sm font-semibold transition', mode === m ? 'bg-white shadow-sm dark:bg-slate-900' : 'text-slate-500')}
+                  className={cn('rounded-lg py-2 text-sm font-semibold transition', mode === m ? 'bg-white shadow-sm dark:bg-slate-900' : 'text-slate-600 dark:text-slate-300')}
                 >
                   {m === 'password' ? t('auth.byPassword') : t('auth.byEmail')}
                 </button>
@@ -184,15 +184,15 @@ export default function LoginPage() {
             ) : (
               <form onSubmit={onEmail} noValidate className="mt-5 space-y-4">
                 <InputField
-            type="email"
-            label={t('form.email')}
-            autoComplete="email"
-            inputMode="email"
-            maxLength={254}
-            placeholder="namuna@gmail.com"
-            error={fieldError(emailForm.formState.errors.email?.message)}
-            {...emailForm.register('email')}
-          />
+                  type="email"
+                  label={t('form.email')}
+                  autoComplete="email"
+                  inputMode="email"
+                  maxLength={254}
+                  placeholder="namuna@gmail.com"
+                  error={fieldError(emailForm.formState.errors.email?.message)}
+                  {...emailForm.register('email')}
+                />
                 <OtpSender email={emailForm.watch('email')} purpose="login" onDevCode={(code) => emailForm.setValue('otp', code)} />
                 <InputField
                   label={t('otp.code')}

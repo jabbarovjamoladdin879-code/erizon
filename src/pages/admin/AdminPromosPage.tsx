@@ -79,7 +79,7 @@ function DealManager() {
       {deal && dealProduct && !done ? (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-accent-400/10 p-4 text-sm">
           <div>
-            <b>{dealProduct.name}</b> — {formatNumber(deal.dealPrice)} so'm <span className="text-slate-400 line-through">{formatNumber(dealProduct.price)}</span>
+            <b>{dealProduct.name}</b> — {formatNumber(deal.dealPrice)} so'm <span className="text-slate-500 line-through dark:text-slate-400">{formatNumber(dealProduct.price)}</span>
             <div className="muted text-xs">Tugashiga: {pad2(hours)}:{pad2(minutes)}:{pad2(seconds)}</div>
           </div>
           <Button variant="outline" size="sm" onClick={() => void end()}>Hozir yakunlash</Button>

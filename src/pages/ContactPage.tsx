@@ -35,7 +35,7 @@ export default function ContactPage() {
             </li>
           ))}
           <li className="card flex gap-3 p-5">
-            <a href={STORE_INFO.telegram} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center gap-2 rounded-xl bg-sky-500 px-4 text-sm font-semibold text-white hover:bg-sky-600">
+            <a href={STORE_INFO.telegram} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center gap-2 rounded-lg bg-sky-700 px-4 text-sm font-semibold text-white hover:bg-sky-800">
               <Send className="h-4 w-4" aria-hidden="true" /> Telegram
             </a>
             <a href={STORE_INFO.instagram} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center gap-2 rounded-xl bg-pink-600 px-4 text-sm font-semibold text-white hover:bg-pink-700">

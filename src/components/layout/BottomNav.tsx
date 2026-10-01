@@ -53,7 +53,7 @@ export function BottomNav() {
                   <span className={cn('relative grid h-8 w-12 place-items-center rounded-xl transition', isActive && 'text-brand-700 dark:text-brand-300')}>
                     <Icon className="h-5 w-5" strokeWidth={isActive ? 2.4 : 2} aria-hidden="true" />
                     {count > 0 && (
-                      <span className="absolute -top-1 right-1 grid h-4 min-w-[1rem] place-items-center rounded-full bg-accent-500 px-1 text-[10px] font-bold text-white ring-2 ring-white dark:ring-slate-900">
+                      <span className="absolute -top-1 right-1 grid h-4 min-w-[1rem] place-items-center rounded-full bg-accent-700 px-1 text-[10px] font-bold text-white ring-2 ring-white dark:ring-slate-900">
                         {count > 99 ? '99+' : count}
                       </span>
                     )}
