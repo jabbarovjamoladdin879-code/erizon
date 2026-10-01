@@ -14,14 +14,14 @@ export async function notifyNewOrder(order: OrderRecord): Promise<void> {
   const method = { delivery: 'Yetkazib berish', pickup: "O'zi olib ketish", quick: '1 klik (operator qo\'ng\'iroq qiladi)' }[order.deliveryMethod];
   const lines = order.lines.map((l) => `• ${l.name} × ${l.qty}${l.optionsLabel ? ` (${l.optionsLabel})` : ''} — ${formatSum(l.lineTotal)}`);
   const text = [
-    `🛒 Yangi buyurtma ${order.id}`,
-    `👤 ${order.customerName}, ${order.phone}`,
-    `🚚 ${method}${order.zoneId ? `: ${ZONE_MAP[order.zoneId]?.name ?? ''}` : ''}${order.address ? `, ${order.address}` : ''}`,
-    `🕒 ${order.deliveryTime === 'asap' ? 'Imkon qadar tez' : order.deliveryTime}`,
-    `💳 ${order.paymentMethod}`,
+    `Yangi buyurtma: ${order.id}`,
+    `Mijoz: ${order.customerName}, ${order.phone}`,
+    `Yetkazish: ${method}${order.zoneId ? `: ${ZONE_MAP[order.zoneId]?.name ?? ''}` : ''}${order.address ? `, ${order.address}` : ''}`,
+    `Vaqt: ${order.deliveryTime === 'asap' ? 'Imkon qadar tez' : order.deliveryTime}`,
+    `To'lov: ${order.paymentMethod}`,
     ...lines,
     `Jami: ${formatSum(order.total)}`,
-    order.comment ? `💬 ${order.comment}` : '',
+    order.comment ? `Izoh: ${order.comment}` : '',
   ]
     .filter(Boolean)
     .join('\n')

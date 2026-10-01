@@ -13,7 +13,7 @@ export function Accordion({ items }: { items: AccordionItem[] }) {
   const [openId, setOpenId] = useState<string | null>(items[0]?.id ?? null);
   const baseId = useId();
   return (
-    <div className="divide-y divide-slate-200 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:divide-slate-800 dark:border-slate-800 dark:bg-slate-900">
+    <div className="divide-y divide-slate-200 overflow-hidden rounded-xl border border-slate-200 bg-white dark:divide-slate-800 dark:border-slate-800 dark:bg-slate-900">
       {items.map((item) => {
         const open = openId === item.id;
         const panelId = `${baseId}-${item.id}`;

@@ -32,7 +32,7 @@ export function toProduct(p: ProductRecord, includeAdmin = false): Product {
     description: p.description,
     unit: p.unit,
     inStock: p.inStock,
-    emoji: p.emoji,
+    icon: p.icon,
     hue: p.hue,
     createdAt: p.createdAt,
     popularity: p.popularity,

@@ -66,7 +66,7 @@ export default function AdminSecurityPage() {
 
   return (
     <div className="max-w-2xl space-y-5">
-      <h1 className="text-2xl font-extrabold">Xavfsizlik</h1>
+      <h1 className="text-2xl font-bold">Xavfsizlik</h1>
       <section className="card space-y-4 p-5">
         <div className="flex items-center gap-3">
           {user.totpEnabled ? <ShieldCheck className="h-7 w-7 text-emerald-600" aria-hidden="true" /> : <ShieldOff className="h-7 w-7 text-amber-600" aria-hidden="true" />}

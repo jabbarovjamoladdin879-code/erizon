@@ -5,7 +5,7 @@ export const COMBOS: Combo[] = [
   {
     id: 'combo-plov',
     nameKey: 'combo.plov',
-    emoji: '🍛',
+    icon: 'CookingPot',
     hue: 32,
     price: 165_000,
     items: [
@@ -20,7 +20,7 @@ export const COMBOS: Combo[] = [
   {
     id: 'combo-family',
     nameKey: 'combo.family',
-    emoji: '🍔',
+    icon: 'Pizza',
     hue: 18,
     price: 209_000,
     items: [
@@ -34,7 +34,7 @@ export const COMBOS: Combo[] = [
   {
     id: 'combo-breakfast',
     nameKey: 'combo.breakfast',
-    emoji: '🥐',
+    icon: 'Croissant',
     hue: 45,
     price: 99_000,
     items: [
@@ -48,7 +48,7 @@ export const COMBOS: Combo[] = [
   {
     id: 'combo-clean',
     nameKey: 'combo.clean',
-    emoji: '🧼',
+    icon: 'SprayCan',
     hue: 190,
     price: 109_000,
     items: [

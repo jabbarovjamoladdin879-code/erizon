@@ -42,8 +42,8 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="container-page grid place-items-center py-10">
-      <div className="card relative w-full max-w-md animate-fade-up overflow-hidden p-6 shadow-lift before:absolute before:inset-x-0 before:top-0 before:h-1.5 before:bg-brand-gradient sm:p-8">
-        <h1 className="text-2xl font-extrabold">{t('auth.resetTitle')}</h1>
+      <div className="card relative w-full max-w-md overflow-hidden p-6 shadow-sm sm:p-8">
+        <h1 className="text-2xl font-bold">{t('auth.resetTitle')}</h1>
         <p className="muted mt-1 text-sm">{t('auth.resetText')}</p>
         <form onSubmit={onSubmit} noValidate className="mt-6 space-y-4">
           <InputField

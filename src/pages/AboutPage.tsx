@@ -15,14 +15,14 @@ export default function AboutPage() {
   useSeo(t('nav.about'), t('seo.about'));
   return (
     <div className="container-page py-6">
-      <section className="overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 via-brand-600 to-accent-500 p-8 text-white sm:p-12">
-        <h1 className="max-w-2xl text-3xl font-extrabold leading-tight sm:text-4xl">{t('about.title')}</h1>
+      <section className="overflow-hidden rounded-xl bg-brand-800 p-8 text-white sm:p-12">
+        <h1 className="max-w-2xl text-3xl font-bold leading-tight sm:text-4xl">{t('about.title')}</h1>
         <p className="mt-3 max-w-2xl text-white/85">{t('about.lead')}</p>
       </section>
       <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {STATS.map((s) => (
           <li key={s.key} className="card p-5 text-center">
-            <div className="text-3xl font-extrabold text-brand-700 dark:text-brand-300">{s.value}</div>
+            <div className="text-3xl font-bold text-brand-700 dark:text-brand-300">{s.value}</div>
             <div className="muted mt-1 text-sm">{t(s.key)}</div>
           </li>
         ))}

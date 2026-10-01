@@ -1,3 +1,4 @@
+import type { IconName } from './icons.js';
 /**
  * Frontend va backend uchun umumiy tiplar.
  * DIQQAT: shared/ ichidagi importlar `.js` kengaytmasi bilan yoziladi (Node ESM / Vercel talabi).
@@ -44,9 +45,9 @@ export interface Product {
   description: string;
   unit: Unit;
   inStock: boolean;
-  /** Rasm bo'lmasa ishlatiladigan emoji (lokal SVG placeholder yaratiladi) */
-  emoji: string;
-  /** Gradient rang tusi (0–360) */
+  /** Rasm bo'lmasa ko'rsatiladigan ikonka (lucide nomi) */
+  icon: IconName;
+  /** Fon rang tusi (0–360) */
   hue: number;
   createdAt: string;
   popularity: number;
@@ -71,7 +72,7 @@ export interface Product {
 
 export interface Category {
   id: CategoryId;
-  emoji: string;
+  icon: IconName;
   hue: number;
 }
 
@@ -85,7 +86,7 @@ export interface Combo {
   nameKey: 'combo.plov' | 'combo.family' | 'combo.breakfast' | 'combo.clean';
   items: ComboItem[];
   price: number;
-  emoji: string;
+  icon: IconName;
   hue: number;
 }
 

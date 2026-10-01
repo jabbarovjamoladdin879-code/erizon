@@ -6,9 +6,11 @@ import { Eye, ImagePlus, Pencil, Plus, Search, Trash2, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { InputField, TextareaField } from '@/components/ui/Field';
 import { Modal } from '@/components/ui/Modal';
+import { AppIcon } from '@/components/ui/AppIcon';
 import { ProductImage } from '@/components/ui/ProductImage';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { CATEGORIES } from '@/data/categories';
+import { DEFAULT_ICON, ICON_NAMES } from '@/data/icons';
 import { adminErrorText, useAdminQuery } from '@/hooks/useAdminQuery';
 import { useSeo } from '@/hooks/useSeo';
 import { api, type AdminProductInput } from '@/services/api';
@@ -46,7 +48,7 @@ const schema = z
     unit: z.enum(UNITS),
     inStock: z.boolean(),
     description: z.string().trim().min(10, 'Kamida 10 ta belgi').max(600, "Ko'pi bilan 600 ta belgi").regex(SAFE, 'Ruxsat etilmagan belgilar'),
-    emoji: z.string().trim().min(1, 'Emoji kiriting').max(8, 'Faqat 1 ta emoji'),
+    icon: z.enum(ICON_NAMES, { message: 'Ikonkani tanlang' }),
     manufacturer: z.string().trim().max(80, 'Juda uzun').regex(SAFE, 'Ruxsat etilmagan belgilar'),
     expiry: z.string().trim().max(60, 'Juda uzun').regex(SAFE, 'Ruxsat etilmagan belgilar'),
     halal: z.boolean(),
@@ -68,7 +70,7 @@ function toForm(p?: Product): Form {
     unit: p?.unit ?? 'pcs',
     inStock: p?.inStock ?? true,
     description: p?.description ?? '',
-    emoji: p?.emoji ?? '📦',
+    icon: p?.icon ?? DEFAULT_ICON,
     manufacturer: p?.manufacturer ?? '',
     expiry: p?.expiry ?? '',
     halal: p?.halal ?? false,
@@ -170,7 +172,7 @@ function ProductForm({ product, onDone }: { product?: Product; onDone: (p: Produ
       unit: v.unit,
       inStock: v.inStock,
       description: sanitizeText(v.description, 600),
-      emoji: sanitizeText(v.emoji, 8) || '📦',
+      icon: v.icon,
       manufacturer: clean(v.manufacturer, 80),
       expiry: clean(v.expiry, 60),
       halal: v.halal,
@@ -194,7 +196,7 @@ function ProductForm({ product, onDone }: { product?: Product; onDone: (p: Produ
         <div>
           <label htmlFor="pf-cat" className="label">Kategoriya</label>
           <select id="pf-cat" className="input" {...register('categoryId')}>
-            {CATEGORIES.map((c) => <option key={c.id} value={c.id}>{c.emoji} {CAT_LABEL[c.id]}</option>)}
+            {CATEGORIES.map((c) => <option key={c.id} value={c.id}>{CAT_LABEL[c.id]}</option>)}
           </select>
         </div>
         <div>
@@ -205,7 +207,18 @@ function ProductForm({ product, onDone }: { product?: Product; onDone: (p: Produ
         </div>
         <InputField label="Narx (so'm)" inputMode="numeric" maxLength={9} error={err.price?.message} {...register('price')} />
         <InputField label="Eski narx (ixtiyoriy)" inputMode="numeric" maxLength={9} error={err.oldPrice?.message} {...register('oldPrice')} />
-        <InputField label="Emoji (rasm bo'lmasa)" maxLength={8} error={err.emoji?.message} {...register('emoji')} />
+        <div>
+          <label htmlFor="pf-icon" className="label">Ikonka (rasm bo'lmasa)</label>
+          <div className="flex items-center gap-2">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg border border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300">
+              <AppIcon name={watch('icon')} className="h-5 w-5" />
+            </span>
+            <select id="pf-icon" className="input" aria-invalid={!!err.icon} {...register('icon')}>
+              {ICON_NAMES.map((n) => <option key={n} value={n}>{n}</option>)}
+            </select>
+          </div>
+          {err.icon?.message && <p role="alert" className="mt-1 text-xs font-medium text-red-600">{err.icon.message}</p>}
+        </div>
         <InputField label="Ishlab chiqaruvchi (brend)" maxLength={80} error={err.manufacturer?.message} {...register('manufacturer')} />
         <InputField label="Yaroqlilik muddati" maxLength={60} error={err.expiry?.message} {...register('expiry')} />
         {category === 'fastfood' && (
@@ -285,7 +298,7 @@ export default function AdminProductsPage() {
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-extrabold">Mahsulotlar <span className="muted text-base font-medium">({products?.length ?? '…'})</span></h1>
+        <h1 className="text-2xl font-bold">Mahsulotlar <span className="muted text-base font-medium">({products?.length ?? '…'})</span></h1>
         <Button size="sm" onClick={() => setEditing('new')}>
           <Plus className="h-4 w-4" aria-hidden="true" /> Yangi mahsulot
         </Button>
@@ -312,7 +325,7 @@ export default function AdminProductsPage() {
           <ul className="space-y-2 md:hidden">
             {list.map((p) => (
               <li key={p.id} className="card flex items-center gap-3 p-3">
-                <ProductImage emoji={p.emoji} hue={p.hue} src={p.images?.[0]} alt="" className="h-14 w-14 shrink-0 rounded-xl" />
+                <ProductImage icon={p.icon} hue={p.hue} src={p.images?.[0]} alt="" className="h-14 w-14 shrink-0 rounded-xl" />
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-sm font-semibold">{p.name}</div>
                   <div className="muted truncate text-xs">{CAT_LABEL[p.categoryId]} · <Eye className="inline h-3 w-3" aria-label="ko'rishlar" /> {p.views ?? 0}</div>
@@ -350,7 +363,7 @@ export default function AdminProductsPage() {
                   <tr key={p.id} className="border-t border-slate-100 dark:border-slate-800">
                     <td className="p-3">
                       <div className="flex items-center gap-3">
-                        <ProductImage emoji={p.emoji} hue={p.hue} src={p.images?.[0]} alt="" className="h-10 w-10 shrink-0 rounded-lg" />
+                        <ProductImage icon={p.icon} hue={p.hue} src={p.images?.[0]} alt="" className="h-10 w-10 shrink-0 rounded-lg" />
                         <div className="min-w-0">
                           <div className="truncate font-medium">{p.name}</div>
                           <div className="muted font-mono text-xs">{p.id}</div>

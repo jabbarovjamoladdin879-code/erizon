@@ -37,7 +37,7 @@ export function LangSwitcher() {
       {open && (
         <ul
           role="menu"
-          className="absolute right-0 top-full z-50 mt-2 w-44 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 shadow-lift dark:border-slate-700 dark:bg-slate-900"
+          className="absolute right-0 top-full z-50 mt-2 w-44 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 shadow-sm dark:border-slate-700 dark:bg-slate-900"
           onKeyDown={(e) => e.key === 'Escape' && setOpen(false)}
         >
           {LANGS.map((l) => (

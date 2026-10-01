@@ -59,8 +59,8 @@ export default function RegisterPage() {
 
   return (
     <div className="container-page grid place-items-center py-10">
-      <div className="card relative w-full max-w-md animate-fade-up overflow-hidden p-6 shadow-lift before:absolute before:inset-x-0 before:top-0 before:h-1.5 before:bg-brand-gradient sm:p-8">
-        <h1 className="text-2xl font-extrabold">{t('auth.register')}</h1>
+      <div className="card relative w-full max-w-md overflow-hidden p-6 shadow-sm sm:p-8">
+        <h1 className="text-2xl font-bold">{t('auth.register')}</h1>
         <p className="muted mt-1 text-sm">{t('auth.registerText')}</p>
         <form onSubmit={onSubmit} noValidate className="mt-6 space-y-4">
           <InputField label={t('form.name')} autoComplete="name" maxLength={50} error={fieldError(formState.errors.name?.message)} {...register('name')} />

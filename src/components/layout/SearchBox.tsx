@@ -103,7 +103,7 @@ export function SearchBox({ className }: { className?: string }) {
             }}
             onFocus={() => setOpen(true)}
             onKeyDown={onKeyDown}
-            className="h-11 w-full rounded-2xl border border-slate-200/80 bg-slate-100/70 pl-10 pr-10 text-sm outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-500/15 dark:border-slate-700/70 dark:bg-slate-800/70 dark:focus:bg-slate-900 [&::-webkit-search-cancel-button]:hidden"
+            className="h-11 w-full rounded-xl border border-slate-200/80 bg-slate-100/70 pl-10 pr-10 text-sm outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-brand-500 focus:bg-white focus:ring-4 focus:ring-brand-500/15 dark:border-slate-700/70 dark:bg-slate-800/70 dark:focus:bg-slate-900 [&::-webkit-search-cancel-button]:hidden"
           />
           {value && (
             <button
@@ -125,7 +125,7 @@ export function SearchBox({ className }: { className?: string }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.15 }}
-            className="absolute inset-x-0 top-full z-50 mt-2 overflow-hidden rounded-3xl border border-slate-200/70 bg-white/95 shadow-float backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/95"
+            className="absolute inset-x-0 top-full z-50 mt-1 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900"
           >
             {suggestions.length === 0 ? (
               <p className="muted px-4 py-5 text-center text-sm">{t('search.noResults')}</p>
@@ -142,7 +142,7 @@ export function SearchBox({ className }: { className?: string }) {
                     onMouseEnter={() => setActive(i)}
                     className={cn('flex cursor-pointer items-center gap-3 px-3 py-2', active === i && 'bg-brand-50 dark:bg-slate-800')}
                   >
-                    <ProductImage emoji={p.emoji} hue={p.hue} alt="" className="h-10 w-10 shrink-0 rounded-lg" />
+                    <ProductImage icon={p.icon} hue={p.hue} alt="" className="h-10 w-10 shrink-0 rounded-lg" />
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-medium">{p.name}</div>
                       <div className="muted text-xs">{t(`cat.${p.categoryId}`)}</div>

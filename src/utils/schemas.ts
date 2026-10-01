@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ICON_NAMES } from '@/data/icons';
 import { CATEGORY_IDS, MEAT_CUTS, UNITS } from '@/types';
 
 /**
@@ -21,7 +22,7 @@ export const productSchema = z.object({
   description: shortStr(1000),
   unit: z.enum(UNITS),
   inStock: z.boolean(),
-  emoji: shortStr(16),
+  icon: z.enum(ICON_NAMES),
   hue: z.number().min(0).max(360),
   createdAt: shortStr(40),
   popularity: z.number().min(0),

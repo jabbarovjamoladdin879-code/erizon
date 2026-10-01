@@ -11,7 +11,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-16 border-t border-slate-200/70 bg-white/70 pb-24 backdrop-blur-xl dark:border-white/[0.06] dark:bg-slate-900/60 md:pb-0">
+    <footer className="mt-16 border-t border-slate-200 bg-white pb-20 dark:border-slate-800 dark:bg-slate-900 md:pb-0">
       <div className="container-page grid grid-cols-2 gap-x-6 gap-y-8 py-8 sm:py-10 lg:grid-cols-4">
         <div className="col-span-2 lg:col-span-1">
           <Logo />
@@ -20,7 +20,7 @@ export function Footer() {
             <button
               type="button"
               onClick={() => void install()}
-              className="mt-4 inline-flex items-center gap-2 rounded-2xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:brightness-110 active:scale-[0.97]"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700"
             >
               <Download className="h-4 w-4" aria-hidden="true" />
               {t('footer.install')}

@@ -1,14 +1,15 @@
-import { memo, useState } from 'react';
-import { ImageOff } from 'lucide-react';
+import { memo, useState, type CSSProperties } from 'react';
 import { cn } from '@/utils/cn';
-import { productImage } from '@/utils/image';
+import { AppIcon } from './AppIcon';
 
 interface ProductImageProps {
-  emoji: string;
+  /** Rasm bo'lmasa ko'rsatiladigan ikonka (lucide nomi) */
+  icon: string;
   hue: number;
   alt: string;
   /** Admin yuklagan haqiqiy rasm (/api/images/<id>) */
   src?: string;
+  /** Galereya ko'rinishlari uchun fon ohangi */
   variant?: number;
   className?: string;
   eager?: boolean;
@@ -16,29 +17,34 @@ interface ProductImageProps {
 
 const SAFE_SRC = /^\/api\/images\/[a-f0-9]{24}$/;
 
-/** Haqiqiy rasm → lokal SVG placeholder → gradient + ikonka (har bosqichda zaxira bor) */
-export const ProductImage = memo(function ProductImage({ emoji, hue, alt, src, variant = 0, className, eager }: ProductImageProps) {
-  const [stage, setStage] = useState<0 | 1 | 2>(src && SAFE_SRC.test(src) ? 0 : 1);
-  if (stage === 2) {
+/** Haqiqiy rasm; bo'lmasa (yoki yuklanmasa) — bosiq fonda chiziqli ikonka */
+export const ProductImage = memo(function ProductImage({ icon, hue, alt, src, variant = 0, className, eager }: ProductImageProps) {
+  const [failed, setFailed] = useState(false);
+  if (src && SAFE_SRC.test(src) && !failed) {
     return (
-      <div
-        role="img"
-        aria-label={alt}
-        className={cn('grid place-items-center bg-gradient-to-br from-brand-100 to-accent-400/30 dark:from-brand-950 dark:to-slate-800', className)}
-      >
-        <ImageOff className="h-10 w-10 text-brand-400" aria-hidden="true" />
-      </div>
+      <img
+        src={src}
+        alt={alt}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+        draggable={false}
+        onError={() => setFailed(true)}
+        className={cn('bg-slate-100 object-cover dark:bg-slate-800', className)}
+      />
     );
   }
   return (
-    <img
-      src={stage === 0 && src ? src : productImage(emoji, hue, variant)}
-      alt={alt}
-      loading={eager ? 'eager' : 'lazy'}
-      decoding="async"
-      draggable={false}
-      onError={() => setStage((s) => (s === 0 ? 1 : 2))}
-      className={cn('bg-slate-100 object-cover dark:bg-slate-800', className)}
-    />
+    <div
+      role="img"
+      aria-label={alt || undefined}
+      aria-hidden={alt ? undefined : true}
+      style={{ '--h': ((hue % 360) + 360) % 360, '--l': `${96 - (variant % 3) * 2}%` } as CSSProperties}
+      className={cn(
+        'grid place-items-center bg-[hsl(var(--h)_25%_var(--l))] text-[hsl(var(--h)_30%_38%)] dark:bg-[hsl(var(--h)_12%_16%)] dark:text-[hsl(var(--h)_25%_70%)]',
+        className,
+      )}
+    >
+      <AppIcon name={icon} className="h-auto w-[38%]" strokeWidth={1.25} />
+    </div>
   );
 });

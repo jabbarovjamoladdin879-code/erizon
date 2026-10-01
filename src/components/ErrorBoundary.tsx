@@ -39,7 +39,7 @@ export class ErrorBoundary extends Component<Props, State> {
     return (
       <div className="container-page grid min-h-[60vh] place-items-center py-16" role="alert">
         <div className="max-w-md text-center">
-          <div className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-2xl bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-400">
+          <div className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-xl bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-400">
             <AlertTriangle className="h-8 w-8" aria-hidden="true" />
           </div>
           <h1 className="text-2xl font-bold">{t('error.title')}</h1>
@@ -48,7 +48,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <button
               type="button"
               onClick={() => this.setState({ hasError: false })}
-              className="inline-flex h-11 items-center gap-2 rounded-2xl bg-brand-gradient shadow-glow transition hover:brightness-110 active:scale-[0.97] px-5 text-sm font-semibold text-white"
+              className="inline-flex h-11 items-center gap-2 rounded-xl bg-brand-600 transition hover:bg-brand-700 px-5 text-sm font-semibold text-white"
             >
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
               {t('error.retry')}

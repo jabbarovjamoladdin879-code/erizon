@@ -52,7 +52,7 @@ function OrdersTab() {
       <EmptyState
         icon={Package}
         title={t('profile.noOrders')}
-        action={<Link to="/catalog" className="inline-flex h-11 items-center rounded-2xl bg-brand-gradient shadow-glow transition hover:brightness-110 active:scale-[0.97] px-5 text-sm font-semibold text-white">{t('cart.goShopping')}</Link>}
+        action={<Link to="/catalog" className="inline-flex h-11 items-center rounded-xl bg-brand-600 transition hover:bg-brand-700 px-5 text-sm font-semibold text-white">{t('cart.goShopping')}</Link>}
       />
     );
   }
@@ -77,7 +77,7 @@ function OrdersTab() {
             >
               {t(`status.${o.status}`)}
             </span>
-            <span className="font-extrabold">{fmt(o.total)}</span>
+            <span className="font-bold">{fmt(o.total)}</span>
             <Button size="sm" variant="ghost" onClick={() => reorder(o)} aria-label={`${t('reorder.button')}: ${o.id}`}>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
               <span className="hidden sm:inline">{t('reorder.button')}</span>
@@ -141,7 +141,7 @@ function BonusTab() {
     <div className="grid gap-4 md:grid-cols-2">
       <div className="card p-5">
         <div className="muted text-sm">{t('profile.balance')}</div>
-        <div className="mt-1 text-3xl font-extrabold text-amber-600">{fmt(data?.balance ?? user.bonus)}</div>
+        <div className="mt-1 text-3xl font-bold text-amber-600">{fmt(data?.balance ?? user.bonus)}</div>
         <ul className="muted mt-3 list-disc space-y-1 pl-5 text-xs">
           <li>{t('profile.bonusRule1', { p: CASHBACK_PERCENT })}</li>
           <li>{t('profile.bonusRule2', { p: Math.round(BONUS_MAX_SHARE * 100) })}</li>
@@ -415,11 +415,11 @@ export default function ProfilePage() {
     <div className="container-page py-6">
       <div className="card mb-5 flex flex-wrap items-center justify-between gap-4 p-5">
         <div className="flex items-center gap-4">
-          <span className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-brand-600 to-accent-500 text-2xl font-black text-white" aria-hidden="true">
+          <span className="grid h-14 w-14 place-items-center rounded-full bg-brand-700 text-2xl font-bold text-white" aria-hidden="true">
             {user.name.charAt(0).toUpperCase()}
           </span>
           <div>
-            <h1 className="text-xl font-extrabold">{user.name}</h1>
+            <h1 className="text-xl font-bold">{user.name}</h1>
             <p className="muted text-sm">{displayPhone(user.phone)}</p>
             {user.email && <p className="muted break-all text-sm">{user.email}</p>}
           </div>
@@ -427,7 +427,7 @@ export default function ProfilePage() {
         <div className="flex flex-wrap items-center gap-3">
           <div className="rounded-xl bg-amber-50 px-4 py-2 text-right dark:bg-amber-950/40">
             <div className="text-xs text-amber-700 dark:text-amber-400">{t('profile.bonus')}</div>
-            <div className="font-extrabold text-amber-800 dark:text-amber-300">{fmt(user.bonus)}</div>
+            <div className="font-bold text-amber-800 dark:text-amber-300">{fmt(user.bonus)}</div>
           </div>
           {user.role === 'admin' && (
             <Link to="/admin" className="inline-flex h-9 items-center rounded-lg bg-slate-900 px-3 text-sm font-semibold text-white dark:bg-white dark:text-slate-900">

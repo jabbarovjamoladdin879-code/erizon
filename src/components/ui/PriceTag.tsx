@@ -19,7 +19,7 @@ export const PriceTag = memo(function PriceTag({ price, oldPrice, unit, size = '
     <div className={cn('flex flex-wrap items-baseline gap-x-2', className)}>
       <span
         className={cn(
-          'font-extrabold tracking-tight',
+          'font-bold tracking-tight',
           oldPrice ? 'text-accent-600 dark:text-accent-400' : 'text-slate-900 dark:text-white',
           size === 'sm' && 'text-base',
           size === 'md' && 'text-lg',

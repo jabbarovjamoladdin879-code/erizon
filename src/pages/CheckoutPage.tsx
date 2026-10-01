@@ -138,7 +138,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="container-page py-6">
-      <h1 className="mb-5 text-2xl font-extrabold sm:text-3xl">{t('checkout.title')}</h1>
+      <h1 className="mb-5 text-2xl font-bold sm:text-3xl">{t('checkout.title')}</h1>
       <form id="checkout-form" onSubmit={onSubmit} noValidate className="grid gap-6 lg:grid-cols-[1fr_380px]">
         <div className="space-y-5">
           <section className="card space-y-4 p-5" aria-labelledby="c-contact">
@@ -171,7 +171,7 @@ export default function CheckoutPage() {
                   <label
                     key={m}
                     className={cn(
-                      'flex cursor-pointer items-start gap-3 rounded-2xl border-2 p-4 transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-500',
+                      'flex cursor-pointer items-start gap-3 rounded-xl border-2 p-4 transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-500',
                       method === m ? 'border-brand-600 bg-brand-50/60 dark:bg-brand-950/40' : 'border-slate-200 dark:border-slate-700',
                     )}
                   >
@@ -270,7 +270,7 @@ export default function CheckoutPage() {
                   <label
                     key={p}
                     className={cn(
-                      'flex flex-col items-center gap-1.5 rounded-2xl border-2 p-3 text-center text-sm transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-500 sm:flex-row sm:gap-3 sm:p-4 sm:text-left sm:text-base',
+                      'flex flex-col items-center gap-1.5 rounded-xl border-2 p-3 text-center text-sm transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-500 sm:flex-row sm:gap-3 sm:p-4 sm:text-left sm:text-base',
                       enabled ? 'cursor-pointer' : 'cursor-not-allowed opacity-50',
                       payment === p ? 'border-brand-600 bg-brand-50/60 dark:bg-brand-950/40' : 'border-slate-200 dark:border-slate-700',
                     )}
@@ -337,7 +337,7 @@ export default function CheckoutPage() {
       <MobileActionBar label={t('cart.summary')}>
         <div className="min-w-0 flex-1">
           <div className="muted text-[11px]">{t('cart.total')}</div>
-          <div className="text-lg font-extrabold leading-tight tabular-nums">{fmt(total)}</div>
+          <div className="text-lg font-bold leading-tight tabular-nums">{fmt(total)}</div>
         </div>
         <Button type="submit" form="checkout-form" loading={submitting} className="px-6">
           {t('checkout.submitShort')}

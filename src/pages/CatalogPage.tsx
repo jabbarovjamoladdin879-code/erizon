@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { SearchX, SlidersHorizontal, X } from 'lucide-react';
 import { ProductGrid } from '@/components/product/ProductGrid';
 import { Button } from '@/components/ui/Button';
+import { AppIcon } from '@/components/ui/AppIcon';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Modal } from '@/components/ui/Modal';
 import { GridSkeleton } from '@/components/ui/Skeleton';
@@ -73,7 +74,7 @@ function Filters({ cat, min, max, sale, stock, halal, gender, brands, brandOptio
       <fieldset>
         <legend className="mb-2 text-sm font-bold">{t('catalog.category')}</legend>
         <div className="flex flex-wrap gap-2 lg:flex-col lg:items-stretch">
-          <button type="button" aria-pressed={!cat} className={cn('chip justify-start', !cat && 'chip-active')} onClick={() => update({ cat: null, sub: null, brand: null })}>
+          <button type="button" aria-pressed={!cat} className={cn('chip justify-start text-left', !cat && 'chip-active')} onClick={() => update({ cat: null, sub: null, brand: null })}>
             {t('catalog.all')}
           </button>
           {CATEGORIES.map((c) => (
@@ -81,10 +82,10 @@ function Filters({ cat, min, max, sale, stock, halal, gender, brands, brandOptio
               key={c.id}
               type="button"
               aria-pressed={cat === c.id}
-              className={cn('chip justify-start', cat === c.id && 'chip-active')}
+              className={cn('chip justify-start text-left', cat === c.id && 'chip-active')}
               onClick={() => update({ cat: c.id, sub: null, brand: null })}
             >
-              <span aria-hidden="true">{c.emoji}</span> {t(`cat.${c.id}`)}
+              <AppIcon name={c.icon} className="h-4 w-4" /> {t(`cat.${c.id}`)}
             </button>
           ))}
         </div>
@@ -263,7 +264,7 @@ export default function CatalogPage() {
     <div className="container-page py-6">
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">{title}</h1>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
           <p className="muted mt-1 text-sm">{loading ? t('common.loading') : t('catalog.found', { n: results.length })}</p>
         </div>
         <div className="flex items-center gap-2">

@@ -60,7 +60,7 @@ NODE_ENV=production npx tsx server/dev.ts   # API: 3001-port, baza: data/erizon.
 2. Deploy. Tekshirish: `https://<sayt>/api/health` → `{"ok":true,"db":"sqlite","products":127,"persistent":false}`.
 3. Admin: `server/admin.config.ts` dagi raqam va parol — Vercel'ning har bir nusxasida bir xil (env shart emas).
 
-> ⚠️ **Vercel cheklovi:** serverless funksiyalarda faqat `/tmp` papkasiga yozish mumkin va u vaqtinchalik. Funksiya bir necha daqiqa ishlatilmasa yoki yangi nusxa ishga tushsa — **yangi foydalanuvchilar, buyurtmalar, bonuslar o'chadi** (katalog har safar qayta to'ldiriladi), parallel nusxalar esa bir-birining ma'lumotini ko'rmaydi. Shuning uchun Vercel — **namoyish** uchun; haqiqiy do'kon uchun 2.1-bo'limdagi usulni ishlating.
+> **Diqqat — Vercel cheklovi:** serverless funksiyalarda faqat `/tmp` papkasiga yozish mumkin va u vaqtinchalik. Funksiya bir necha daqiqa ishlatilmasa yoki yangi nusxa ishga tushsa — **yangi foydalanuvchilar, buyurtmalar, bonuslar o'chadi** (katalog har safar qayta to'ldiriladi), parallel nusxalar esa bir-birining ma'lumotini ko'rmaydi. Shuning uchun Vercel — **namoyish** uchun; haqiqiy do'kon uchun 2.1-bo'limdagi usulni ishlating.
 >
 > Doimiy saqlash uchun bir necha env berish foydali: `JWT_SECRET`, `DATA_SECRET` (sessiyalar nusxalar orasida ishlashi uchun).
 

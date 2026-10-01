@@ -1,7 +1,8 @@
+import { DEFAULT_ICON, isIconName } from '../shared/icons.js';
 import { SEED_PRODUCTS } from '../shared/products.js';
 import { SEED_PROMOS } from '../shared/promos.js';
 import { getSeedReviews } from '../shared/reviews.js';
-import { flush, get, getSetting, newId, ready, run, setSetting, tx } from './db.js';
+import { all, flush, get, getSetting, newId, ready, run, setSetting, tx } from './db.js';
 import { getEnv } from './env.js';
 import { ADMIN_PASSWORD_HASH, ADMIN_PHONE } from './admin.config.js';
 import { hmac, randomCode, sha256 } from './lib/crypto.js';
@@ -53,16 +54,18 @@ function seedCatalog(): string[] {
     setSetting('dealInitialised', true);
     log.push('deal: ff-03');
   }
-  // Migratsiya: Unicode 13+ emojilar (Windows 10'da bo'sh quti) — mavjud bazada ham almashtiriladi.
-  // Faqat admin o'zgartirmagan (hali eski emoji turgan) mahsulotlar yangilanadi.
-  if (!getSetting<boolean>('emojiFix13')) {
-    const legacy = new Set(['🫗', '🫧', '🧋', '🫙', '🫓', '🪥', '🪟', '🫖']);
+  // Migratsiya: emoji o'rniga ikonka (lucide nomi). Eski yozuvlarda "emoji" maydoni bor, "icon" yo'q —
+  // seed'dagi mahsulot ikonkasi (yoki standart ikonka) qo'yiladi, eski maydon olib tashlanadi.
+  if (!getSetting<boolean>('iconMigration1')) {
+    const seedIcons = new Map(SEED_PRODUCTS.map((p) => [p.id, p.icon]));
     tx(() => {
-      for (const seed of SEED_PRODUCTS) {
-        const cur = products.byId(seed.id);
-        if (cur && legacy.has(cur.emoji) && cur.emoji !== seed.emoji) products.save({ ...cur, emoji: seed.emoji });
+      for (const cur of all<{ id: string }>('SELECT id FROM products')) {
+        const p = products.byId(cur.id);
+        if (!p || isIconName(p.icon)) continue;
+        const { emoji: _legacy, ...rest } = p as typeof p & { emoji?: string };
+        products.save({ ...rest, icon: seedIcons.get(p.id) ?? DEFAULT_ICON });
       }
-      setSetting('emojiFix13', true);
+      setSetting('iconMigration1', true);
     });
   }
   return log;

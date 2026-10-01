@@ -13,6 +13,7 @@ import type {
   Quote,
   Review,
 } from '@/types';
+import type { IconName } from '@/data/icons';
 import { http } from './http';
 
 /**
@@ -78,7 +79,7 @@ export interface AdminProductInput {
   unit: Product['unit'];
   inStock: boolean;
   description: string;
-  emoji: string;
+  icon: IconName;
   manufacturer?: string;
   expiry?: string;
   halal?: boolean;

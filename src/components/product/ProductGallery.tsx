@@ -24,7 +24,7 @@ export function ProductGallery({ product }: { product: Product }) {
             transition={{ duration: 0.2 }}
           >
             <ProductImage
-              emoji={product.emoji}
+              icon={product.icon}
               hue={product.hue}
               src={current.src}
               variant={current.variant}
@@ -47,7 +47,7 @@ export function ProductGallery({ product }: { product: Product }) {
               onClick={() => setActive(i)}
               className={cn('overflow-hidden rounded-xl border-2 transition', active === i ? 'border-brand-600' : 'border-transparent opacity-70 hover:opacity-100')}
             >
-              <ProductImage emoji={product.emoji} hue={product.hue} src={s.src} variant={s.variant} alt="" className="h-16 w-16 sm:h-20 sm:w-20" />
+              <ProductImage icon={product.icon} hue={product.hue} src={s.src} variant={s.variant} alt="" className="h-16 w-16 sm:h-20 sm:w-20" />
             </button>
           ))}
         </div>

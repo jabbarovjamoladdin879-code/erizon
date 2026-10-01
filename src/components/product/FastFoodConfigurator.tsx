@@ -1,3 +1,4 @@
+import { Flame, Plus } from 'lucide-react';
 import { EXTRA_CHEESE_PRICE, EXTRAS, SAUCES } from '@/data/options';
 import { usePrice, useT } from '@/hooks/useT';
 import type { FastFoodOptions } from '@/types';
@@ -21,7 +22,7 @@ export function FastFoodConfigurator({ value, onChange }: Props) {
     });
 
   return (
-    <div className="space-y-4 rounded-2xl border border-slate-200 p-4 dark:border-slate-800">
+    <div className="space-y-4 rounded-xl border border-slate-200 p-4 dark:border-slate-800">
       <h3 className="font-bold">{t('ff.customize')}</h3>
       <fieldset>
         <legend className="label">{t('ff.sauce')}</legend>
@@ -50,7 +51,7 @@ export function FastFoodConfigurator({ value, onChange }: Props) {
             checked={value.extraCheese}
             onChange={(e) => onChange({ ...value, extraCheese: e.target.checked })}
           />
-          🧀 {t('ff.extraCheese')}
+          <Plus className="h-3.5 w-3.5" aria-hidden="true" /> {t('ff.extraCheese')}
           {plus(EXTRA_CHEESE_PRICE)}
         </label>
         <fieldset className="contents">
@@ -61,7 +62,7 @@ export function FastFoodConfigurator({ value, onChange }: Props) {
           </label>
           <label className={cn('chip cursor-pointer', value.spicy && 'chip-active')}>
             <input type="radio" name="spicy" className="sr-only" checked={value.spicy} onChange={() => onChange({ ...value, spicy: true })} />
-            🌶️ {t('ff.spicy')}
+            <Flame className="h-3.5 w-3.5" aria-hidden="true" /> {t('ff.spicy')}
           </label>
         </fieldset>
       </div>

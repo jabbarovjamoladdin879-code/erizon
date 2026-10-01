@@ -21,7 +21,7 @@ export default function FavoritesPage() {
 
   return (
     <div className="container-page py-6">
-      <h1 className="mb-5 text-2xl font-extrabold sm:text-3xl">
+      <h1 className="mb-5 text-2xl font-bold sm:text-3xl">
         {t('nav.favorites')} {products.length > 0 && <span className="muted text-base font-medium">({products.length})</span>}
       </h1>
       {ids.length > 0 && catalogStatus === 'loading' ? (
@@ -33,7 +33,7 @@ export default function FavoritesPage() {
           icon={Heart}
           title={t('fav.empty')}
           text={t('fav.emptyText')}
-          action={<Link to="/catalog" className="inline-flex h-11 items-center rounded-2xl bg-brand-gradient shadow-glow transition hover:brightness-110 active:scale-[0.97] px-5 text-sm font-semibold text-white">{t('nav.catalog')}</Link>}
+          action={<Link to="/catalog" className="inline-flex h-11 items-center rounded-xl bg-brand-600 transition hover:bg-brand-700 px-5 text-sm font-semibold text-white">{t('nav.catalog')}</Link>}
         />
       ) : (
         <ProductGrid products={products} />

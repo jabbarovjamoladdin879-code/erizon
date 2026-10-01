@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { DELIVERY_SLOTS, ZONE_MAP } from './zones.js';
 import { REVIEW_MAX_LENGTH } from './options.js';
 import { PAYMENT_METHODS } from './types.js';
+import { ICON_NAMES } from './icons.js';
 import { isValidPhone } from './phone.js';
 
 /**
@@ -258,7 +259,7 @@ export const adminProductSchema = z
     unit: z.enum(['pcs', 'kg', 'l', 'pack', 'box', 'set']),
     inStock: z.boolean(),
     description: z.string().trim().min(10).max(600).regex(SAFE_TEXT),
-    emoji: z.string().trim().min(1).max(8),
+    icon: z.enum(ICON_NAMES),
     manufacturer: z.string().trim().max(80).regex(SAFE_TEXT).optional(),
     expiry: z.string().trim().max(60).regex(SAFE_TEXT).optional(),
     halal: z.boolean().optional(),

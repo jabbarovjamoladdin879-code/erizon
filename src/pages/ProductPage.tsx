@@ -133,7 +133,7 @@ function ProductDetails({ product }: { product: Product }) {
             </span>
           </div>
 
-          <h1 className="mt-3 text-2xl font-extrabold leading-tight tracking-tight sm:text-3xl">{product.name}</h1>
+          <h1 className="mt-3 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{product.name}</h1>
           <a href="#reviews-title" className="mt-2 inline-flex items-center gap-2 text-sm">
             <Stars value={product.rating} size="md" />
             <span className="font-semibold">{product.rating.toFixed(1)}</span>
@@ -206,7 +206,7 @@ function ProductDetails({ product }: { product: Product }) {
 
             {product.categoryId === 'fastfood' && <FastFoodConfigurator value={ff} onChange={setFf} />}
 
-            <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-slate-50 p-4 dark:bg-slate-900">
+            <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-900">
               <div>
                 <div className="mb-1 text-sm font-bold">{weighted ? t('product.weight') : t('qty.label')}</div>
                 <QtyStepper
@@ -220,7 +220,7 @@ function ProductDetails({ product }: { product: Product }) {
               </div>
               <div className="text-right">
                 <div className="muted text-xs">{t('cart.total')}</div>
-                <div className="text-2xl font-extrabold tabular-nums" aria-live="polite">{fmt(total)}</div>
+                <div className="text-2xl font-bold tabular-nums" aria-live="polite">{fmt(total)}</div>
               </div>
             </div>
 
@@ -302,7 +302,7 @@ function ProductDetails({ product }: { product: Product }) {
           <div className="muted truncate text-[11px]">
             {weighted ? `${qty} ${t('unit.kg')}` : `${qty} × ${fmt(unitPrice)}`}
           </div>
-          <div className="text-lg font-extrabold leading-tight tabular-nums">{fmt(total)}</div>
+          <div className="text-lg font-bold leading-tight tabular-nums">{fmt(total)}</div>
         </div>
         <Button variant="accent" size="icon" onClick={onQuick} disabled={!product.inStock} aria-label={t('quick.button')}>
           <Zap className="h-5 w-5" />

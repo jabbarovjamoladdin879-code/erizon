@@ -45,7 +45,7 @@ export default function AdminOrdersPage() {
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-extrabold">Buyurtmalar <span className="muted text-base font-medium">({orders?.length ?? '…'})</span></h1>
+        <h1 className="text-2xl font-bold">Buyurtmalar <span className="muted text-base font-medium">({orders?.length ?? '…'})</span></h1>
         <div className="flex items-center gap-2">
           <label className="flex items-center gap-2 text-sm">
             Holat:
@@ -101,7 +101,7 @@ export default function AdminOrdersPage() {
                   >
                     {PAY[o.paymentStatus]}
                   </span>
-                  <span className="font-extrabold tabular-nums">{formatNumber(o.total)} so'm</span>
+                  <span className="font-bold tabular-nums">{formatNumber(o.total)} so'm</span>
                   <label className="sr-only" htmlFor={`st-${o.id}`}>Holat</label>
                   <select id={`st-${o.id}`} className="input w-auto py-1.5" value={o.status} disabled={locked} onChange={(e) => void changeStatus(o, e.target.value as OrderStatus)}>
                     {ORDER_STATUSES.map((s) => <option key={s} value={s}>{LABEL[s]}</option>)}

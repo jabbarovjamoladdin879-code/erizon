@@ -20,7 +20,7 @@ export const DeliveryMap = memo(function DeliveryMap({ selected, onSelect }: Del
     <div>
       <svg
         viewBox="0 0 400 300"
-        className="w-full rounded-2xl bg-sky-50 dark:bg-slate-800"
+        className="w-full rounded-xl bg-sky-50 dark:bg-slate-800"
         role="group"
         aria-label={t('delivery.mapLabel')}
       >
@@ -76,7 +76,7 @@ export const DeliveryMap = memo(function DeliveryMap({ selected, onSelect }: Del
           <circle cx={MALL_POINT.x} cy={MALL_POINT.y - 12} r="20" className="fill-accent-500" opacity="0.25">
             <animate attributeName="r" values="14;24;14" dur="2.4s" repeatCount="indefinite" />
           </circle>
-          <text x={MALL_POINT.x} y={MALL_POINT.y - 8} textAnchor="middle" className="fill-white text-[12px] font-black">
+          <text x={MALL_POINT.x} y={MALL_POINT.y - 8} textAnchor="middle" className="fill-white text-[12px] font-bold">
             E
           </text>
         </g>

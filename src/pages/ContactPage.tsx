@@ -15,13 +15,13 @@ export default function ContactPage() {
   ];
   return (
     <div className="container-page py-6">
-      <h1 className="text-2xl font-extrabold sm:text-3xl">{t('nav.contact')}</h1>
+      <h1 className="text-2xl font-bold sm:text-3xl">{t('nav.contact')}</h1>
       <p className="muted mt-1">{t('contact.intro')}</p>
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <ul className="space-y-3">
           {items.map(({ icon: Icon, label, value, href }) => (
             <li key={label} className="card flex items-center gap-4 p-5">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300">
                 <Icon className="h-6 w-6" aria-hidden="true" />
               </span>
               <div>

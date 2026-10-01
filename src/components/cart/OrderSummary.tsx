@@ -88,7 +88,7 @@ export function OrderSummary({ quote, fallbackSubtotal, loading, user, showDeliv
       )}
       <div className="flex items-end justify-between border-t border-slate-200 pt-4 dark:border-slate-800">
         <span className="font-bold">{t('cart.total')}</span>
-        <span className="text-2xl font-extrabold tabular-nums">{fmt(total)}</span>
+        <span className="text-2xl font-bold tabular-nums">{fmt(total)}</span>
       </div>
       <p className="muted flex items-center gap-1.5 text-[11px]">
         <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" />

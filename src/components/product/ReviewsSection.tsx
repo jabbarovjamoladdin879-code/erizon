@@ -96,7 +96,7 @@ export function ReviewsSection({ product }: { product: Product }) {
         <div className="space-y-6">
           <div className="card p-5">
             <div className="flex items-end gap-3">
-              <span className="text-5xl font-extrabold tracking-tight">{product.rating.toFixed(1)}</span>
+              <span className="text-5xl font-bold tracking-tight">{product.rating.toFixed(1)}</span>
               <div className="pb-1">
                 <Stars value={product.rating} size="md" />
                 <div className="muted text-xs">{t('reviews.basedOn', { n: product.reviewsCount })}</div>

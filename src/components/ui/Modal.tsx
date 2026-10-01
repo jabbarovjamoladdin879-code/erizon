@@ -73,7 +73,7 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
+          <div className="absolute inset-0 bg-slate-950/50" onClick={onClose} aria-hidden="true" />
           <motion.div
             ref={panelRef}
             role="dialog"
@@ -85,7 +85,7 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
             exit={{ y: 40, opacity: 0, scale: 0.98 }}
             transition={{ type: 'spring', damping: 26, stiffness: 320 }}
             className={cn(
-              'relative max-h-[92vh] w-full overflow-y-auto rounded-t-3xl bg-white p-5 shadow-2xl dark:bg-slate-900 sm:rounded-3xl sm:p-6',
+              'relative max-h-[92vh] w-full overflow-y-auto rounded-t-3xl bg-white p-5 shadow-2xl dark:bg-slate-900 sm:rounded-xl sm:p-6',
               size === 'sm' && 'sm:max-w-md',
               size === 'md' && 'sm:max-w-lg',
               size === 'lg' && 'sm:max-w-2xl',

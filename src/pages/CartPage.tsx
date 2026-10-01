@@ -55,7 +55,7 @@ export default function CartPage() {
           titleAs="h1"
           title={t('cart.empty')}
           text={t('cart.emptyText')}
-          action={<Link to="/catalog" className="inline-flex h-11 items-center rounded-2xl bg-brand-gradient shadow-glow transition hover:brightness-110 active:scale-[0.97] px-5 text-sm font-semibold text-white">{t('cart.goShopping')}</Link>}
+          action={<Link to="/catalog" className="inline-flex h-11 items-center rounded-xl bg-brand-600 transition hover:bg-brand-700 px-5 text-sm font-semibold text-white">{t('cart.goShopping')}</Link>}
         />
       </div>
     );
@@ -64,7 +64,7 @@ export default function CartPage() {
   return (
     <div className="container-page py-6">
       <div className="mb-5 flex items-center justify-between">
-        <h1 className="text-2xl font-extrabold sm:text-3xl">
+        <h1 className="text-2xl font-bold sm:text-3xl">
           {t('nav.cart')} <span className="muted text-base font-medium">({lines.length})</span>
         </h1>
         <Button
@@ -93,7 +93,7 @@ export default function CartPage() {
               {lines.map((line) => {
                 const { item, product, combo } = line;
                 const name = combo ? t(combo.nameKey) : (product?.name ?? '');
-                const emoji = combo?.emoji ?? product?.emoji ?? '📦';
+                const icon = combo?.icon ?? product?.icon ?? 'Package';
                 const hue = combo?.hue ?? product?.hue ?? 260;
                 const weighted = line.unit === 'kg';
                 const optionsText = describe(product, item.options);
@@ -108,7 +108,7 @@ export default function CartPage() {
                     className="card flex gap-3 p-3 sm:gap-4 sm:p-4"
                   >
                     <Link to={href} className="shrink-0" tabIndex={-1} aria-hidden="true">
-                      <ProductImage emoji={emoji} hue={hue} alt="" className={line.available ? 'h-20 w-20 rounded-xl sm:h-24 sm:w-24' : 'h-20 w-20 rounded-xl opacity-50 grayscale sm:h-24 sm:w-24'} />
+                      <ProductImage icon={icon} hue={hue} alt="" className={line.available ? 'h-20 w-20 rounded-xl sm:h-24 sm:w-24' : 'h-20 w-20 rounded-xl opacity-50 grayscale sm:h-24 sm:w-24'} />
                     </Link>
                     <div className="flex min-w-0 flex-1 flex-col">
                       <div className="flex items-start justify-between gap-2">
@@ -148,7 +148,7 @@ export default function CartPage() {
                           max={weighted ? WEIGHT_MAX : QTY_MAX}
                           suffix={weighted ? t('unit.kg') : undefined}
                         />
-                        <span className="whitespace-nowrap text-base font-extrabold tabular-nums sm:text-lg">{fmt(line.lineTotal)}</span>
+                        <span className="whitespace-nowrap text-base font-bold tabular-nums sm:text-lg">{fmt(line.lineTotal)}</span>
                       </div>
                     </div>
                   </motion.li>
@@ -173,7 +173,7 @@ export default function CartPage() {
       <MobileActionBar label={t('cart.summary')}>
         <div className="min-w-0 flex-1">
           <div className="muted text-[11px]">{t('cart.total')}</div>
-          <div className="text-lg font-extrabold leading-tight tabular-nums">{fmt(total)}</div>
+          <div className="text-lg font-bold leading-tight tabular-nums">{fmt(total)}</div>
         </div>
         <Button disabled={subtotal <= 0} onClick={() => navigate('/checkout')} className="px-6">
           {t('cart.checkout')}

@@ -10,7 +10,7 @@ export default function DeliveryPage() {
   useSeo(t('nav.delivery'), t('seo.delivery'));
   return (
     <div className="container-page py-6">
-      <h1 className="text-2xl font-extrabold sm:text-3xl">{t('nav.delivery')}</h1>
+      <h1 className="text-2xl font-bold sm:text-3xl">{t('nav.delivery')}</h1>
       <p className="muted mt-1">{t('delivery.intro')}</p>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">

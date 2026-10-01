@@ -48,7 +48,7 @@ function RecentOrders() {
       <ul className="space-y-2">
         {items.map((o) => (
           <li key={o.id}>
-            <Link to={o.href} className="card flex items-center justify-between p-4 hover:shadow-lift">
+            <Link to={o.href} className="card flex items-center justify-between p-4 hover:shadow-md">
               <span className="font-mono font-semibold">{o.id}</span>
               <span className="muted text-sm">{o.extra}</span>
             </Link>
@@ -77,7 +77,7 @@ export default function OrderTrackingPage() {
 
   return (
     <div className="container-page max-w-3xl py-8">
-      <h1 className="mb-5 text-2xl font-extrabold sm:text-3xl">{t('nav.track')}</h1>
+      <h1 className="mb-5 text-2xl font-bold sm:text-3xl">{t('nav.track')}</h1>
       <form onSubmit={onSubmit} noValidate className="card flex flex-col gap-3 p-5 sm:flex-row sm:items-start">
         <div className="flex-1">
           <InputField

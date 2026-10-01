@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { BadgeCheck, Clock, Gift, Percent, ShieldCheck, Sparkles, TrendingUp, Truck } from 'lucide-react';
+import { BadgeCheck, Clock, Gift, PackagePlus, Percent, ShieldCheck, TrendingUp, Truck } from 'lucide-react';
 import { Advantages } from '@/components/home/Advantages';
 import { CategoryGrid } from '@/components/home/CategoryGrid';
 import { ComboSection } from '@/components/home/ComboSection';
@@ -47,7 +47,7 @@ export default function HomePage() {
       <HeroSlider />
       <ul className="scrollbar-none -mx-4 mt-3 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:grid sm:grid-cols-4 sm:px-0" aria-label={t('home.why')}>
         {PERKS.map(({ icon: Icon, key, color }) => (
-          <li key={key} className="flex shrink-0 items-center gap-2 rounded-2xl border border-slate-200/70 bg-white px-3 py-2.5 text-xs font-semibold shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:text-sm">
+          <li key={key} className="flex shrink-0 items-center gap-2 rounded-xl border border-slate-200/70 bg-white px-3 py-2.5 text-xs font-semibold shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:text-sm">
             <span className={`grid h-8 w-8 place-items-center rounded-xl ${color}`}>
               <Icon className="h-4 w-4" aria-hidden="true" />
             </span>
@@ -81,7 +81,7 @@ export default function HomePage() {
           <ComboSection />
           <ProductRail
             title={t('home.new')}
-            icon={<Sparkles className="h-6 w-6 text-amber-500" aria-hidden="true" />}
+            icon={<PackagePlus className="h-6 w-6 text-brand-600" aria-hidden="true" />}
             products={fresh}
             moreHref="/catalog?sort=new"
           />

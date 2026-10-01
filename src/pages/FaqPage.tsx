@@ -37,7 +37,7 @@ export default function FaqPage() {
 
   return (
     <div className="container-page max-w-3xl py-6">
-      <h1 className="text-2xl font-extrabold sm:text-3xl">{t('nav.faq')}</h1>
+      <h1 className="text-2xl font-bold sm:text-3xl">{t('nav.faq')}</h1>
       <p className="muted mt-1">{t('faq.intro')}</p>
       <div className="scrollbar-none my-5 flex gap-2 overflow-x-auto" role="group" aria-label={t('faq.topics')}>
         {TOPICS.map((tp) => (

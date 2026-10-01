@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Package, ShoppingCart } from 'lucide-react';
 import { ProductImage } from '@/components/ui/ProductImage';
+import { AppIcon } from '@/components/ui/AppIcon';
 import { COMBOS } from '@/data/combos';
 import { useNow } from '@/hooks/useNow';
 import { usePrice, useT } from '@/hooks/useT';
@@ -26,7 +27,7 @@ const ComboCard = memo(function ComboCard({ combo }: { combo: Combo }) {
   return (
     <article className="card flex flex-col p-4">
       <div className="flex items-center gap-3">
-        <ProductImage emoji={combo.emoji} hue={combo.hue} alt="" className="h-16 w-16 shrink-0 rounded-2xl" />
+        <ProductImage icon={combo.icon} hue={combo.hue} alt="" className="h-16 w-16 shrink-0 rounded-xl" />
         <div>
           <h3 className="font-bold leading-tight">{t(combo.nameKey)}</h3>
           {saving > 0 && (
@@ -42,8 +43,9 @@ const ComboCard = memo(function ComboCard({ combo }: { combo: Combo }) {
           if (!p) return null;
           return (
             <li key={item.productId} className="flex justify-between gap-2">
-              <Link to={`/product/${p.id}`} className="muted truncate hover:text-brand-700">
-                {p.emoji} {p.name}
+              <Link to={`/product/${p.id}`} className="muted flex min-w-0 items-center gap-2 hover:text-brand-700">
+                <AppIcon name={p.icon} className="h-4 w-4 shrink-0 text-slate-400" />
+                <span className="truncate">{p.name}</span>
               </Link>
               <span className="shrink-0 font-medium">
                 {formatQty(item.qty)} {t(`unit.${p.unit}`)}
@@ -54,7 +56,7 @@ const ComboCard = memo(function ComboCard({ combo }: { combo: Combo }) {
       </ul>
       <div className="mt-4 flex items-end justify-between gap-3">
         <div>
-          <div className="text-xl font-extrabold text-accent-600 dark:text-accent-400">{fmt(combo.price)}</div>
+          <div className="text-xl font-bold text-accent-600 dark:text-accent-400">{fmt(combo.price)}</div>
           {regular > combo.price && <div className="text-xs text-slate-400 line-through">{fmt(regular)}</div>}
         </div>
         <button
@@ -64,7 +66,7 @@ const ComboCard = memo(function ComboCard({ combo }: { combo: Combo }) {
             add('combo', combo.id, 1);
             toast.success(t('toast.addedToCart'));
           }}
-          className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand-gradient shadow-glow transition hover:brightness-110 active:scale-[0.97] px-4 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-none disabled:bg-slate-300 disabled:shadow-none dark:disabled:bg-slate-700"
+          className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand-600 transition hover:bg-brand-700 px-4 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none dark:disabled:bg-slate-700"
         >
           <ShoppingCart className="h-4 w-4" aria-hidden="true" />
           {available ? t('product.toCart') : t('product.outOfStock')}

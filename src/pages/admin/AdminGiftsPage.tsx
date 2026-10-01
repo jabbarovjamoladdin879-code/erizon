@@ -56,7 +56,7 @@ export default function AdminGiftsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-extrabold">Sovg'a sertifikatlari</h1>
+      <h1 className="text-2xl font-bold">Sovg'a sertifikatlari</h1>
       <p className="muted text-sm">
         Sertifikat mijoz profilida faollashtiriladi va uning bonus balansiga qo'shiladi (1 bonus = 1 so'm). Har bir kod faqat bir marta ishlatiladi;
         kodlarni taxmin qilishga urinishlar serverda cheklangan.

@@ -1,6 +1,5 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { GitCompareArrows, Heart, Minus, Plus, ShoppingCart, Timer } from 'lucide-react';
 import { PriceTag } from '@/components/ui/PriceTag';
 import { ProductImage } from '@/components/ui/ProductImage';
@@ -43,27 +42,25 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
   const removeItem = useCartStore((s) => s.remove);
 
   return (
-    <motion.article
-      whileHover={{ y: -4 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-      className="card group relative flex flex-col overflow-hidden p-2 transition-[box-shadow,border-color] duration-300 hover:border-brand-200 hover:shadow-lift dark:hover:border-brand-800 sm:p-2.5"
+    <article
+      className="card group relative flex flex-col overflow-hidden p-2.5 transition-colors hover:border-slate-300 dark:hover:border-slate-600 sm:p-3"
     >
-      <div className="relative overflow-hidden rounded-[1.25rem]">
+      <div className="relative overflow-hidden rounded-lg">
         <Link to={href} tabIndex={-1} aria-hidden="true">
           <ProductImage
-            emoji={product.emoji}
+            icon={product.icon}
             hue={product.hue}
             src={product.images?.[0]}
             alt=""
-            className={cn('aspect-square w-full transition duration-500 ease-out group-hover:scale-[1.06]', !product.inStock && 'opacity-50 grayscale')}
+            className={cn('aspect-square w-full', !product.inStock && 'opacity-50 grayscale')}
           />
         </Link>
         <div className="pointer-events-none absolute left-2 top-2 flex flex-col items-start gap-1">
           {isDeal && (
-            <span className="rounded-full bg-accent-gradient px-2 py-0.5 text-[11px] font-bold text-white shadow-sm">{t('badge.deal')}</span>
+            <span className="rounded bg-accent-500 px-1.5 py-0.5 text-[11px] font-semibold text-white">{t('badge.deal')}</span>
           )}
           {off > 0 && !isDeal && (
-            <span className="rounded-full bg-gradient-to-r from-rose-500 to-red-500 px-2 py-0.5 text-[11px] font-bold text-white shadow-sm">−{off}%</span>
+            <span className="rounded bg-red-600 px-1.5 py-0.5 text-[11px] font-semibold text-white">−{off}%</span>
           )}
           {product.halal && <HalalBadge compact />}
         </div>
@@ -73,7 +70,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
             onClick={() => onToggleFavorite(product)}
             aria-pressed={isFav}
             aria-label={isFav ? t('product.removeFav') : t('product.addFav')}
-            className="grid h-9 w-9 place-items-center rounded-full bg-white/80 text-slate-600 shadow-sm ring-1 ring-black/5 backdrop-blur-md transition hover:scale-110 hover:text-red-500 active:scale-95 dark:bg-slate-900/70 dark:text-slate-300 dark:ring-white/10"
+            className="grid h-8 w-8 place-items-center rounded-full border border-slate-200 bg-white text-slate-600 transition-colors hover:text-red-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
           >
             <Heart className={cn('h-4 w-4', isFav && 'fill-red-500 text-red-500')} />
           </button>
@@ -83,7 +80,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
             aria-pressed={inCompare}
             aria-label={t('product.compare')}
             className={cn(
-              'grid h-9 w-9 place-items-center rounded-full bg-white/80 shadow-sm ring-1 ring-black/5 backdrop-blur-md transition hover:scale-110 active:scale-95 dark:bg-slate-900/70 dark:ring-white/10',
+              'grid h-8 w-8 place-items-center rounded-full border border-slate-200 bg-white transition-colors hover:text-brand-700 dark:border-slate-700 dark:bg-slate-900',
               inCompare ? 'text-brand-600 dark:text-brand-300' : 'text-slate-600 dark:text-slate-300',
             )}
           >
@@ -91,12 +88,12 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
           </button>
         </div>
         {!product.inStock && (
-          <span className="absolute inset-x-2 bottom-2 rounded-full bg-slate-900/75 py-1 text-center text-xs font-semibold text-white backdrop-blur-md">
+          <span className="absolute inset-x-2 bottom-2 rounded bg-slate-900/80 py-1 text-center text-xs font-semibold text-white">
             {t('product.outOfStock')}
           </span>
         )}
         {product.prepTime && product.inStock && (
-          <span className="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded-full bg-white/80 px-2 py-0.5 text-[11px] font-semibold text-slate-700 ring-1 ring-black/5 backdrop-blur-md dark:bg-slate-900/70 dark:text-slate-200 dark:ring-white/10">
+          <span className="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded border border-slate-200 bg-white px-1.5 py-0.5 text-[11px] font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
             <Timer className="h-3 w-3" aria-hidden="true" />~{product.prepTime} {t('common.min')}
           </span>
         )}
@@ -110,7 +107,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
         >
           {product.name}
         </Link>
-        <div className="mt-1.5 flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+        <div className="mt-1.5 flex items-center gap-1.5 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400">
           <Stars value={product.rating} />
           <span>
             {product.rating.toFixed(1)} · {product.reviewsCount}
@@ -120,16 +117,16 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
           {select ? (
             <Link
               to={href}
-              className="inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-brand-50 text-sm font-semibold text-brand-700 ring-1 ring-inset ring-brand-100 transition hover:bg-brand-100 active:scale-[0.97] dark:bg-brand-950/60 dark:text-brand-200 dark:ring-brand-900"
+              className="inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-brand-50 text-sm font-semibold text-brand-700 ring-1 ring-inset ring-brand-100 transition hover:bg-brand-100 dark:bg-brand-950/60 dark:text-brand-200 dark:ring-brand-900"
             >
               {t('product.choose')}
             </Link>
           ) : inCartQty > 0 && product.inStock ? (
-            <div className="flex h-10 items-center justify-between rounded-xl bg-brand-gradient text-white shadow-glow" role="group" aria-label={`${t('qty.label')}: ${product.name}`}>
+            <div className="flex h-10 items-center justify-between rounded-xl bg-brand-600 text-white" role="group" aria-label={`${t('qty.label')}: ${product.name}`}>
               <button
                 type="button"
                 onClick={() => (inCartQty - step < minQty ? removeItem(cartKey) : setQty(cartKey, inCartQty - step))}
-                className="grid h-10 w-10 place-items-center rounded-xl transition hover:bg-white/15 active:scale-90"
+                className="grid h-10 w-10 place-items-center rounded-xl transition hover:bg-white/15"
                 aria-label={t('qty.decrease')}
               >
                 <Minus className="h-4 w-4" />
@@ -141,7 +138,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
                 type="button"
                 onClick={() => setQty(cartKey, Math.min(maxQty, inCartQty + step))}
                 disabled={inCartQty >= maxQty}
-                className="grid h-10 w-10 place-items-center rounded-xl transition hover:bg-white/15 active:scale-90 disabled:opacity-50"
+                className="grid h-10 w-10 place-items-center rounded-xl transition hover:bg-white/15 disabled:opacity-50"
                 aria-label={t('qty.increase')}
               >
                 <Plus className="h-4 w-4" />
@@ -152,7 +149,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
               type="button"
               disabled={!product.inStock}
               onClick={() => addToCart(product)}
-              className="inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-brand-gradient text-sm font-semibold text-white shadow-glow transition hover:brightness-110 active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-none disabled:bg-slate-300 disabled:shadow-none dark:disabled:bg-slate-700"
+              className="inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-xl bg-brand-600 text-sm font-semibold text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none dark:disabled:bg-slate-700"
               aria-label={`${t('product.addToCart')}: ${product.name}`}
             >
               <ShoppingCart className="h-4 w-4" aria-hidden="true" />
@@ -161,6 +158,6 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
           )}
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 });

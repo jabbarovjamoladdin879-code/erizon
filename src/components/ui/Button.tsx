@@ -14,21 +14,21 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const VARIANTS: Record<Variant, string> = {
   primary:
-    'bg-brand-gradient text-white shadow-glow hover:brightness-110 hover:shadow-lift disabled:bg-none disabled:bg-brand-300 disabled:shadow-none dark:disabled:bg-brand-900',
-  accent: 'bg-accent-gradient text-white shadow-glow-accent hover:brightness-110 disabled:opacity-50 disabled:shadow-none',
+    'bg-brand-600 text-white hover:bg-brand-700 disabled:bg-brand-300 dark:disabled:bg-brand-900',
+  accent: 'bg-accent-500 text-white hover:bg-accent-600 disabled:opacity-50',
   secondary:
-    'bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-100 hover:bg-brand-100 dark:bg-brand-950/60 dark:text-brand-200 dark:ring-brand-900 dark:hover:bg-brand-900/60',
+    'border border-brand-200 bg-white text-brand-700 hover:bg-brand-50 dark:border-brand-800 dark:bg-slate-900 dark:text-brand-200 dark:hover:bg-brand-950/60',
   outline:
-    'border border-slate-200 bg-white/80 text-slate-800 shadow-sm hover:border-brand-400 hover:text-brand-700 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-100 dark:hover:border-brand-400 dark:hover:text-brand-300',
+    'border border-slate-300 bg-white text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800',
   ghost: 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800',
-  danger: 'bg-red-600 text-white shadow-sm hover:bg-red-700 disabled:opacity-50',
+  danger: 'bg-red-600 text-white hover:bg-red-700 disabled:opacity-50',
 };
 
 const SIZES: Record<Size, string> = {
-  sm: 'h-9 px-3.5 text-sm rounded-xl gap-1.5',
-  md: 'h-11 px-5 text-sm rounded-2xl gap-2',
-  lg: 'h-12 px-6 text-base rounded-2xl gap-2',
-  icon: 'h-10 w-10 rounded-xl',
+  sm: 'h-9 px-3.5 text-sm rounded-lg gap-1.5',
+  md: 'h-11 px-5 text-sm rounded-lg gap-2',
+  lg: 'h-12 px-6 text-base rounded-lg gap-2',
+  icon: 'h-10 w-10 rounded-lg',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
@@ -42,7 +42,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       disabled={disabled || loading}
       aria-busy={loading || undefined}
       className={cn(
-        'inline-flex select-none items-center justify-center font-semibold transition-all duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100',
+        'inline-flex select-none items-center justify-center font-semibold transition-colors duration-150 disabled:cursor-not-allowed',
         VARIANTS[variant],
         SIZES[size],
         block && 'w-full',

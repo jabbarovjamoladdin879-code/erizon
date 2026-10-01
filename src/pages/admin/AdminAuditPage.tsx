@@ -28,7 +28,7 @@ export default function AdminAuditPage() {
   const { data } = useAdminQuery(api.admin.audit);
   return (
     <div className="space-y-5">
-      <h1 className="text-2xl font-extrabold">Audit jurnali</h1>
+      <h1 className="text-2xl font-bold">Audit jurnali</h1>
       {!data ? (
         <Skeleton className="h-64 w-full" />
       ) : data.entries.length === 0 ? (

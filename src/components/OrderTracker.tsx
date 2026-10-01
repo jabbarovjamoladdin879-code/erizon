@@ -24,7 +24,7 @@ export function OrderTracker({ order }: { order: Order }) {
 
   if (order.status === 'cancelled') {
     return (
-      <div className="mt-4 flex items-center gap-3 rounded-2xl bg-red-50 p-4 text-red-700 dark:bg-red-950 dark:text-red-300" role="status">
+      <div className="mt-4 flex items-center gap-3 rounded-xl bg-red-50 p-4 text-red-700 dark:bg-red-950 dark:text-red-300" role="status">
         <XCircle className="h-6 w-6" aria-hidden="true" />
         <b>{t('status.cancelled')}</b>
       </div>
@@ -38,11 +38,11 @@ export function OrderTracker({ order }: { order: Order }) {
   return (
     <div role="status" aria-live="polite" aria-label={`${t('track.status')}: ${label(order.status)}`}>
       {order.status !== 'delivered' && (
-        <div className="mt-4 flex items-center gap-3 rounded-2xl bg-brand-50 p-4 dark:bg-brand-950/50">
+        <div className="mt-4 flex items-center gap-3 rounded-xl bg-brand-50 p-4 dark:bg-brand-950/50">
           <Clock className="h-6 w-6 shrink-0 text-brand-600" aria-hidden="true" />
           <div>
             <div className="muted text-xs">{pickup ? t('track.readyIn') : t('track.arrivesIn')}</div>
-            <div className="text-xl font-extrabold tabular-nums">
+            <div className="text-xl font-bold tabular-nums">
               {done ? t('track.anyMinute') : `${hours > 0 ? `${pad2(hours)}:` : ''}${pad2(minutes)}:${pad2(seconds)}`}
             </div>
           </div>
@@ -50,7 +50,7 @@ export function OrderTracker({ order }: { order: Order }) {
       )}
       <div className="relative mx-5 mb-2 mt-6 h-2 rounded-full bg-slate-200 dark:bg-slate-800">
         <motion.div
-          className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-brand-500 to-accent-500"
+          className="absolute inset-y-0 left-0 rounded-full bg-brand-600"
           initial={{ width: 0 }}
           animate={{ width: `${progress * 100}%` }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
@@ -67,7 +67,7 @@ export function OrderTracker({ order }: { order: Order }) {
               <motion.span
                 animate={isCurrent && s !== 'delivered' ? { scale: [1, 1.12, 1] } : { scale: 1 }}
                 transition={isCurrent ? { repeat: Infinity, duration: 1.6 } : undefined}
-                className={cn('grid h-11 w-11 place-items-center rounded-2xl', reached ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-400 dark:bg-slate-800')}
+                className={cn('grid h-11 w-11 place-items-center rounded-xl', reached ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-400 dark:bg-slate-800')}
               >
                 <Icon className="h-5 w-5" aria-hidden="true" />
               </motion.span>

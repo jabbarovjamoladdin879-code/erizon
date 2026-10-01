@@ -52,7 +52,7 @@ export function OrderDetails({ order }: { order: Order }) {
         {order.discount > 0 && <div className="flex justify-between text-emerald-700 dark:text-emerald-400"><dt>{t('cart.discount')} {order.promoCode && `(${order.promoCode})`}</dt><dd>−{fmt(order.discount)}</dd></div>}
         {order.bonusUsed > 0 && <div className="flex justify-between text-emerald-700 dark:text-emerald-400"><dt>{t('cart.bonusUsed')}</dt><dd>−{fmt(order.bonusUsed)}</dd></div>}
         {order.deliveryMethod === 'delivery' && <div className="flex justify-between"><dt className="muted">{t('cart.delivery')}</dt><dd>{order.deliveryFee ? fmt(order.deliveryFee) : t('cart.free')}</dd></div>}
-        <div className="flex justify-between border-t border-slate-200 pt-2 text-base font-extrabold dark:border-slate-800"><dt>{t('cart.total')}</dt><dd>{fmt(order.total)}</dd></div>
+        <div className="flex justify-between border-t border-slate-200 pt-2 text-base font-bold dark:border-slate-800"><dt>{t('cart.total')}</dt><dd>{fmt(order.total)}</dd></div>
         {order.bonusEarned > 0 && <div className="flex justify-between text-xs text-amber-700 dark:text-amber-400"><dt>{t('bonus.earned')}</dt><dd>+{fmt(order.bonusEarned)}</dd></div>}
       </dl>
     </div>

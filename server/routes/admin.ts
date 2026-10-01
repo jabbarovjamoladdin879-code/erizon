@@ -135,7 +135,7 @@ function applyInput(base: Partial<ProductRecord>, input: ProductInput): Omit<Pro
     unit: input.unit,
     inStock: input.inStock,
     description: cleanText(input.description, 600),
-    emoji: cleanText(input.emoji, 8) || '📦',
+    icon: input.icon,
     manufacturer: input.manufacturer ? cleanText(input.manufacturer, 80) : undefined,
     expiry: input.expiry ? cleanText(input.expiry, 60) : undefined,
     halal: input.halal || undefined,

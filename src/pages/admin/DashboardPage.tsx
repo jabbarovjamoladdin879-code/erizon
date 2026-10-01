@@ -73,23 +73,23 @@ export default function DashboardPage() {
     { label: 'Bugungi tushum', value: som(stats.todayRevenue), icon: Banknote, color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950' },
     { label: "O'rtacha chek", value: som(stats.avgCheck), icon: TrendingUp, color: 'text-amber-600 bg-amber-50 dark:bg-amber-950' },
     { label: 'Jami buyurtmalar', value: String(stats.totalOrders), icon: Package, color: 'text-sky-600 bg-sky-50 dark:bg-sky-950' },
-    { label: 'Foydalanuvchilar', value: String(stats.users), icon: Users, color: 'text-fuchsia-600 bg-fuchsia-50 dark:bg-fuchsia-950' },
+    { label: 'Foydalanuvchilar', value: String(stats.users), icon: Users, color: 'text-indigo-600 bg-indigo-50 dark:bg-indigo-950' },
     { label: "Omborda yo'q", value: String(stats.outOfStock), icon: PackageX, color: 'text-red-600 bg-red-50 dark:bg-red-950' },
   ];
   const statuses = Object.keys(STATUS_LABEL) as OrderStatus[];
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-extrabold">Boshqaruv paneli</h1>
+      <h1 className="text-2xl font-bold">Boshqaruv paneli</h1>
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
         {cards.map(({ label, value, icon: Icon, color }) => (
           <div key={label} className="card flex flex-col items-start gap-3 p-4 sm:flex-row sm:items-center sm:gap-4 sm:p-5">
-            <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl sm:h-12 sm:w-12 sm:rounded-2xl ${color}`}>
+            <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl sm:h-12 sm:w-12 sm:rounded-xl ${color}`}>
               <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
             </span>
             <div className="w-full min-w-0">
               <div className="muted text-xs">{label}</div>
-              <div className="truncate text-lg font-extrabold sm:text-xl">{value}</div>
+              <div className="truncate text-lg font-bold sm:text-xl">{value}</div>
             </div>
           </div>
         ))}
@@ -102,7 +102,7 @@ export default function DashboardPage() {
             <div key={d.day} className="flex h-full flex-1 flex-col items-center gap-1">
               <div className="relative w-full flex-1">
                 <div
-                  className="absolute inset-x-0 bottom-0 rounded-t-lg bg-gradient-to-t from-brand-600 to-brand-400 transition-all"
+                  className="absolute inset-x-0 bottom-0 rounded-t bg-brand-500 transition-all"
                   style={{ height: `${Math.max(2, (d.sum / maxDay) * 100)}%` }}
                   title={som(d.sum)}
                 />

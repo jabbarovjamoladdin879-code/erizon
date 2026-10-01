@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
+import { AppIcon } from '@/components/ui/AppIcon';
 import { STORIES } from '@/data/stories';
 import { useT } from '@/hooks/useT';
 import { cn } from '@/utils/cn';
@@ -65,7 +66,7 @@ function StoryViewer({ start, onClose, onSeen }: { start: number; onClose: () =>
       aria-label={t(story.titleKey)}
     >
       <div
-        className={cn('relative flex h-full w-full max-w-md flex-col overflow-hidden bg-gradient-to-br text-white sm:h-[85vh] sm:rounded-3xl', story.gradient)}
+        className={cn('relative flex h-full w-full max-w-md flex-col overflow-hidden text-white sm:h-[85vh] sm:rounded-xl', story.color)}
         onPointerDown={() => setPaused(true)}
         onPointerUp={() => setPaused(false)}
         onPointerLeave={() => setPaused(false)}
@@ -90,14 +91,14 @@ function StoryViewer({ start, onClose, onSeen }: { start: number; onClose: () =>
           <X className="h-5 w-5" />
         </button>
         <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
-          <motion.span key={story.id} initial={{ scale: 0.6, rotate: -10 }} animate={{ scale: 1, rotate: 0 }} className="text-[110px] drop-shadow-2xl" aria-hidden="true">
-            {story.emoji}
-          </motion.span>
-          <h2 className="mt-6 text-3xl font-extrabold">{t(story.titleKey)}</h2>
+          <span key={story.id} className="grid h-28 w-28 place-items-center rounded-full bg-white/15">
+            <AppIcon name={story.icon} className="h-14 w-14" strokeWidth={1.5} />
+          </span>
+          <h2 className="mt-6 text-3xl font-bold">{t(story.titleKey)}</h2>
           <p className="mt-3 text-white/85">{t(story.textKey)}</p>
         </div>
         <div className="relative z-20 p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
-          <Link to={story.href} onClick={onClose} className="flex h-12 items-center justify-center rounded-xl bg-white font-bold text-slate-900">
+          <Link to={story.href} onClick={onClose} className="flex h-12 items-center justify-center rounded-lg bg-white font-semibold text-slate-900 transition hover:bg-slate-100">
             {t('story.cta')}
           </Link>
         </div>
@@ -135,9 +136,9 @@ export function Stories() {
         {STORIES.map((s, i) => (
           <li key={s.id} className="shrink-0">
             <button type="button" onClick={() => setOpen(i)} className="flex w-[72px] flex-col items-center gap-1.5 sm:w-20">
-              <span className={cn('rounded-full p-[3px]', seen.includes(s.id) ? 'bg-slate-300 dark:bg-slate-700' : 'bg-gradient-to-tr from-accent-500 via-rose-500 to-brand-600')}>
-                <span className={cn('grid h-16 w-16 place-items-center rounded-full border-[3px] border-white bg-gradient-to-br text-3xl dark:border-slate-950 sm:h-[70px] sm:w-[70px]', s.gradient)} aria-hidden="true">
-                  {s.emoji}
+              <span className={cn('rounded-full p-[2px]', seen.includes(s.id) ? 'bg-slate-300 dark:bg-slate-700' : 'bg-brand-600 dark:bg-brand-500')}>
+                <span className={cn('grid h-16 w-16 place-items-center rounded-full border-[3px] border-white text-white dark:border-slate-950 sm:h-[70px] sm:w-[70px]', s.color)} aria-hidden="true">
+                  <AppIcon name={s.icon} className="h-7 w-7" strokeWidth={1.75} />
                 </span>
               </span>
               <span className="line-clamp-2 text-center text-[11px] font-medium leading-tight">{t(s.titleKey)}</span>

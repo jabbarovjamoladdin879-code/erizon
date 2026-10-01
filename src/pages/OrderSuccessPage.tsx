@@ -42,7 +42,7 @@ export default function OrderSuccessPage() {
         >
           <CheckCircle2 className="h-11 w-11" aria-hidden="true" />
         </motion.div>
-        <h1 className="mt-4 text-2xl font-extrabold">{t('order.successTitle')}</h1>
+        <h1 className="mt-4 text-2xl font-bold">{t('order.successTitle')}</h1>
         <p className="muted mt-1">{order.deliveryMethod === 'quick' ? t('quick.success') : t('order.successText')}</p>
         {order.paymentStatus === 'pending' && <p className="mt-2 text-sm font-semibold text-amber-600">{t('order.awaitingPayment')}</p>}
         <button type="button" onClick={() => void copy()} className="chip mt-4 font-mono">
@@ -62,7 +62,7 @@ export default function OrderSuccessPage() {
       </section>
 
       <div className="mt-6 flex flex-wrap justify-center gap-3">
-        <Link to={`/track/${order.id}`} className="inline-flex h-11 items-center rounded-2xl bg-brand-gradient shadow-glow transition hover:brightness-110 active:scale-[0.97] px-5 text-sm font-semibold text-white">
+        <Link to={`/track/${order.id}`} className="inline-flex h-11 items-center rounded-xl bg-brand-600 transition hover:bg-brand-700 px-5 text-sm font-semibold text-white">
           {t('nav.track')}
         </Link>
         <Button variant="outline" onClick={() => reorder(order)}>

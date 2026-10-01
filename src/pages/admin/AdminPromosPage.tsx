@@ -150,7 +150,7 @@ export default function AdminPromosPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-extrabold">Promokodlar va aksiyalar</h1>
+      <h1 className="text-2xl font-bold">Promokodlar va aksiyalar</h1>
       <DealManager />
 
       <section className="card space-y-4 p-5" aria-labelledby="new-promo">
