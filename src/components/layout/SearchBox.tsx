@@ -142,7 +142,7 @@ export function SearchBox({ className }: { className?: string }) {
                     onMouseEnter={() => setActive(i)}
                     className={cn('flex cursor-pointer items-center gap-3 px-3 py-2', active === i && 'bg-brand-50 dark:bg-slate-800')}
                   >
-                    <ProductImage icon={p.icon} hue={p.hue} alt="" className="h-10 w-10 shrink-0 rounded-lg" />
+                    <ProductImage icon={p.icon} hue={p.hue} src={p.images?.[0]} alt="" className="h-10 w-10 shrink-0 rounded-lg" />
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-medium">{p.name}</div>
                       <div className="muted text-xs">{t(`cat.${p.categoryId}`)}</div>

@@ -7,7 +7,7 @@ interface ProductImageProps {
   icon: string;
   hue: number;
   alt: string;
-  /** Admin yuklagan haqiqiy rasm (/api/images/<id>) */
+  /** Admin yuklagan haqiqiy rasm (/api/images/<id>) yoki do'kon fotosi (/products/<id>.jpg) */
   src?: string;
   /** Galereya ko'rinishlari uchun fon ohangi */
   variant?: number;
@@ -15,7 +15,7 @@ interface ProductImageProps {
   eager?: boolean;
 }
 
-const SAFE_SRC = /^\/api\/images\/[a-f0-9]{24}$/;
+const SAFE_SRC = /^(\/api\/images\/[a-f0-9]{24}|\/products\/[a-z]+-\d+\.jpg)$/;
 
 /** Haqiqiy rasm; bo'lmasa (yoki yuklanmasa) — bosiq fonda chiziqli ikonka */
 export const ProductImage = memo(function ProductImage({ icon, hue, alt, src, variant = 0, className, eager }: ProductImageProps) {

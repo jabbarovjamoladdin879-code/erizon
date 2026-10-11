@@ -39,7 +39,7 @@ export function DealOfDay() {
       <div className="grid items-center gap-6 md:grid-cols-[1fr_auto]">
         <div className="flex items-center gap-4 sm:gap-6">
           <Link to={`/product/${product.id}`} className="shrink-0" tabIndex={-1} aria-hidden="true">
-            <ProductImage icon={product.icon} hue={product.hue} alt="" className="h-28 w-28 rounded-lg border border-slate-200 dark:border-slate-700 sm:h-36 sm:w-36" />
+            <ProductImage icon={product.icon} hue={product.hue} src={product.images?.[0]} alt="" className="h-28 w-28 rounded-lg border border-slate-200 dark:border-slate-700 sm:h-36 sm:w-36" />
           </Link>
           <div className="min-w-0">
             <p id="deal-title" className="inline-flex items-center gap-1.5 rounded-md bg-accent-700 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">

@@ -108,7 +108,7 @@ export default function CartPage() {
                     className="card flex gap-3 p-3 sm:gap-4 sm:p-4"
                   >
                     <Link to={href} className="shrink-0" tabIndex={-1} aria-hidden="true">
-                      <ProductImage icon={icon} hue={hue} alt="" className={line.available ? 'h-20 w-20 rounded-xl sm:h-24 sm:w-24' : 'h-20 w-20 rounded-xl opacity-50 grayscale sm:h-24 sm:w-24'} />
+                      <ProductImage icon={icon} hue={hue} src={product?.images?.[0]} alt="" className={line.available ? 'h-20 w-20 rounded-xl sm:h-24 sm:w-24' : 'h-20 w-20 rounded-xl opacity-50 grayscale sm:h-24 sm:w-24'} />
                     </Link>
                     <div className="flex min-w-0 flex-1 flex-col">
                       <div className="flex items-start justify-between gap-2">

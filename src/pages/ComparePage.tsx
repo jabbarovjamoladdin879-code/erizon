@@ -109,7 +109,7 @@ export default function ComparePage() {
                     <X className="h-4 w-4" />
                   </button>
                   <Link to={`/product/${p.id}`} className="block">
-                    <ProductImage icon={p.icon} hue={p.hue} alt="" className="mb-2 h-24 w-24 rounded-xl" />
+                    <ProductImage icon={p.icon} hue={p.hue} src={p.images?.[0]} alt="" className="mb-2 h-24 w-24 rounded-xl" />
                     <span className="line-clamp-2 font-semibold hover:text-brand-700">{p.name}</span>
                   </Link>
                   {needsSelection(p) ? (

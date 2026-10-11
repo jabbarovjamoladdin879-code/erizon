@@ -245,7 +245,7 @@ export const eventSchema = z.object({ type: z.literal('view'), productId: idSche
 /* ----------------------------- Admin ----------------------------- */
 
 const SAFE_TEXT = /^[^<>{}$]*$/;
-const imageUrl = z.string().regex(/^\/api\/images\/[a-f0-9]{24}$/);
+const imageUrl = z.string().regex(/^(\/api\/images\/[a-f0-9]{24}|\/products\/[a-z]+-\d+\.jpg)$/);
 
 export const adminProductSchema = z
   .object({

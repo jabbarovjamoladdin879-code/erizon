@@ -1,4 +1,5 @@
 import type { Order, Product, PromoCode, PublicUser, Review } from '../../shared/types.js';
+import { PRODUCT_PHOTO_IDS } from '../../shared/productImages.js';
 import type { OrderRecord, ProductRecord, UserRecord } from '../models.js';
 
 /**
@@ -36,7 +37,8 @@ export function toProduct(p: ProductRecord, includeAdmin = false): Product {
     hue: p.hue,
     createdAt: p.createdAt,
     popularity: p.popularity,
-    images: p.images,
+    // Admin rasm yuklamagan bo'lsa — public/products/<id>.jpg dagi do'kon fotosi
+    images: p.images?.length ? p.images : PRODUCT_PHOTO_IDS.has(p.id) ? [`/products/${p.id}.jpg`] : p.images,
     expiry: p.expiry,
     manufacturer: p.manufacturer,
     halal: p.halal,
