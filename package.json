@@ -19,7 +19,8 @@
     "secrets": "node -e \"const c=require('crypto');console.log('JWT_SECRET='+c.randomBytes(48).toString('base64url'));console.log('DATA_SECRET='+c.randomBytes(48).toString('base64url'));console.log('PASSWORD_PEPPER='+c.randomBytes(24).toString('base64url'))\"",
     "icons": "node scripts/generate-icons.mjs",
     "admin:hash": "node scripts/admin-hash.mjs",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "images:optimize": "node scripts/optimize-product-images.mjs"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
@@ -61,6 +62,7 @@
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.12.0",
     "postcss": "^8.4.49",
+    "sharp": "^0.35.5",
     "smtp-server": "^3.19.16",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.23.15",

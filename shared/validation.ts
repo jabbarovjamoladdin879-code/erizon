@@ -245,7 +245,13 @@ export const eventSchema = z.object({ type: z.literal('view'), productId: idSche
 /* ----------------------------- Admin ----------------------------- */
 
 const SAFE_TEXT = /^[^<>{}$]*$/;
-const imageUrl = z.string().regex(/^(\/api\/images\/[a-f0-9]{24}|\/products\/[a-z]+-\d+\.jpg)$/);
+/**
+ * Ruxsat etilgan mahsulot rasmi manzili: admin yuklagan rasm (/api/images/<id>) yoki
+ * do'kon fotosi (public/products/<id>.jpg). Tashqi havola kiritib bo'lmaydi.
+ * Server validatsiyasi, frontend kesh sxemasi va ProductImage — hammasi shu qoidadan foydalanadi.
+ */
+export const PRODUCT_IMAGE_RE = /^(\/api\/images\/[a-f0-9]{24}|\/products\/[a-z]+-\d+\.jpg)$/;
+const imageUrl = z.string().regex(PRODUCT_IMAGE_RE);
 
 export const adminProductSchema = z
   .object({

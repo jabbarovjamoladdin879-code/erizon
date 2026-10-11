@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { ICON_NAMES } from '@/data/icons';
+import { PRODUCT_IMAGE_RE } from '@/utils/validation';
 import { CATEGORY_IDS, MEAT_CUTS, UNITS } from '@/types';
 
 /**
@@ -27,7 +28,7 @@ export const productSchema = z.object({
   createdAt: shortStr(40),
   popularity: z.number().min(0),
   // Faqat o'z serverimizdagi rasmlar (tashqi havola kiritib bo'lmaydi)
-  images: z.array(z.string().regex(/^\/api\/images\/[a-f0-9]{24}$/)).max(6).optional(),
+  images: z.array(z.string().regex(PRODUCT_IMAGE_RE)).max(6).optional(),
   expiry: shortStr(60).optional(),
   manufacturer: shortStr(80).optional(),
   halal: z.boolean().optional(),

@@ -84,6 +84,22 @@ test('kun aksiyasi taymeri har soniyada yangilanadi (umumiy useNow taymeri)', as
   await expect(timer).not.toHaveText(first ?? '', { timeout: 3_000 });
 });
 
+test('katalog keshi: server javob bermasa ham mahsulotlar va rasmlari keshdan chiqadi', async ({ page }) => {
+  await page.goto('/catalog');
+  const cards = page.locator('main article');
+  await expect(cards.first()).toBeVisible();
+  // Mahsulot fotosi (public/products/<id>.jpg) yuklangan bo'lishi kerak
+  const photo = page.locator('main article img[src^="/products/"]').first();
+  await expect(photo).toBeVisible();
+  await expect.poll(() => photo.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+
+  // Katalog API'si uziladi — sahifa yangilanganda mahsulotlar localStorage keshidan tiklanishi kerak
+  await page.route('**/api/catalog*', (route) => route.abort());
+  await page.reload();
+  await expect(cards.first()).toBeVisible();
+  await expect(page.locator('main article img[src^="/products/"]').first()).toBeVisible();
+});
+
 test("mobil (390px): sahifalarda gorizontal siljish va konsol xatosi yo'q", async ({ page }) => {
   const errors = watchConsole(page);
   await page.setViewportSize({ width: 390, height: 844 });
